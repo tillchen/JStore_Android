@@ -14,3 +14,7 @@ The mockup of the Android app can be found on [Figma](https://www.figma.com/file
 * Java
 * Kotlin
 * Android Jetpack
+
+## Miscellaneous
+
+1. The `app/google-services.json` file is removed from the repository since it contains sensitive information. You'll need to provide your own `app/google-services.json` file to build the app.

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_buy">
+
+    <fragment
+        android:id="@+id/navigation_buy"
+        android:name="com.tillchen.jstore.ui.buy.BuyFragment"
+        android:label="@string/title_buy"
+        tools:layout="@layout/fragment_buy" />
+
+    <fragment
+        android:id="@+id/navigation_sell"
+        android:name="com.tillchen.jstore.ui.sell.SellFragment"
+        android:label="@string/title_sell"
+        tools:layout="@layout/fragment_sell" />
+
+    <fragment
+        android:id="@+id/navigation_me"
+        android:name="com.tillchen.jstore.ui.me.MeFragment"
+        android:label="@string/title_me"
+        tools:layout="@layout/fragment_me" />
+</navigation>
