@@ -1,16 +1,12 @@
 <resources>
     <string name="app_name">JStore</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
     <string name="title_buy">Buy</string>
     <string name="title_sell">Sell</string>
     <string name="title_me">Me</string>
-    <string name="title_activity_passwordless_login">Sign in</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="sign_in">Sign in</string>
+    <string name="anonymous_sign_in">Anonymous Sign In</string>
+    <string name="email_hint">Email:</string>
+    <string name="jacobs_email">\@jacobs-university.de</string>
 </resources>

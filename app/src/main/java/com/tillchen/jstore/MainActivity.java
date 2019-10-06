@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,16 +20,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        setupNavController();
 
         checkUser();
+        setupNavController();
+
 
     }
 
     private void setupNavController() {
+        Log.i(TAG, "");
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         /* Currently unused
@@ -48,11 +50,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkUser() {
-        // Check if the user has logged in. If not, start PasswordlessLoginActivity.
+        // Check if the user has logged in. If not, start LoginActivity.
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) { // user not logged in
-            Log.i(TAG, "User not logged in, start PasswordlessLoginActivity");
-            Intent intent = new Intent(this, PasswordlessLoginActivity.class);
+            Log.i(TAG, "User not logged in, start LoginActivity");
+            Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish(); // remove MainActivity from the back stack
         }
