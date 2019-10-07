@@ -24,6 +24,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private String mUsername; // the username that the user entered
     private String mEmail; // the final email address
 
+    private boolean admin = false; // admin privileges
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
@@ -59,11 +61,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // TODO: Add a button to Snackbar that opens OutLook
         Log.i(TAG, "emailLinkSignIn");
         mUsername = mEmailEditText.getText().toString();
-        if (TextUtils.isEmpty(mUsername)) { // TODO: Add Username validation.
+        if (TextUtils.isEmpty(mUsername)) {
             mEmailEditText.setError("Please enter your Jacobs username, (e.g. ti.chen).");
             return;
         }
+        if (!validateUsername(mUsername)) {
+            mEmailEditText.setError("Your Jacobs username must contain a dot, (e.g. ti.chen).");
+        }
         if (ADMIN.equals(mUsername)) { // admin
+            admin = true;
             mEmail = mUsername;
         }
         else {
@@ -78,7 +84,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    private boolean validateUsername(String username) { // the username must contain a dot
+        // TODO: Refine the validation.
+        return (username.indexOf('.') != -1);
+    }
+
     private void showSnackbar(String message) {
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
+    }
+
+    public boolean getAdmin() {
+        return admin;
     }
 }
