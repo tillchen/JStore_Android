@@ -1,9 +1,10 @@
 package com.tillchen.jstore;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends UtilityActivity implements View.OnClickListener {
 
@@ -24,6 +26,7 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
     private static final String ADMIN = "tillchen417@gmail.com"; // admin email
 
     private FirebaseAuth mAuth;
+    private Button mSendLinkButton;
     private Button mSignInButton;
     private Button mAnonymousSignInButton;
     private EditText mEmailEditText;
@@ -39,15 +42,26 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        initViewAndListeners();
+
+        checkIntent(getIntent());
+    }
+
+    private void initViewAndListeners () {
         Toolbar toolbar = findViewById(R.id.toolbar_login);
         setSupportActionBar(toolbar);
 
         mAuth = FirebaseAuth.getInstance();
 
+        mSendLinkButton = findViewById(R.id.sendlink_button);
         mSignInButton = findViewById(R.id.signin_button);
         mAnonymousSignInButton = findViewById(R.id.anonymous_signin_button);
         mEmailEditText = findViewById(R.id.email_edittext);
 
+        mSendLinkButton.setVisibility(View.VISIBLE);
+        mSignInButton.setVisibility(View.GONE);
+
+        mSendLinkButton.setOnClickListener(this);
         mSignInButton.setOnClickListener(this);
         mAnonymousSignInButton.setOnClickListener(this);
         mEmailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -58,58 +72,70 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
                 }
             }
         });
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Log.i(TAG, "onNewIntent");
+        super.onNewIntent(intent);
+        checkIntent(intent);
+    }
+
+    private void checkIntent(@Nullable Intent intent) { // check if the intent has an email address
+        if (intentHasEmailLink(intent)) { // TODO: 0 Auto refill email
+            mSendLinkButton.setVisibility(View.GONE);
+            mSignInButton.setVisibility(View.VISIBLE);
+        }
+        else {
+            mSendLinkButton.setVisibility(View.VISIBLE);
+            mSignInButton.setVisibility(View.GONE);
+        }
+    }
+
+    private boolean intentHasEmailLink(@Nullable Intent intent) {
+        String intentData = "Default";
+        if (intent != null && intent.getStringExtra(EMAIL_LINK) != null) {
+            intentData = intent.getStringExtra(EMAIL_LINK);
+            if (mAuth.isSignInWithEmailLink(intentData)) {
+                Log.i(TAG, "intentHasEmailLink true");
+                return true;
+            }
+        }
+        Log.i(TAG, "intentHasEmailLink false: " + intentData);
+        return false;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.signin_button:
-                emailLinkSignIn();
+            case R.id.sendlink_button:
+                onSendLinkClicked();
                 break;
+            case R.id.signin_button:
+                
             case R.id.anonymous_signin_button:
-                anonymousSignIn();
+                onAnonymousSignInClicked();
             default:
                 break;
         }
     }
 
-    private void emailLinkSignIn() {
-        Log.i(TAG, "emailLinkSignIn");
+    private void onSendLinkClicked() {
+        Log.i(TAG, "onSendLinkClicked");
+
         handleUsername();
-        ActionCodeSettings settings = ActionCodeSettings.newBuilder()
-                .setAndroidPackageName(
-                        getPackageName(),
-                        true,
-                        null)
-                .setHandleCodeInApp(true)
-                .setUrl("https://jstore.xyz") // TODO: 0 Check if this is correct
-                .build();
 
-        hideKeyboard(mEmailEditText);
+        sendEmail();
 
-        mAuth.sendSignInLinkToEmail(mEmail, settings)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+    }
 
-                        if (task.isSuccessful()) {
-                            Log.i(TAG, "Link sent");
-                            showSnackbar("Sign-in link sent to " + mEmail);
-                        } else {
-                            Exception e = task.getException();
-                            Log.w(TAG, "Could not send link", e);
-                            showSnackbar("Failed to send link to " + mEmail);
-
-                            if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                                mEmailEditText.setError("Invalid email address.");
-                            }
-                        }
-                    }
-                });
+    private void onSignInClicked() {
+        Log.i(TAG, "onSignInClicked");
     }
 
 
-    private void anonymousSignIn() {
+    private void onAnonymousSignInClicked() {
 
     }
 
@@ -135,6 +161,40 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
             mEmail = mUsername + "@jacobs-university.de";
         }
     }
+
+    private void sendEmail() {
+        ActionCodeSettings settings = ActionCodeSettings.newBuilder()
+                .setAndroidPackageName(
+                        getPackageName(),
+                        true,
+                        null)
+                .setHandleCodeInApp(true)
+                .setUrl("https://jstore.xyz")
+                .build();
+
+        hideKeyboard(mEmailEditText);
+
+        mAuth.sendSignInLinkToEmail(mEmail, settings)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if (task.isSuccessful()) {
+                            Log.i(TAG, "Link sent");
+                            showSnackbar("Sign-in link sent to " + mEmail);
+                        } else {
+                            Exception e = task.getException();
+                            Log.w(TAG, "Could not send link", e);
+                            showSnackbar("Failed to send link to " + mEmail);
+
+                            if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                                mEmailEditText.setError("Invalid email address.");
+                            }
+                        }
+                    }
+                });
+    }
+    
 
     private boolean validateUsername(String username) { // the username must contain a dot and not space
         // TODO: 1 Refine the validation.

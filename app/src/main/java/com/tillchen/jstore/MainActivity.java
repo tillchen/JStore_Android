@@ -8,15 +8,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends UtilityActivity {
 
     private static final String TAG = "MainActivity";
+
+    private FirebaseAuth mAuth;
+    private String mIntentData = "Default";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +28,26 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        mAuth = FirebaseAuth.getInstance();
+
         checkUser();
         setupNavController();
 
-
     }
+
+
+    private boolean intentHasEmailLink(@Nullable Intent intent) {
+        if (intent != null && intent.getData() != null) {
+            mIntentData = intent.getData().toString();
+            if (mAuth.isSignInWithEmailLink(mIntentData)) {
+                Log.i(TAG, "intentHasEmailLink true");
+                return true;
+            }
+        }
+        Log.i(TAG, "intentHasEmailLink false: " + mIntentData);
+        return false;
+    }
+
 
     private void setupNavController() {
         Log.i(TAG, "");
@@ -55,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
         if (user == null) { // user not logged in
             Log.i(TAG, "User not logged in, start LoginActivity");
             Intent intent = new Intent(this, LoginActivity.class);
+            if (intentHasEmailLink(getIntent())) {
+                intent.putExtra(EMAIL_LINK, mIntentData);
+            }
             startActivity(intent);
             finish(); // remove MainActivity from the back stack
         }

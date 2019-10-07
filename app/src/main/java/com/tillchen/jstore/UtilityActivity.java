@@ -7,8 +7,10 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class UtilityActivity extends AppCompatActivity {
-    /* It contains handy functions for other activities to use.
+    /* It contains handy functions and constants for other activities to use.
     * */
+
+    public static String EMAIL_LINK = "email link";
 
     public void hideKeyboard(View view) {
         final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

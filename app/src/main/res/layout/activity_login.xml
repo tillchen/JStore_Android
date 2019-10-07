@@ -9,6 +9,19 @@
     android:focusable="true"
     android:focusableInTouchMode="true">
 
+    <Button
+        android:id="@+id/signin_button"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_edittext"
+        app:layout_constraintVertical_bias="0.25" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_login"
         android:layout_width="match_parent"
@@ -32,10 +45,11 @@
         app:layout_constraintVertical_bias="0.15" />
 
     <Button
-        android:id="@+id/signin_button"
+        android:id="@+id/sendlink_button"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:text="@string/sign_in"
+        android:text="@string/send_link"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
@@ -62,9 +76,11 @@
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:text="@string/anonymous_sign_in"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/signin_button"
+        app:layout_constraintHorizontal_bias="0.88"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_edittext"
         app:layout_constraintVertical_bias="0.25" />
 

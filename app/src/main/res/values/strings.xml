@@ -9,4 +9,5 @@
     <string name="anonymous_sign_in">Anonymous Sign In</string>
     <string name="email_hint">Email:</string>
     <string name="jacobs_email">\@jacobs-university.de</string>
+    <string name="send_link">Send Link</string>
 </resources>
