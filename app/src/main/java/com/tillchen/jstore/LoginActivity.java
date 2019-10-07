@@ -9,11 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.ActionCodeSettings;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends UtilityActivity implements View.OnClickListener {
 
     private static final String TAG = "LoginActivity";
     private static final String ADMIN = "tillchen417@gmail.com"; // admin email
@@ -42,6 +42,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         mSignInButton.setOnClickListener(this);
         mAnonymousSignInButton.setOnClickListener(this);
+        mEmailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
     }
 
     @Override
@@ -58,24 +66,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void emailLinkSignIn() {
-        // TODO: Add a button to Snackbar that opens OutLook
         Log.i(TAG, "emailLinkSignIn");
-        mUsername = mEmailEditText.getText().toString();
-        if (TextUtils.isEmpty(mUsername)) {
-            mEmailEditText.setError("Please enter your Jacobs username, (e.g. ti.chen).");
-            return;
-        }
-        if (!validateUsername(mUsername)) {
-            mEmailEditText.setError("Your Jacobs username must contain a dot and no space, (e.g. ti.chen).");
-            return;
-        }
-        if (ADMIN.equals(mUsername)) { // admin
-            admin = true;
-            mEmail = mUsername;
-        }
-        else {
-            mEmail = mUsername + "@jacobs-university.de";
-        }
+        handleUsername();
+        ActionCodeSettings settings = ActionCodeSettings.newBuilder()
+                .setAndroidPackageName(
+                        getPackageName(),
+                        true,
+                        null)
+                .setHandleCodeInApp(true)
+                .setUrl("https://jstore.xyz") // TODO: 0 Check if this is correct
+                .build();
+
         String message; // for the toast
         message = "Login email is sent to " + mEmail;
         showSnackbar(message);
@@ -85,8 +86,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    private void handleUsername() {
+        // TODO: 3 Add a button to Snackbar that opens OutLook
+        mUsername = mEmailEditText.getText().toString();
+        if (TextUtils.isEmpty(mUsername)) {
+            Log.i(TAG, "handleUsername: empty input");
+            mEmailEditText.setError("Please enter your Jacobs username, (e.g. ti.chen).");
+            return;
+        }
+        if (!validateUsername(mUsername)) {
+            Log.i(TAG, "handleUsername: illegal input");
+            mEmailEditText.setError("Your Jacobs username must contain a dot and no space, (e.g. ti.chen).");
+            return;
+        }
+        if (ADMIN.equals(mUsername)) { // admin
+            Log.i(TAG, "handleUsername: entering admin mode");
+            admin = true;
+            mEmail = mUsername;
+        }
+        else {
+            mEmail = mUsername + "@jacobs-university.de";
+        }
+    }
+
     private boolean validateUsername(String username) { // the username must contain a dot and not space
-        // TODO: Refine the validation.
+        // TODO: 1 Refine the validation.
         return (username.indexOf('.') != -1) && (username.indexOf(' ') == -1);
     }
 
