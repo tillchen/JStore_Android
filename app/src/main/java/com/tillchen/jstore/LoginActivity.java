@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
         if (!validateUsername(mUsername)) {
-            mEmailEditText.setError("Your Jacobs username must contain a dot, (e.g. ti.chen).");
+            mEmailEditText.setError("Your Jacobs username must contain a dot and no space, (e.g. ti.chen).");
             return;
         }
         if (ADMIN.equals(mUsername)) { // admin
@@ -85,9 +85,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private boolean validateUsername(String username) { // the username must contain a dot
+    private boolean validateUsername(String username) { // the username must contain a dot and not space
         // TODO: Refine the validation.
-        return (username.indexOf('.') != -1);
+        return (username.indexOf('.') != -1) && (username.indexOf(' ') == -1);
     }
 
     private void showSnackbar(String message) {
