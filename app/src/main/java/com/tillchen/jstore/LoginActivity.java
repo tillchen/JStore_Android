@@ -52,16 +52,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void emailLinkSignIn() { // TODO: Add Username validation.
+    private void emailLinkSignIn() {
+        // TODO: Add Username validation.
+        // TODO: Change to SnackBar with a button that opens OutLook
         Log.i(TAG, "emailLinkSignIn");
         mUsername = mEmailEditText.getText().toString();
-        if (ADMIN.equals(mUsername)) { // admin
-            mEmail = mUsername;
+        String message; // for the toast
+        if ("".equals(mUsername)) {
+            message = "Please enter your Jacobs username, (e.g. ti.chen).";
         }
         else {
             mEmail = mUsername + "@jacobs-university.de";
+            if (ADMIN.equals(mUsername)) { // admin
+                mEmail = mUsername;
+            }
+            message = "Login email is sent to " + mEmail;
         }
-        Toast.makeText(this, mEmail, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     private void anonymousSignIn() {
