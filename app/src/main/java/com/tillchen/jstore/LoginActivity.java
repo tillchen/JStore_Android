@@ -67,6 +67,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         if (!validateUsername(mUsername)) {
             mEmailEditText.setError("Your Jacobs username must contain a dot, (e.g. ti.chen).");
+            return;
         }
         if (ADMIN.equals(mUsername)) { // admin
             admin = true;
