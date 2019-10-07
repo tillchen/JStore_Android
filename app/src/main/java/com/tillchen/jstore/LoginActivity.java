@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -53,25 +56,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void emailLinkSignIn() {
-        // TODO: Add Username validation.
-        // TODO: Change to SnackBar with a button that opens OutLook
+        // TODO: Add a button to Snackbar that opens OutLook
         Log.i(TAG, "emailLinkSignIn");
         mUsername = mEmailEditText.getText().toString();
-        String message; // for the toast
-        if ("".equals(mUsername)) {
-            message = "Please enter your Jacobs username, (e.g. ti.chen).";
+        if (TextUtils.isEmpty(mUsername)) { // TODO: Add Username validation.
+            mEmailEditText.setError("Please enter your Jacobs username, (e.g. ti.chen).");
+            return;
+        }
+        if (ADMIN.equals(mUsername)) { // admin
+            mEmail = mUsername;
         }
         else {
             mEmail = mUsername + "@jacobs-university.de";
-            if (ADMIN.equals(mUsername)) { // admin
-                mEmail = mUsername;
-            }
-            message = "Login email is sent to " + mEmail;
         }
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        String message; // for the toast
+        message = "Login email is sent to " + mEmail;
+        showSnackbar(message);
     }
 
     private void anonymousSignIn() {
 
+    }
+
+    private void showSnackbar(String message) {
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
     }
 }
