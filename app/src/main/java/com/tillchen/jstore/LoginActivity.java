@@ -19,7 +19,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.ActionCodeSettings;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthActionCodeException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 
 public class LoginActivity extends UtilityActivity implements View.OnClickListener {
@@ -37,8 +39,8 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
     private SharedPreferences mSharedPreferences; // stores the pending username
     private SharedPreferences.Editor mEditor;
     private String mPendingUsername; // the pending username that's refilled in EditText
+    private String mIntentData; // contains the sign-in link
 
-    private boolean admin = false; // admin privileges
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +92,9 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
     }
 
     private void checkIntent(@Nullable Intent intent) { // check if the intent has an email address
+        if (intent == null) {
+            return;
+        }
         if (intentHasEmailLink(intent)) {
             mSendLinkButton.setVisibility(View.GONE);
             mSignInButton.setVisibility(View.VISIBLE);
@@ -102,6 +107,7 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
             else {
                 Log.i(TAG, "checkIntent mPendingUsername " + mUsername);
                 mEmailEditText.setText(mPendingUsername, TextView.BufferType.NORMAL);
+                mEmailEditText.setEnabled(false); // prevent further editing
             }
         }
         else {
@@ -111,16 +117,15 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
         }
     }
 
-    private boolean intentHasEmailLink(@Nullable Intent intent) {
-        String intentData = "Default";
-        if (intent != null && intent.getStringExtra(EMAIL_LINK) != null) {
-            intentData = intent.getStringExtra(EMAIL_LINK);
-            if (mAuth.isSignInWithEmailLink(intentData)) {
+    private boolean intentHasEmailLink(@NonNull Intent intent) {
+        mIntentData = intent.getStringExtra(EMAIL_LINK);
+        if (!TextUtils.isEmpty(mIntentData)) {
+            if (mAuth.isSignInWithEmailLink(mIntentData)) {
                 Log.i(TAG, "intentHasEmailLink true");
                 return true;
             }
         }
-        Log.i(TAG, "intentHasEmailLink false: " + intentData);
+        Log.i(TAG, "intentHasEmailLink false: " + mIntentData);
         return false;
     }
 
@@ -131,9 +136,11 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
                 onSendLinkClicked();
                 break;
             case R.id.signin_button:
-                
+                onSignInClicked();
+                break;
             case R.id.anonymous_signin_button:
                 onAnonymousSignInClicked();
+                break;
             default:
                 break;
         }
@@ -150,6 +157,25 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
 
     private void onSignInClicked() {
         Log.i(TAG, "onSignInClicked");
+
+        handlePendingUsername();
+
+        mAuth.signInWithEmailLink(mEmail, mIntentData).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Log.i(TAG, "onSignInClicked task is successful");
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Log.w(TAG, "onSignInClicked task failed", task.getException());
+                    if (task.getException() instanceof FirebaseAuthActionCodeException) {
+                        showSnackbar("Invalid or expired sign-in link.");
+                    }
+                }
+            }
+        });
     }
 
 
@@ -172,11 +198,20 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
         }
         if (ADMIN.equals(mUsername)) { // admin
             Log.i(TAG, "handleUsername: entering admin mode");
-            admin = true;
             mEmail = mUsername;
         }
         else {
             mEmail = mUsername + "@jacobs-university.de";
+        }
+    }
+
+    private void handlePendingUsername() {
+        if (ADMIN.equals(mPendingUsername)) { // admin
+            Log.i(TAG, "handlePendingUsername: entering admin mode");
+            mEmail = mPendingUsername;
+        }
+        else {
+            mEmail = mPendingUsername + "@jacobs-university.de";
         }
     }
 
@@ -227,7 +262,4 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
     }
 
-    public boolean getAdmin() {
-        return admin;
-    }
 }

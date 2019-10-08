@@ -76,6 +76,7 @@ public class MainActivity extends UtilityActivity {
             if (intentHasEmailLink(getIntent())) {
                 intent.putExtra(EMAIL_LINK, mIntentData);
             }
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY); // auto removes LoginActivity from the back stack when jumping back to MainActivity
             startActivity(intent);
             finish(); // remove MainActivity from the back stack
         }
