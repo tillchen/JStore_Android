@@ -10,4 +10,5 @@
     <string name="email_hint">Email:</string>
     <string name="jacobs_email">\@jacobs-university.de</string>
     <string name="send_link">Send Link</string>
+    <string name="reenter_username">Reenter Username:</string>
 </resources>

@@ -4,13 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,7 +21,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends UtilityActivity implements View.OnClickListener {
 
@@ -32,6 +34,9 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
     private EditText mEmailEditText;
     private String mUsername; // the username that the user entered
     private String mEmail; // the final email address
+    private SharedPreferences mSharedPreferences; // stores the pending username
+    private SharedPreferences.Editor mEditor;
+    private String mPendingUsername; // the pending username that's refilled in EditText
 
     private boolean admin = false; // admin privileges
 
@@ -42,16 +47,17 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        initViewAndListeners();
+        initDataViewAndListeners();
 
         checkIntent(getIntent());
     }
 
-    private void initViewAndListeners () {
+    private void initDataViewAndListeners () {
         Toolbar toolbar = findViewById(R.id.toolbar_login);
         setSupportActionBar(toolbar);
 
         mAuth = FirebaseAuth.getInstance();
+        mSharedPreferences = getSharedPreferences(PENDING_USERNAME, Context.MODE_PRIVATE);
 
         mSendLinkButton = findViewById(R.id.sendlink_button);
         mSignInButton = findViewById(R.id.signin_button);
@@ -72,6 +78,7 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
                 }
             }
         });
+        // TODO: 2 Disable anonymous button when text is entered (onTextChanged)
 
     }
 
@@ -83,13 +90,24 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
     }
 
     private void checkIntent(@Nullable Intent intent) { // check if the intent has an email address
-        if (intentHasEmailLink(intent)) { // TODO: 0 Auto refill email
+        if (intentHasEmailLink(intent)) {
             mSendLinkButton.setVisibility(View.GONE);
             mSignInButton.setVisibility(View.VISIBLE);
+            mAnonymousSignInButton.setEnabled(false);
+            mPendingUsername = mSharedPreferences.getString(PENDING_USERNAME, "");
+            if (TextUtils.isEmpty(mPendingUsername)) {
+                Log.i(TAG, "checkIntent mPendingUsername empty");
+                mEmailEditText.setHint(R.string.reenter_username);
+            }
+            else {
+                Log.i(TAG, "checkIntent mPendingUsername " + mUsername);
+                mEmailEditText.setText(mPendingUsername, TextView.BufferType.NORMAL);
+            }
         }
         else {
             mSendLinkButton.setVisibility(View.VISIBLE);
             mSignInButton.setVisibility(View.GONE);
+            mAnonymousSignInButton.setEnabled(true);
         }
     }
 
@@ -163,6 +181,7 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
     }
 
     private void sendEmail() {
+        // TODO: 1 Add ProgressBar
         ActionCodeSettings settings = ActionCodeSettings.newBuilder()
                 .setAndroidPackageName(
                         getPackageName(),
@@ -182,6 +201,9 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
                         if (task.isSuccessful()) {
                             Log.i(TAG, "Link sent");
                             showSnackbar("Sign-in link sent to " + mEmail);
+                            mEditor = mSharedPreferences.edit();
+                            mEditor.putString(PENDING_USERNAME, mUsername);
+                            mEditor.apply();
                         } else {
                             Exception e = task.getException();
                             Log.w(TAG, "Could not send link", e);
