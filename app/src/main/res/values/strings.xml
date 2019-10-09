@@ -14,11 +14,17 @@
     <string name="reenter_username">Reenter Username:</string>
     <string name="sign_out">Sign out</string>
 
-    <string name="greet_new_user">Welcome! It looks like you are new here. Let\'s enter some basic info before using the app.</string>
+    <string name="greet_new_user">Welcome! It looks like you are new here. Let\'s enter some basic
+        info before using the app.</string>
     <string name="full_name">Full Name:</string>
     <string name="preferred_way_of_contact">Preferred Way of Contact: </string>
     <string name="WhatsApp">WhatsApp</string>
     <string name="email">Email</string>
     <string name="phone_hint">Phone:</string>
+    <string name="start_using">Start Using!</string>
+
+    <string name="greet_anonymous_user">Welcome! You\'ve signed in anonymously. You can browse through
+        all the items in the Buy section. In order to use full functionalities, please sign out in the
+        Me section first. And then sign in the your Email.</string>
 
 </resources>

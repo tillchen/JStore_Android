@@ -1,10 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AnonymousNewUserActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_new_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/app_name"/>
+
+    <TextView
+        android:id="@+id/greet_anonymous_user_textView"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="@string/greet_anonymous_user"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_new_user"
+        app:layout_constraintVertical_bias="0.00999999" />
+
+    <Button
+        android:id="@+id/start_button_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start_using"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/greet_anonymous_user_textView"
+        app:layout_constraintStart_toStartOf="@+id/greet_anonymous_user_textView"
+        app:layout_constraintTop_toBottomOf="@+id/greet_anonymous_user_textView"
+        app:layout_constraintVertical_bias="0.050000012" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

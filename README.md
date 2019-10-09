@@ -2,7 +2,10 @@
 
 ## About
 
-The Android app for JStore, a platform for buying and selling stuff on campus of Jacobs University Bremen. The Web version is also under development by my friend [Taiyr Begeyev](https://github.com/taiyrbegeyev). The iOS app will be developed later.
+The Android app for JStore, a platform for buying and selling stuff on campus
+of Jacobs University Bremen. The [Web version](jstore.xyz) is also under development by
+my friend [Taiyr Begeyev](https://github.com/taiyrbegeyev). The iOS app 
+will be developed later.
 
 ## Design
 
@@ -12,8 +15,13 @@ The mockup of the Android app can be found on [Figma](https://www.figma.com/file
 
 * Firebase
 * Java
-* Kotlin
+* Kotlin (In the future)
 * Android Jetpack
+
+## Current Enabled Features
+
+* Email Link Sign-in with Dynamic Links
+* Anonymous Sign-in
 
 ## Miscellaneous
 

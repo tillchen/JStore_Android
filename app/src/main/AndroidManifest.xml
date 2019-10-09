@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewUserActivity"></activity>
+        <activity android:name=".AnonymousNewUserActivity"></activity>
+        <activity android:name=".NewUserActivity" />
         <activity
             android:name=".LoginActivity"
             android:launchMode="singleTop">

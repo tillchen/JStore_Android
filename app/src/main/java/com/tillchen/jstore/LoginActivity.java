@@ -188,6 +188,24 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
 
 
     private void onAnonymousSignInClicked() {
+        // TODO: 1 Add a progress bar
+        Log.i(TAG, "onAnonymousSignInClicked");
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInAnonymously:success");
+                            Intent intent = new Intent(LoginActivity.this, AnonymousNewUserActivity.class);
+                            startActivity(intent);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInAnonymously:failure", task.getException());
+                            showSnackbar("Authentication failed.");
+                        }
+                    }
+                });
 
     }
 
