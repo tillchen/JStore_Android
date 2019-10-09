@@ -284,8 +284,6 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
         return (username.indexOf('.') != -1) && (username.indexOf(' ') == -1);
     }
 
-    private void showSnackbar(String message) {
-        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
-    }
+
 
 }

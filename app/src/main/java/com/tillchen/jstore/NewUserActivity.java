@@ -20,7 +20,8 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
     EditText mEditTextFullName;
     String mFullName; // the full name that the user entered
     String mPhone; // the phone number that the user entered
-    boolean isWhatsApp = true; // whether the user selected WhatsApp
+    boolean isWhatsApp = false; // whether the user selected WhatsApp
+    boolean isEmail = false; // whether the user selected Email
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,17 +68,22 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
                 if (((RadioButton) v).isChecked()) {
                     mEditTextPhone.setVisibility(View.VISIBLE);
                     isWhatsApp = true;
+                    isEmail = false;
                 }
                 break;
             case R.id.email_radioButton:
                 if (((RadioButton) v).isChecked()) {
                     mEditTextPhone.setVisibility(View.INVISIBLE);
                     isWhatsApp = false;
+                    isEmail = true;
                 }
                 break;
             case R.id.start_button_1:
                 mFullName = mEditTextFullName.getText().toString();
                 mPhone = mEditTextPhone.getText().toString();
+
+                hideKeyboard(mEditTextFullName);
+                hideKeyboard(mEditTextPhone);
 
                 if (TextUtils.isEmpty(mFullName)) {
                     mEditTextFullName.setError("Full Name can't be empty.");
@@ -86,6 +92,11 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
 
                 if (isWhatsApp && TextUtils.isEmpty(mPhone)) {
                     mEditTextPhone.setError("Phone number can't be empty.");
+                    return;
+                }
+
+                if (!isEmail && !isWhatsApp) {
+                    showSnackbar("Please select your preferred way of contact.");
                     return;
                 }
 
