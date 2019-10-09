@@ -18,7 +18,7 @@ The mockup of the Android app can be found on [Figma](https://www.figma.com/file
 * Kotlin (In the future)
 * Android Jetpack
 
-## Current Enabled Features
+## Enabled Features
 
 * Email Link Sign-in with Dynamic Links
 * Anonymous Sign-in
