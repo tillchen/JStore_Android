@@ -9,14 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".NewUserActivity"></activity>
         <activity
             android:name=".LoginActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <data
                     android:host="jstore.xyz"
                     android:scheme="https" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -24,6 +27,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_edittext"
+        app:layout_constraintTop_toBottomOf="@+id/email_editText"
         app:layout_constraintVertical_bias="0.25" />
 
     <androidx.appcompat.widget.Toolbar
@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/JStore_textview"
+        android:id="@+id/JStore_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
@@ -54,11 +54,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_edittext"
+        app:layout_constraintTop_toBottomOf="@+id/email_editText"
         app:layout_constraintVertical_bias="0.25" />
 
     <EditText
-        android:id="@+id/email_edittext"
+        android:id="@+id/email_editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="9"
@@ -68,7 +68,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/JStore_textview"
+        app:layout_constraintTop_toBottomOf="@+id/JStore_textView"
         app:layout_constraintVertical_bias="0.8" />
 
     <Button
@@ -80,8 +80,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/email_edittext"
-        app:layout_constraintTop_toBottomOf="@+id/email_edittext"
+        app:layout_constraintStart_toEndOf="@+id/email_editText"
+        app:layout_constraintTop_toBottomOf="@+id/email_editText"
         app:layout_constraintVertical_bias="0.25" />
 
     <TextView
@@ -90,10 +90,10 @@
         android:layout_height="wrap_content"
         android:text="@string/jacobs_email"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/email_edittext"
+        app:layout_constraintBottom_toBottomOf="@+id/email_editText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/email_edittext"
-        app:layout_constraintTop_toTopOf="@+id/email_edittext" />
+        app:layout_constraintStart_toEndOf="@+id/email_editText"
+        app:layout_constraintTop_toTopOf="@+id/email_editText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

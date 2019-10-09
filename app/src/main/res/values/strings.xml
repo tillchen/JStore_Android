@@ -5,10 +5,20 @@
     <string name="title_buy">Buy</string>
     <string name="title_sell">Sell</string>
     <string name="title_me">Me</string>
+
     <string name="sign_in">Sign in</string>
-    <string name="anonymous_sign_in">Anonymous Sign In</string>
+    <string name="anonymous_sign_in">Sign In Anonymously</string>
     <string name="email_hint">Email:</string>
     <string name="jacobs_email">\@jacobs-university.de</string>
     <string name="send_link">Send Link</string>
     <string name="reenter_username">Reenter Username:</string>
+    <string name="sign_out">Sign out</string>
+
+    <string name="greet_new_user">Welcome! It looks like you are new here. Let\'s enter some basic info before using the app.</string>
+    <string name="full_name">Full Name:</string>
+    <string name="preferred_way_of_contact">Preferred Way of Contact: </string>
+    <string name="WhatsApp">WhatsApp</string>
+    <string name="email">Email</string>
+    <string name="phone_hint">Phone:</string>
+
 </resources>

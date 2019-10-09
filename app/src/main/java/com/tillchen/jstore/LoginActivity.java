@@ -64,7 +64,7 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
         mSendLinkButton = findViewById(R.id.sendlink_button);
         mSignInButton = findViewById(R.id.signin_button);
         mAnonymousSignInButton = findViewById(R.id.anonymous_signin_button);
-        mEmailEditText = findViewById(R.id.email_edittext);
+        mEmailEditText = findViewById(R.id.email_editText);
 
         mSendLinkButton.setVisibility(View.VISIBLE);
         mSignInButton.setVisibility(View.GONE);
@@ -165,8 +165,16 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Log.i(TAG, "onSignInClicked task is successful");
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    AuthResult result = task.getResult();
+                    if (result != null && result.getAdditionalUserInfo().isNewUser()) {
+                        Intent intent = new Intent(LoginActivity.this, NewUserActivity.class);
+                        startActivity(intent);
+                    }
+                    else {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+
                 }
                 else {
                     Log.w(TAG, "onSignInClicked task failed", task.getException());
