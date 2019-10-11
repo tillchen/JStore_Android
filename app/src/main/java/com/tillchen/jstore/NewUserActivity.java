@@ -13,6 +13,8 @@ import android.widget.RadioButton;
 
 public class NewUserActivity extends UtilityActivity implements View.OnClickListener {
 
+    // TODO: 0 Reopen this activity if the user didn't finish and quit unexpectedly
+
     RadioButton mRadioButton1; // WhatsApp
     RadioButton mRadioButton2; // Email
     Button mButton; // Start Using Button
