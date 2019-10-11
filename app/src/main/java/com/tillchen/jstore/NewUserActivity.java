@@ -1,19 +1,31 @@
 package com.tillchen.jstore;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.tillchen.jstore.models.User;
+
 public class NewUserActivity extends UtilityActivity implements View.OnClickListener {
 
     // TODO: 0 Reopen this activity if the user didn't finish and quit unexpectedly
+
+    private static String TAG = "NewUserActivity";
+
+    FirebaseFirestore db;
+    FirebaseAuth mAuth;
 
     RadioButton mRadioButton1; // WhatsApp
     RadioButton mRadioButton2; // Email
@@ -24,6 +36,7 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
     String mPhone; // the phone number that the user entered
     boolean isWhatsApp = false; // whether the user selected WhatsApp
     boolean isEmail = false; // whether the user selected Email
+    String mEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +45,9 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
 
         Toolbar toolbar = findViewById(R.id.toolbar_login);
         setSupportActionBar(toolbar);
+
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         mRadioButton1 = findViewById(R.id.WhatsApp_radioButton);
         mRadioButton2 = findViewById(R.id.email_radioButton);
@@ -61,6 +77,8 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
                 }
             }
         });
+
+        mEmail = mAuth.getCurrentUser().getEmail();
     }
 
     @Override
@@ -102,13 +120,23 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
                     return;
                 }
 
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                // TODO: 0 SAVE the info
-                if (isWhatsApp) { // TODO: 0 Save the phone number
-                    
-                }
-                finish();
+                User user = new User(mFullName, isWhatsApp, mPhone, mEmail);
+                db.collection(COLLECTION_USERS).document(mEmail).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, mEmail + "is written!");
+                        Intent intent = new Intent(NewUserActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, mEmail + "is NOT written!");
+                        showSnackbar("Error when writing your data! Please try again.");
+                    }
+                });
                 break;
             default:
                 break;

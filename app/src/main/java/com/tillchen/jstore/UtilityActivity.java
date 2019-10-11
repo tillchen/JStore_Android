@@ -14,6 +14,7 @@ public class UtilityActivity extends AppCompatActivity {
 
     public static String EMAIL_LINK = "email_link";
     public static String PENDING_USERNAME = "com.tillchen.jstore.pending_username";
+    public static String COLLECTION_USERS = "users";
 
     public void hideKeyboard(View view) {
         final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

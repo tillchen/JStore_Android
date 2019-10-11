@@ -6,11 +6,13 @@ public class User {
     private String fullName;
     private boolean isWhatsApp;
     private String phoneNumber; // null when isWhatsApp is false
+    private String email;
 
-    public User(String fullName, boolean isWhatsApp, @Nullable String phoneNumber) {
+    public User(String fullName, boolean isWhatsApp, @Nullable String phoneNumber, String email) {
         this.fullName = fullName;
         this.isWhatsApp = isWhatsApp;
         this.phoneNumber = phoneNumber;
+        this.email = email;
     }
 
     public String getFullName() {
@@ -25,6 +27,10 @@ public class User {
         return phoneNumber;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
@@ -35,5 +41,9 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
