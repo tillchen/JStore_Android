@@ -12,13 +12,9 @@ users: {
   userId: {
     fullName: '',
     email: '',
-    isWhatsApp: bool,
-    phoneNumber: '', // empty if isWhatsApp is false
+    whatsApp: bool,
+    phoneNumber: '', // empty if whatsApp is false
     joinDate: '',
-    postsActive: {},
-    postsSold: {},
-    postsBought: {},
-    chats: {}
   }
 },
 postsActive: {
@@ -48,26 +44,4 @@ postsSold: {
     creationDate: 0,
     soldDate: 0
   }
-},
-chats: {
-  chatId: {
-    aliceId: '',
-    bobId: '',
-    postId: '',
-    lastMessageId: '',
-    seen : false
-  }
-},
-messages: {
-  chatId: {
-    messageId: {
-      receiverId: '',
-      senderId: '',
-      timestamp: '',
-      text: '',
-      type: '',
-      seen: true
-    }
-  }
-}
 ```

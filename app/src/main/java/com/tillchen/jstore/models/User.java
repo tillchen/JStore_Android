@@ -4,13 +4,13 @@ import androidx.annotation.Nullable;
 
 public class User {
     private String fullName;
-    private boolean isWhatsApp;
-    private String phoneNumber; // null when isWhatsApp is false
+    private boolean whatsApp;
+    private String phoneNumber; // null when whatsApp is false
     private String email;
 
-    public User(String fullName, boolean isWhatsApp, @Nullable String phoneNumber, String email) {
+    public User(String fullName, boolean whatsApp, @Nullable String phoneNumber, String email) {
         this.fullName = fullName;
-        this.isWhatsApp = isWhatsApp;
+        this.whatsApp = whatsApp;
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
@@ -19,8 +19,8 @@ public class User {
         return fullName;
     }
 
-    public boolean isWhatsApp() {
-        return isWhatsApp;
+    public boolean getWhatsApp() {
+        return whatsApp;
     }
 
     public String getPhoneNumber() {
@@ -35,8 +35,8 @@ public class User {
         this.fullName = fullName;
     }
 
-    public void setIsWhatsApp(boolean isWhatsApp) {
-        this.isWhatsApp = isWhatsApp;
+    public void setWhatsApp(boolean whatsApp) {
+        this.whatsApp = whatsApp;
     }
 
     public void setPhoneNumber(String phoneNumber) {
