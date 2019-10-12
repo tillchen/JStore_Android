@@ -27,6 +27,37 @@
         all the items in the Buy section. In order to use full functionalities, please sign out in the
         Me section first. And then sign in the your Email.</string>
 
-    <string name="sell_a_new_item">Sell a new item:</string>
+    <string name="sell_a_new_item">Sell a new item: (all fields below are required)</string>
+    <string name="title">Title:</string>
+    <string name="category">Category:</string>
+    <string name="condition">Condition:</string>
+    <string-array name="category_array">
+        <item>Apparel, Shoes &amp; Watches</item>
+        <item>Automotive, Motorcycle &amp; Industrial</item>
+        <item>Beauty &amp; Health</item>
+        <item>Books &amp; Audible</item>
+        <item>Electronics &amp; Computers</item>
+        <item>Grocery/Food</item>
+        <item>Home, Garden, Pets &amp; DIY</item>
+        <item>Automotive, Motorcycle &amp; Industrial</item>
+        <item>Sports &amp; Outdoors</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="condition_array">
+        <item>New</item>
+        <item>Open Box</item>
+        <item>Used</item>
+        <item>For parts or not working</item>
+    </string-array>
+    <string name="description">Description:</string>
+    <string name="add_photos">Add Photos</string>
+    <string name="price">Price:</string>
+    <string name="euro_sign">&#8364;</string>
+    <string name="preferred_payment_options">Preferred Payment Options:</string>
+    <string name="cash">Cash</string>
+    <string name="bank_transfer">Bank Transfer</string>
+    <string name="PayPal">PayPal</string>
+    <string name="meal_plan">Meal Plan</string>
+    <string name="finish">Finish</string>
 
 </resources>
