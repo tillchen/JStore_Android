@@ -17,31 +17,20 @@ users: {
     creationTime: '',
   }
 },
-postsActive: {
+posts: {
   postId: {
+    sold: bool,
     ownerId: '',
+    buyerId: '', // empty if sold is false
     title: '',
     category: '',
     condition: '',
     description: '',
     imageUrl: '',
     price: 0.0,
-    paymentOptions: []
-    creationDate: 0,
+    paymentOptions: [],
+    creationDate: '',
+    soldDate: '', // empty is sold is false
   }
 },
-postsSold: {
-  postId: {
-    ownerId: '',
-    buyerId: '',
-    title: '',
-    category: '',
-    condition: '',
-    description: '',
-    imageUrl: '',
-    price: 0.0,
-    paymentOptions: []
-    creationDate: 0,
-    soldDate: 0
-  }
 ```
