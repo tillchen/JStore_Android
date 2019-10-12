@@ -2,11 +2,17 @@ package com.tillchen.jstore.models;
 
 import androidx.annotation.Nullable;
 
+import com.google.firebase.firestore.ServerTimestamp;
+
+import java.util.Date;
+
+
 public class User {
     private String fullName;
     private boolean whatsApp;
     private String phoneNumber; // null when whatsApp is false
     private String email;
+    private @ServerTimestamp Date creationTime;
 
     public User(String fullName, boolean whatsApp, @Nullable String phoneNumber, String email) {
         this.fullName = fullName;
@@ -47,4 +53,11 @@ public class User {
         this.email = email;
     }
 
+    public Date getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
+    }
 }

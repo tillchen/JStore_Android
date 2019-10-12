@@ -28,7 +28,7 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
     RadioButton mRadioButton1; // WhatsApp
     RadioButton mRadioButton2; // Email
     Button mButton; // Start Using Button
-    EditText mEditTextPhone;
+    EditText mEditTextPhone; // TODO: 3 Add prefix (+49) spinner
     EditText mEditTextFullName;
     String mFullName; // the full name that the user entered
     String mPhone; // the phone number that the user entered

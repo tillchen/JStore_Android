@@ -27,4 +27,6 @@
         all the items in the Buy section. In order to use full functionalities, please sign out in the
         Me section first. And then sign in the your Email.</string>
 
+    <string name="sell_a_new_item">Sell a new item:</string>
+
 </resources>
