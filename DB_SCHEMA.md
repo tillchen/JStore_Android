@@ -14,7 +14,6 @@ users: {
     email: '',
     whatsApp: bool,
     phoneNumber: '', // empty if whatsApp is false
-    joinDate: '',
   }
 },
 postsActive: {

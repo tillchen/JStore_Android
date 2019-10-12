@@ -19,31 +19,32 @@ public class User {
         return fullName;
     }
 
-    public boolean getWhatsApp() {
-        return whatsApp;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public boolean isWhatsApp() {
+        return whatsApp;
     }
 
     public void setWhatsApp(boolean whatsApp) {
         this.whatsApp = whatsApp;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
+
 }
