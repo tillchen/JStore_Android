@@ -9,7 +9,8 @@ will be developed later.
 
 ## Design
 
-The mockup of the Android app can be found on [Figma](https://www.figma.com/file/u1rvftO0KvVqqFpn2mYC1P/Android?node-id=0%3A1).
+* The mockup of the Android app can be found on [Figma](https://www.figma.com/file/u1rvftO0KvVqqFpn2mYC1P/Android?node-id=0%3A1).
+* The Cloud Firestore database [schema](DB_SCHEMA.md).
 
 ## Tech Stack
 

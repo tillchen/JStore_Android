@@ -35,8 +35,8 @@ public class User {
         this.fullName = fullName;
     }
 
-    public void setWhatsApp(boolean whatsApp) {
-        isWhatsApp = whatsApp;
+    public void setIsWhatsApp(boolean isWhatsApp) {
+        this.isWhatsApp = isWhatsApp;
     }
 
     public void setPhoneNumber(String phoneNumber) {
