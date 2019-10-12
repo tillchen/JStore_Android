@@ -20,8 +20,6 @@ import com.tillchen.jstore.models.User;
 
 public class NewUserActivity extends UtilityActivity implements View.OnClickListener {
 
-    // TODO: 0 Reopen this activity if the user didn't finish and quit unexpectedly
-
     private static String TAG = "NewUserActivity";
 
     FirebaseFirestore db;
