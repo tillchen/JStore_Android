@@ -27,12 +27,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.tillchen.jstore.MainActivity;
 import com.tillchen.jstore.R;
 import com.tillchen.jstore.UtilityActivity;
+import com.tillchen.jstore.models.Post;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +44,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
+import static com.tillchen.jstore.UtilityActivity.COLLECTION_POSTS;
 import static com.tillchen.jstore.UtilityActivity.REQUEST_IMAGE_CAPTURE;
 import static com.tillchen.jstore.UtilityActivity.REQUEST_PICK_IMAGE;
 
@@ -55,6 +58,8 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     private FirebaseUser mUser;
     private FirebaseStorage mStorage;
     private StorageReference mStorageReference;
+    private StorageReference mFileReference;
+    private FirebaseFirestore db;
 
     private Toolbar mToolbar;
     private EditText mTitleEditText;
@@ -76,7 +81,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     private String mPrice;
     private String mCategory;
     private String mCondition;
-    private String[] mPaymentOptions;
+    private ArrayList<String> mPaymentOptions;
     private String mCurrentPhotoPath;
     private boolean isImageUploaded = false;
     private String mFileName;
@@ -88,6 +93,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         mStorage = FirebaseStorage.getInstance();
+        db = FirebaseFirestore.getInstance();
         mStorageReference = mStorage.getReference().child(UtilityActivity.STORAGE_POSTS);
         isImageUploaded = false;
 
@@ -122,6 +128,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         mMealPlanCheckBox = root.findViewById(R.id.meal_plan_checkBox);
         mFinishButton = root.findViewById(R.id.finish_button);
         mPhotoUploadedTextView = root.findViewById(R.id.photo_uploaded_textView);
+        mPaymentOptions = new ArrayList<String>();
     }
 
     private void setVisibility() {
@@ -182,34 +189,61 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                 mCategory = mCategorySpinner.getSelectedItem().toString();
                 mCondition = mConditionSpinner.getSelectedItem().toString();
 
-                ArrayList<String> paymentOptions = new ArrayList<>();
 
                 if (mCashCheckBox.isChecked()) {
-                    paymentOptions.add(getResources().getString(R.string.cash));
+                    mPaymentOptions.add(getResources().getString(R.string.cash));
                 }
                 if (mBankTransferCheckBox.isChecked()) {
-                    paymentOptions.add(getResources().getString(R.string.bank_transfer));
+                    mPaymentOptions.add(getResources().getString(R.string.bank_transfer));
                 }
                 if (mPayPalCheckBox.isChecked()) {
-                    paymentOptions.add(getResources().getString(R.string.PayPal));
+                    mPaymentOptions.add(getResources().getString(R.string.PayPal));
                 }
                 if (mMealPlanCheckBox.isChecked()) {
-                    paymentOptions.add(getResources().getString(R.string.meal_plan));
+                    mPaymentOptions.add(getResources().getString(R.string.meal_plan));
                 }
-
-                mPaymentOptions = paymentOptions.toArray(new String[0]);
 
                 if (TextUtils.isEmpty(mTitle)) {
                     mTitleEditText.setError("Title can't be empty.");
+                    break;
                 }
 
                 if (TextUtils.isEmpty(mDescription)) {
                     mDescriptionEditText.setError("Description can't be empty");
+                    break;
                 }
 
                 if (TextUtils.isEmpty(mPrice)) {
                     mPriceEditText.setError("Price can't be empty");
+                    break;
                 }
+
+                if (mPaymentOptions.size() == 0) {
+                    showSnackbar("You must choose at least 1 payment option.");
+                    break;
+                }
+
+                if (!isImageUploaded) {
+                    showSnackbar("You must upload a photo or wait until the uploading is finished.");
+                    break;
+                }
+
+                Post post = new Post(mUser.getEmail(),mTitle, mCategory, mCondition, mDescription,
+                        mFileReference.getDownloadUrl().toString(), mPrice, mPaymentOptions);
+                db.collection(COLLECTION_POSTS).document(mFileName).set(post)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, "post written into DB: " + mFileName);
+                        showSnackbar("Posted!");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "post writing failed: " + mFileName, e);
+                        showSnackbar("Sorry! Some error occurred. Please try again.");
+                    }
+                });
                 break;
 
             case R.id.take_photo_button:
@@ -279,9 +313,9 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
     private void uploadImage(Uri file) {
         mFileName = UUID.randomUUID().toString();
-        StorageReference ref = mStorageReference.child(mFileName);
+        mFileReference = mStorageReference.child(mFileName);
         // TODO: 1 Add a progress bar
-        ref.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        mFileReference.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Log.i(TAG, "uploadImage succeeded: " + taskSnapshot.getMetadata().getName());
@@ -335,7 +369,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showSnackbar(String message) {
-        Snackbar.make(getView().findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(getActivity().findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
     }
 
 }

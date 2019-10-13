@@ -2,22 +2,23 @@ package com.tillchen.jstore.models;
 
 import com.google.firebase.firestore.ServerTimestamp;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Post {
     private boolean sold = false;
-    private String ownerId;
+    private String ownerId; // Email address
     private String title;
     private String category;
     private String condition;
     private String description;
     private String imageUrl;
     private String price; // TODO: 1 Limit the digits
-    private String[] paymentOptions;
+    private ArrayList<String> paymentOptions;
     private @ServerTimestamp Date creationDate;
     private @ServerTimestamp Date soldDate;
 
-    public Post(String ownerId, String title, String category, String condition, String description, String imageUrl, String price, String[] paymentOptions) {
+    public Post(String ownerId, String title, String category, String condition, String description, String imageUrl, String price, ArrayList<String> paymentOptions) {
         this.ownerId = ownerId;
         this.title = title;
         this.category = category;
@@ -92,11 +93,11 @@ public class Post {
         this.price = price;
     }
 
-    public String[] getPaymentOptions() {
+    public ArrayList<String> getPaymentOptions() {
         return paymentOptions;
     }
 
-    public void setPaymentOptions(String[] paymentOptions) {
+    public void setPaymentOptions(ArrayList<String> paymentOptions) {
         this.paymentOptions = paymentOptions;
     }
 
