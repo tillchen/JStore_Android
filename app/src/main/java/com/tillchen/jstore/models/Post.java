@@ -12,12 +12,12 @@ public class Post {
     private String condition;
     private String description;
     private String imageUrl;
-    private double price; // TODO: 1 Limit the digits
+    private String price; // TODO: 1 Limit the digits
     private String[] paymentOptions;
     private @ServerTimestamp Date creationTime;
     private @ServerTimestamp Date soldTime;
 
-    public Post(String ownerId, String title, String category, String condition, String description, String imageUrl, double price, String[] paymentOptions) {
+    public Post(String ownerId, String title, String category, String condition, String description, String imageUrl, String price, String[] paymentOptions) {
         this.ownerId = ownerId;
         this.title = title;
         this.category = category;
@@ -84,11 +84,11 @@ public class Post {
         this.imageUrl = imageUrl;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
