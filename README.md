@@ -23,6 +23,8 @@ will be developed later.
 
 * Email Link Sign-in with Dynamic Links
 * Anonymous Sign-in
+* Posting items with a picture (from gallery or taking a photo inside the app),
+title, category, condition, description, price, and preferred payment options.
 
 ## Miscellaneous
 

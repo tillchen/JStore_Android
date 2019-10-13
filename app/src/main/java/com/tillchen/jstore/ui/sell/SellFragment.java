@@ -236,6 +236,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                     public void onSuccess(Void aVoid) {
                         Log.i(TAG, "post written into DB: " + mFileName);
                         showSnackbar("Posted!");
+                        // TODO: 0 Reset the fragment
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

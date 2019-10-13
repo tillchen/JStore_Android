@@ -16,7 +16,7 @@ public class Post {
     private String price; // TODO: 1 Limit the digits
     private ArrayList<String> paymentOptions;
     private @ServerTimestamp Date creationDate;
-    private @ServerTimestamp Date soldDate;
+    private @ServerTimestamp Date soldDate; // TODO: 0 Fix soldDate
 
     public Post(String ownerId, String title, String category, String condition, String description, String imageUrl, String price, ArrayList<String> paymentOptions) {
         this.ownerId = ownerId;
@@ -106,9 +106,7 @@ public class Post {
     }
 
     public void setCreationDate(Date creationDate) {
-        if (!sold) {
-            this.creationDate = creationDate;
-        }
+        this.creationDate = creationDate;
     }
 
     public Date getSoldDate() {
@@ -116,9 +114,6 @@ public class Post {
     }
 
     public void setSoldDate(Date soldDate) {
-        if (sold) {
-            this.soldDate = soldDate;
-        }
-
+        this.soldDate = soldDate;
     }
 }
