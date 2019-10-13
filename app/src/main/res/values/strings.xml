@@ -50,7 +50,7 @@
         <item>For parts or not working</item>
     </string-array>
     <string name="description">Description:</string>
-    <string name="add_photos">Add Photos</string>
+    <string name="add_photo">Add Photo</string>
     <string name="price">Price:</string>
     <string name="euro_sign">&#8364;</string>
     <string name="preferred_payment_options">Preferred Payment Options:</string>

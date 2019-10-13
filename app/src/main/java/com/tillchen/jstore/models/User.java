@@ -12,7 +12,7 @@ public class User {
     private boolean whatsApp;
     private String phoneNumber; // null when whatsApp is false
     private String email;
-    private @ServerTimestamp Date creationTime;
+    private @ServerTimestamp Date creationDate;
 
     public User(String fullName, boolean whatsApp, @Nullable String phoneNumber, String email) {
         this.fullName = fullName;
@@ -53,11 +53,11 @@ public class User {
         this.email = email;
     }
 
-    public Date getCreationTime() {
-        return creationTime;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setCreationTime(Date creationTime) {
-        this.creationTime = creationTime;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 }

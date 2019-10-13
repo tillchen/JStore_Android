@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -20,12 +22,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.tillchen.jstore.MainActivity;
 import com.tillchen.jstore.R;
 
+import java.util.ArrayList;
+
 public class SellFragment extends Fragment implements View.OnClickListener {
 
     // TODO: 0 Restore the entered info when switching back
-
-    private static final int TITLE_LENGTH_LIMIT = 50;
-    private static final int DESCRIPTION_LENGTH_LIMIT = 300;
 
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
@@ -46,7 +47,9 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     private String mTitle;
     private String mDescription;
     private String mPrice;
-
+    private String mCategory;
+    private String mCondition;
+    private String[] mPaymentOptions;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -74,7 +77,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         mCategorySpinner = root.findViewById(R.id.category_spinner);
         mConditionSpinner = root.findViewById(R.id.condition_spinner);
         mDescriptionEditText = root.findViewById(R.id.description_editText);
-        mAddPhotosButton = root.findViewById(R.id.add_photos_button);
+        mAddPhotosButton = root.findViewById(R.id.add_photo_button);
         mPriceEditText = root.findViewById(R.id.price_editText);
         mCashCheckBox = root.findViewById(R.id.cash_checkBox);
         mBankTransferCheckBox = root.findViewById(R.id.bank_transfer_checkBox);
@@ -128,26 +131,42 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                 mTitle = mTitleEditText.getText().toString();
                 mDescription = mDescriptionEditText.getText().toString();
                 mPrice = mPriceEditText.getText().toString();
+                mCategory = mCategorySpinner.getSelectedItem().toString();
+                mCondition = mConditionSpinner.getSelectedItem().toString();
+
+                ArrayList<String> paymentOptions = new ArrayList<>();
+
+                if (mCashCheckBox.isChecked()) {
+                    paymentOptions.add(getResources().getString(R.string.cash));
+                }
+                if (mBankTransferCheckBox.isChecked()) {
+                    paymentOptions.add(getResources().getString(R.string.bank_transfer));
+                }
+                if (mPayPalCheckBox.isChecked()) {
+                    paymentOptions.add(getResources().getString(R.string.PayPal));
+                }
+                if (mMealPlanCheckBox.isChecked()) {
+                    paymentOptions.add(getResources().getString(R.string.meal_plan));
+                }
+
+                mPaymentOptions = paymentOptions.toArray(new String[0]);
 
                 if (TextUtils.isEmpty(mTitle)) {
                     mTitleEditText.setError("Title can't be empty.");
                 }
-                else if (mTitle.length() > TITLE_LENGTH_LIMIT) {
-                    mTitleEditText.setError("Title can't contain more than 50 characters.");
-                }
 
                 if (TextUtils.isEmpty(mDescription)) {
                     mDescriptionEditText.setError("Description can't be empty");
-                }
-                else if (mDescription.length() > DESCRIPTION_LENGTH_LIMIT) {
-                    mDescriptionEditText.setError("Description can't contain more than 300 characters.");
                 }
 
                 if (TextUtils.isEmpty(mPrice)) {
                     mPriceEditText.setError("Price can't be empty");
                 }
 
+            case R.id.add_photo_button:
+
                 break;
+
             default:
                 break;
         }

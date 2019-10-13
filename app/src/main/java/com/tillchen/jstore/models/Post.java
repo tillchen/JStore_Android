@@ -14,8 +14,8 @@ public class Post {
     private String imageUrl;
     private String price; // TODO: 1 Limit the digits
     private String[] paymentOptions;
-    private @ServerTimestamp Date creationTime;
-    private @ServerTimestamp Date soldTime;
+    private @ServerTimestamp Date creationDate;
+    private @ServerTimestamp Date soldDate;
 
     public Post(String ownerId, String title, String category, String condition, String description, String imageUrl, String price, String[] paymentOptions) {
         this.ownerId = ownerId;
@@ -100,23 +100,23 @@ public class Post {
         this.paymentOptions = paymentOptions;
     }
 
-    public Date getCreationTime() {
-        return creationTime;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setCreationTime(Date creationTime) {
+    public void setCreationDate(Date creationDate) {
         if (!sold) {
-            this.creationTime = creationTime;
+            this.creationDate = creationDate;
         }
     }
 
-    public Date getSoldTime() {
-        return soldTime;
+    public Date getSoldDate() {
+        return soldDate;
     }
 
-    public void setSoldTime(Date soldTime) {
+    public void setSoldDate(Date soldDate) {
         if (sold) {
-            this.soldTime = soldTime;
+            this.soldDate = soldDate;
         }
 
     }

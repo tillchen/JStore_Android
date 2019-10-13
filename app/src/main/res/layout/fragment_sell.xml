@@ -10,7 +10,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/sell_toolbar"
@@ -77,6 +80,7 @@
             android:ems="18"
             android:hint="@string/title"
             android:inputType="textPersonName"
+            android:maxLength="50"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/sell_title_textView"
             app:layout_constraintHorizontal_bias="0.0"
@@ -136,6 +140,7 @@
             android:gravity="start|top"
             android:hint="@string/description"
             android:inputType="textMultiLine"
+            android:maxLength="300"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/title_editText"
             app:layout_constraintStart_toStartOf="@+id/title_editText"
@@ -143,10 +148,10 @@
             app:layout_constraintVertical_bias="0.050000012" />
 
         <Button
-            android:id="@+id/add_photos_button"
+            android:id="@+id/add_photo_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_photos"
+            android:text="@string/add_photo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/description_editText"
             app:layout_constraintHorizontal_bias="0.0"
@@ -161,6 +166,7 @@
             android:ems="5"
             android:hint="@string/price"
             android:inputType="numberDecimal"
+            android:maxLength="8"
             app:layout_constraintBottom_toBottomOf="@+id/euro_sign_textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -173,10 +179,10 @@
             android:layout_height="wrap_content"
             android:text="@string/euro_sign"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/add_photos_button"
+            app:layout_constraintEnd_toEndOf="@+id/add_photo_button"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/add_photos_button"
-            app:layout_constraintTop_toBottomOf="@+id/add_photos_button"
+            app:layout_constraintStart_toStartOf="@+id/add_photo_button"
+            app:layout_constraintTop_toBottomOf="@+id/add_photo_button"
             app:layout_constraintVertical_bias="0.050000012" />
 
         <TextView
