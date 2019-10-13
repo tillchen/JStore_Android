@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +30,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
+    private Toolbar mToolbar;
     private EditText mTitleEditText;
     private Spinner mCategorySpinner;
     private Spinner mConditionSpinner;
@@ -65,6 +68,8 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     }
 
     private void findViews(View root) {
+        mToolbar = root.findViewById(R.id.sell_toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         mTitleEditText = root.findViewById(R.id.title_editText);
         mCategorySpinner = root.findViewById(R.id.category_spinner);
         mConditionSpinner = root.findViewById(R.id.condition_spinner);

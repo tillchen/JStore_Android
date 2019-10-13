@@ -10,14 +10,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AnonymousNewUserActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".AnonymousNewUserActivity"/>
         <activity android:name=".NewUserActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" >
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -29,8 +27,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            >
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

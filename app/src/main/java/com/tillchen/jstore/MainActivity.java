@@ -62,8 +62,6 @@ public class MainActivity extends UtilityActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        NavigationUI.setupWithNavController(toolbar, navController);
         NavigationUI.setupWithNavController(navView, navController);
     }
 
