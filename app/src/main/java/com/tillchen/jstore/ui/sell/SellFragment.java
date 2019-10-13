@@ -1,7 +1,6 @@
 package com.tillchen.jstore.ui.sell;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +25,6 @@ import androidx.fragment.app.Fragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
@@ -45,6 +43,7 @@ import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 import static com.tillchen.jstore.UtilityActivity.REQUEST_IMAGE_CAPTURE;
+import static com.tillchen.jstore.UtilityActivity.REQUEST_PICK_IMAGE;
 
 public class SellFragment extends Fragment implements View.OnClickListener {
 
@@ -70,6 +69,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     private CheckBox mPayPalCheckBox;
     private CheckBox mMealPlanCheckBox;
     private Button mFinishButton;
+    private TextView mPhotoUploadedTextView;
 
     private String mTitle;
     private String mDescription;
@@ -78,6 +78,9 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     private String mCondition;
     private String[] mPaymentOptions;
     private String mCurrentPhotoPath;
+    private boolean isImageUploaded = false;
+    private String mFileName;
+    private Uri mChosenPhotoPath;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -86,6 +89,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         mUser = mAuth.getCurrentUser();
         mStorage = FirebaseStorage.getInstance();
         mStorageReference = mStorage.getReference().child(UtilityActivity.STORAGE_POSTS);
+        isImageUploaded = false;
 
         if (mUser.isAnonymous()) {
             return inflater.inflate(R.layout.fragment_anonymous_sell, container, false);
@@ -94,6 +98,8 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         View root = inflater.inflate(R.layout.fragment_sell, container, false);
 
         findViews(root);
+
+        setVisibility();
 
         setListeners();
 
@@ -115,6 +121,16 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         mPayPalCheckBox = root.findViewById(R.id.paypal_checkBox);
         mMealPlanCheckBox = root.findViewById(R.id.meal_plan_checkBox);
         mFinishButton = root.findViewById(R.id.finish_button);
+        mPhotoUploadedTextView = root.findViewById(R.id.photo_uploaded_textView);
+    }
+
+    private void setVisibility() {
+        if (isImageUploaded) {
+            mPhotoUploadedTextView.setVisibility(View.VISIBLE);
+        }
+        else {
+            mPhotoUploadedTextView.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void setListeners() {
@@ -194,6 +210,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                 if (TextUtils.isEmpty(mPrice)) {
                     mPriceEditText.setError("Price can't be empty");
                 }
+                break;
 
             case R.id.take_photo_button:
 
@@ -227,8 +244,13 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                 else {
                     showSnackbar("You must have a camera app to take a photo. Try ADD PHOTO instead.");
                 }
+                break;
 
             case R.id.add_photo_button:
+                Intent chooseImageIntent = new Intent();
+                chooseImageIntent.setType("image/*");
+                chooseImageIntent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(chooseImageIntent, "Select a Picture"), REQUEST_PICK_IMAGE);
                 break;
 
             default:
@@ -238,22 +260,61 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             if (mCurrentPhotoPath != null) {
+                deleteOldImage();
                 Uri file = Uri.fromFile(new File(mCurrentPhotoPath));
-                StorageReference ref = mStorageReference.child(UUID.randomUUID().toString());
-                ref.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Log.i(TAG, "onActivityResult uploading succeeded: " + taskSnapshot.getMetadata().getName());
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.i(TAG, "onActivityResult uploading failed: ", e);
-                    }
-                });
+                uploadImage(file);
             }
+        }
+        else if (requestCode == REQUEST_PICK_IMAGE && resultCode == RESULT_OK) {
+            if (data != null && data.getData() != null) {
+                deleteOldImage();
+                mChosenPhotoPath = data.getData();
+                uploadImage(mChosenPhotoPath);
+            }
+        }
+    }
+
+    private void uploadImage(Uri file) {
+        mFileName = UUID.randomUUID().toString();
+        StorageReference ref = mStorageReference.child(mFileName);
+        // TODO: 1 Add a progress bar
+        ref.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.i(TAG, "uploadImage succeeded: " + taskSnapshot.getMetadata().getName());
+                isImageUploaded = true;
+                mPhotoUploadedTextView.setVisibility(View.VISIBLE);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "uploadImage failed: ", e);
+                isImageUploaded = false;
+                mPhotoUploadedTextView.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
+    private void deleteOldImage() {
+        if (isImageUploaded && !TextUtils.isEmpty(mFileName)) {
+            mStorageReference.child(mFileName).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.i(TAG, "deleteOldImage succeeded: " + mFileName);
+                    isImageUploaded = false;
+                    mPhotoUploadedTextView.setVisibility(View.INVISIBLE);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e(TAG, "deleteOldImage failed: " + mFileName, e);
+                    isImageUploaded = true;
+                    mPhotoUploadedTextView.setVisibility(View.VISIBLE);
+                }
+            });
         }
     }
 

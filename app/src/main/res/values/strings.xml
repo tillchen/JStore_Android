@@ -60,6 +60,7 @@
     <string name="meal_plan">Meal Plan</string>
     <string name="finish">Finish</string>
     <string name="take_photo">Take Photo</string>
+    <string name="photo_uploaded">Photo Uploaded</string>
 
     <string name="anonymous_sell">It looks like you are an anonymous user. In order to use this section
     and unlock more functionalities, please go to Me section and sign out. Then sign in again with your

@@ -18,6 +18,7 @@ public class UtilityActivity extends AppCompatActivity {
     public static final String COLLECTION_POSTS = "posts";
     public static final String STORAGE_POSTS = "posts";
     public static final int REQUEST_IMAGE_CAPTURE = 1;
+    public static final int REQUEST_PICK_IMAGE = 71;
 
     public void hideKeyboard(View view) {
         final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
