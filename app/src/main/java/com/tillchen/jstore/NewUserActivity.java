@@ -20,7 +20,7 @@ import com.tillchen.jstore.models.User;
 
 public class NewUserActivity extends UtilityActivity implements View.OnClickListener {
 
-    private static String TAG = "NewUserActivity";
+    private static final String TAG = "NewUserActivity";
 
     FirebaseFirestore db;
     FirebaseAuth mAuth;

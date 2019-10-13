@@ -19,11 +19,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.tillchen.jstore.MainActivity;
 import com.tillchen.jstore.R;
+import com.tillchen.jstore.UtilityActivity;
 
 public class BuyFragment extends Fragment {
 
-    private static String TAG = "BuyFragment";
-    private static String COLLECTION_POSTS = "posts";
+    private static final String TAG = "BuyFragment";
 
     FirebaseFirestore db;
     private Toolbar mToolbar;
@@ -37,7 +37,7 @@ public class BuyFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
-        db.collection(COLLECTION_POSTS)
+        db.collection(UtilityActivity.COLLECTION_POSTS)
                 .whereEqualTo("sold", false)
                 .orderBy("creationDate", Query.Direction.DESCENDING)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

@@ -12,9 +12,12 @@ public class UtilityActivity extends AppCompatActivity {
     /* It contains handy functions and constants for other activities to use.
     * */
 
-    public static String EMAIL_LINK = "email_link";
-    public static String PENDING_USERNAME = "com.tillchen.jstore.pending_username";
-    public static String COLLECTION_USERS = "users";
+    public static final String EMAIL_LINK = "email_link";
+    public static final String PENDING_USERNAME = "com.tillchen.jstore.pending_username";
+    public static final String COLLECTION_USERS = "users";
+    public static final String COLLECTION_POSTS = "posts";
+    public static final String STORAGE_POSTS = "posts";
+    public static final int REQUEST_IMAGE_CAPTURE = 1;
 
     public void hideKeyboard(View view) {
         final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

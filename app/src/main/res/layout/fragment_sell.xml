@@ -128,6 +128,8 @@
             android:layout_height="wrap_content"
             android:text="@string/condition"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/category_spinner"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/category_textView"
             app:layout_constraintTop_toBottomOf="@+id/category_textView"
             app:layout_constraintVertical_bias="0.050000012" />
@@ -152,12 +154,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_photo"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/price_editText"
             app:layout_constraintEnd_toEndOf="@+id/description_editText"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/description_editText"
-            app:layout_constraintTop_toBottomOf="@+id/description_editText"
-            app:layout_constraintVertical_bias="0.050000012" />
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toEndOf="@+id/take_photo_button"
+            app:layout_constraintTop_toTopOf="@+id/take_photo_button" />
 
         <EditText
             android:id="@+id/price_editText"
@@ -179,10 +180,11 @@
             android:layout_height="wrap_content"
             android:text="@string/euro_sign"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/add_photo_button"
+
+            app:layout_constraintEnd_toEndOf="@+id/take_photo_button"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/add_photo_button"
-            app:layout_constraintTop_toBottomOf="@+id/add_photo_button"
+            app:layout_constraintStart_toStartOf="@+id/take_photo_button"
+            app:layout_constraintTop_toBottomOf="@+id/take_photo_button"
             app:layout_constraintVertical_bias="0.050000012" />
 
         <TextView
@@ -220,6 +222,18 @@
             app:layout_constraintStart_toStartOf="@+id/paypal_checkBox"
             app:layout_constraintTop_toBottomOf="@+id/paypal_checkBox"
             app:layout_constraintVertical_bias="0.20999998" />
+
+        <Button
+            android:id="@+id/take_photo_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/take_photo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/description_editText"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/description_editText"
+            app:layout_constraintTop_toBottomOf="@+id/description_editText"
+            app:layout_constraintVertical_bias="0.050000012" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

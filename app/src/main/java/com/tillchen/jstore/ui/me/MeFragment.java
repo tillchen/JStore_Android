@@ -21,7 +21,7 @@ import com.tillchen.jstore.R;
 
 public class MeFragment extends Fragment {
 
-    private static String TAG = "MeFragment";
+    private static final String TAG = "MeFragment";
 
     private MeViewModel meViewModel;
     private Button mSignOutButton;
