@@ -14,6 +14,9 @@ public class User {
     private String email;
     private @ServerTimestamp Date creationDate;
 
+    public User() {
+    }
+
     public User(String fullName, boolean whatsApp, @Nullable String phoneNumber, String email) {
         this.fullName = fullName;
         this.whatsApp = whatsApp;

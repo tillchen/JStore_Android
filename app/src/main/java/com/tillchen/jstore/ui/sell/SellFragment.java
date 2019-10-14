@@ -22,11 +22,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -35,6 +38,7 @@ import com.tillchen.jstore.MainActivity;
 import com.tillchen.jstore.R;
 import com.tillchen.jstore.UtilityActivity;
 import com.tillchen.jstore.models.Post;
+import com.tillchen.jstore.models.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +48,12 @@ import java.util.Date;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
+import static com.tillchen.jstore.UtilityActivity.BANK_TRANSFER;
+import static com.tillchen.jstore.UtilityActivity.CASH;
 import static com.tillchen.jstore.UtilityActivity.COLLECTION_POSTS;
+import static com.tillchen.jstore.UtilityActivity.COLLECTION_USERS;
+import static com.tillchen.jstore.UtilityActivity.MEAL_PLAN;
+import static com.tillchen.jstore.UtilityActivity.PAYPAL;
 import static com.tillchen.jstore.UtilityActivity.REQUEST_IMAGE_CAPTURE;
 import static com.tillchen.jstore.UtilityActivity.REQUEST_PICK_IMAGE;
 
@@ -86,6 +95,9 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     private boolean isImageUploaded = false;
     private String mFileName;
     private Uri mChosenPhotoPath;
+    private String mDownloadUrl;
+    private boolean isReadyToFinish = false;
+    private User user;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -190,17 +202,17 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                 mCondition = mConditionSpinner.getSelectedItem().toString();
 
 
-                if (mCashCheckBox.isChecked()) {
-                    mPaymentOptions.add(getResources().getString(R.string.cash));
+                if (mCashCheckBox.isChecked() && !mPaymentOptions.contains(CASH)) {
+                        mPaymentOptions.add(CASH);
                 }
-                if (mBankTransferCheckBox.isChecked()) {
-                    mPaymentOptions.add(getResources().getString(R.string.bank_transfer));
+                if (mBankTransferCheckBox.isChecked() && !mPaymentOptions.contains(BANK_TRANSFER)) {
+                    mPaymentOptions.add(BANK_TRANSFER);
                 }
-                if (mPayPalCheckBox.isChecked()) {
-                    mPaymentOptions.add(getResources().getString(R.string.PayPal));
+                if (mPayPalCheckBox.isChecked() && !mPaymentOptions.contains(PAYPAL)) {
+                    mPaymentOptions.add(PAYPAL);
                 }
-                if (mMealPlanCheckBox.isChecked()) {
-                    mPaymentOptions.add(getResources().getString(R.string.meal_plan));
+                if (mMealPlanCheckBox.isChecked() && !mPaymentOptions.contains(MEAL_PLAN)) {
+                    mPaymentOptions.add(MEAL_PLAN);
                 }
 
                 if (TextUtils.isEmpty(mTitle)) {
@@ -228,8 +240,51 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
 
-                Post post = new Post(mUser.getEmail(),mTitle, mCategory, mCondition, mDescription,
-                        mFileReference.getDownloadUrl().toString(), mPrice, mPaymentOptions);
+
+                mFileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() { // TODO: 0 Asynchronous and too slow, caused isReadyToFinish to fail
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        mDownloadUrl = uri.toString();
+                        Log.i(TAG, "getDownloadUrl succeeded: " + mDownloadUrl);
+                        isReadyToFinish = true;
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "getDownloadUrl failed: " + mFileName, e);
+                        showSnackbar("Sorry! Some error occurred. Please try again.");
+                        isReadyToFinish = false;
+                    }
+                });
+
+                db.collection(COLLECTION_USERS).document(mUser.getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.i(TAG, "getting user succeeded: " + document.getData());
+                                user = document.toObject(User.class);
+                                isReadyToFinish = true;
+                            }
+                            else {
+                                Log.e(TAG, "no such document");
+                                showSnackbar("Something went wrong. You are not in our database. Please sign in again.");
+                                isReadyToFinish = false;
+                            }
+                        }
+                        else {
+                            Log.e(TAG, "getting user failed: ", task.getException());
+                        }
+                    }
+                });
+
+                if (!isReadyToFinish) {
+                    break;
+                }
+
+                Post post = new Post(mUser.getEmail(), user.getFullName(), mTitle, mCategory, mCondition, mDescription,
+                        mDownloadUrl, mPrice, mPaymentOptions);
                 db.collection(COLLECTION_POSTS).document(mFileName).set(post)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

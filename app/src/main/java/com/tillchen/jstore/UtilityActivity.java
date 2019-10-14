@@ -19,6 +19,10 @@ public class UtilityActivity extends AppCompatActivity {
     public static final String STORAGE_POSTS = "posts";
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final int REQUEST_PICK_IMAGE = 71;
+    public static final String CASH = "cash";
+    public static final String BANK_TRANSFER = "bank_transfer";
+    public static final String PAYPAL = "paypal";
+    public static final String MEAL_PLAN = "meal_plan";
 
     public void hideKeyboard(View view) {
         final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

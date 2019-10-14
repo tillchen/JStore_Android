@@ -8,6 +8,7 @@ import java.util.Date;
 public class Post {
     private boolean sold = false;
     private String ownerId; // Email address
+    private String ownerName;
     private String title;
     private String category;
     private String condition;
@@ -18,8 +19,12 @@ public class Post {
     private @ServerTimestamp Date creationDate;
     private @ServerTimestamp Date soldDate; // TODO: 0 Fix soldDate
 
-    public Post(String ownerId, String title, String category, String condition, String description, String imageUrl, String price, ArrayList<String> paymentOptions) {
+    public Post() {
+    }
+
+    public Post(String ownerId, String ownerName, String title, String category, String condition, String description, String imageUrl, String price, ArrayList<String> paymentOptions) {
         this.ownerId = ownerId;
+        this.ownerName = ownerName;
         this.title = title;
         this.category = category;
         this.condition = condition;
@@ -43,6 +48,14 @@ public class Post {
 
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 
     public String getTitle() {
