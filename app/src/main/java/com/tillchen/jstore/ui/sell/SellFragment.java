@@ -89,6 +89,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     private Button mFinishButton;
     private TextView mPhotoUploadedTextView;
     private ProgressBar mUploadProgressBar;
+    private ProgressBar mFinishProgressBar;
 
     private String mTitle;
     private String mDescription;
@@ -155,9 +156,11 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         mPhotoUploadedTextView = root.findViewById(R.id.photo_uploaded_textView);
         mPaymentOptions = new ArrayList<String>();
         mUploadProgressBar = root.findViewById(R.id.upload_progressBar);
+        mFinishProgressBar = root.findViewById(R.id.sell_finish_progressBar);
     }
 
     private void setVisibility() {
+        mFinishProgressBar.setVisibility(View.INVISIBLE);
         if (isImageUploaded) {
             mPhotoUploadedTextView.setVisibility(View.VISIBLE);
             mUploadProgressBar.setVisibility(View.VISIBLE);
@@ -285,11 +288,15 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     private void postItem() {
         Post post = new Post(mUser.getEmail(), user.getFullName(), mTitle, mCategory, mCondition, mDescription,
                 mDownloadUrl, mPrice, mPaymentOptions);
+
+        mFinishProgressBar.setVisibility(View.VISIBLE);
+
         db.collection(COLLECTION_POSTS).document(mFileName).set(post)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.i(TAG, "post written into DB: " + mFileName);
+                        mFinishProgressBar.setVisibility(View.INVISIBLE);
                         showSnackbar("Posted!");
                         reloadFragment();
                     }
@@ -297,6 +304,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.e(TAG, "post writing failed: " + mFileName, e);
+                mFinishProgressBar.setVisibility(View.INVISIBLE);
                 showSnackbar("Sorry! Some error occurred. Please try again.");
             }
         });
