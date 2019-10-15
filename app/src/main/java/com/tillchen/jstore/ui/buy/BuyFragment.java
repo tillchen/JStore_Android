@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -20,6 +21,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.tillchen.jstore.MainActivity;
 import com.tillchen.jstore.R;
 import com.tillchen.jstore.UtilityActivity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BuyFragment extends Fragment {
 
@@ -54,6 +58,18 @@ public class BuyFragment extends Fragment {
             }
         });
 
+        /* How to update soldDate:
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("soldDate", FieldValue.serverTimestamp());
+
+        db.collection(UtilityActivity.COLLECTION_POSTS).document("3cc42094-3728-4250-aafa-340b007dec4f")
+                .update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        });
+        */
 
         return root;
     }

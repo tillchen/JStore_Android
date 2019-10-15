@@ -46,7 +46,6 @@ public class MainActivity extends UtilityActivity {
 
 
     private boolean intentHasEmailLink(@Nullable Intent intent) {
-        // TODO: Go back to LogInActivity only if the emails do not match
         if (intent != null && intent.getData() != null) {
             mIntentData = intent.getData().toString();
             if (mAuth.isSignInWithEmailLink(mIntentData)) {

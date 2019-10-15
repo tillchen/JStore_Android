@@ -17,7 +17,7 @@ public class Post {
     private String price; // TODO: 1 Limit the digits
     private ArrayList<String> paymentOptions;
     private @ServerTimestamp Date creationDate;
-    private @ServerTimestamp Date soldDate; // TODO: 0 Fix soldDate
+    private Date soldDate;
 
     public Post() {
     }
