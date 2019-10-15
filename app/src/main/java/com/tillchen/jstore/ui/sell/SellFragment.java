@@ -2,6 +2,7 @@ package com.tillchen.jstore.ui.sell;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -21,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -210,27 +213,22 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                     mTitleEditText.setError("Title can't be empty.");
                     break;
                 }
-
                 if (TextUtils.isEmpty(mDescription)) {
                     mDescriptionEditText.setError("Description can't be empty");
                     break;
                 }
-
                 if (TextUtils.isEmpty(mPrice)) {
                     mPriceEditText.setError("Price can't be empty");
                     break;
                 }
-
                 if (mPaymentOptions.size() == 0) {
                     showSnackbar("You must choose at least 1 payment option.");
                     break;
                 }
-
                 if (!isImageUploaded) {
                     showSnackbar("You must upload a photo or wait until the uploading is finished.");
                     break;
                 }
-
                 if (!isReadyToFinish) {
                     showSnackbar("Sorry some tasks are not finished. Please try again.");
                     break;
@@ -289,7 +287,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                     public void onSuccess(Void aVoid) {
                         Log.i(TAG, "post written into DB: " + mFileName);
                         showSnackbar("Posted!");
-                        // TODO: 0 Reset the fragment
+                        reloadFragment();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -315,9 +313,15 @@ public class SellFragment extends Fragment implements View.OnClickListener {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(getActivity(),
-                        AUTHORITY,
-                        photoFile);
+                Uri photoURI;
+                if ((Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)) {
+                    photoURI = FileProvider.getUriForFile(getActivity(),
+                            AUTHORITY,
+                            photoFile);
+                }
+                else {
+                    photoURI = Uri.fromFile(photoFile);
+                }
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 
@@ -453,6 +457,10 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
+    }
+
+    private void reloadFragment() {
+
     }
 
     private void showSnackbar(String message) {
