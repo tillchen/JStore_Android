@@ -68,8 +68,6 @@ import static com.tillchen.jstore.UtilityActivity.REQUEST_PICK_IMAGE;
 
 public class SellFragment extends Fragment implements View.OnClickListener {
 
-    // TODO: 0 Restore the entered info when switching back
-
     private static final String TAG = "SellFragment";
 
     private FirebaseAuth mAuth;
