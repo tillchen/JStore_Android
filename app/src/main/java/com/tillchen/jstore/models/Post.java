@@ -9,6 +9,8 @@ public class Post {
     private boolean sold = false;
     private String ownerId; // Email address
     private String ownerName;
+    private boolean whatsApp = false;
+    private String phoneNumber;
     private String title;
     private String category;
     private String condition;
@@ -22,9 +24,12 @@ public class Post {
     public Post() {
     }
 
-    public Post(String ownerId, String ownerName, String title, String category, String condition, String description, String imageUrl, String price, ArrayList<String> paymentOptions) {
+    public Post(String ownerId, String ownerName, boolean whatsApp, String phoneNumber, String title, String category, String condition,
+                String description, String imageUrl, String price, ArrayList<String> paymentOptions) {
         this.ownerId = ownerId;
         this.ownerName = ownerName;
+        this.whatsApp = whatsApp;
+        this.phoneNumber = phoneNumber;
         this.title = title;
         this.category = category;
         this.condition = condition;
@@ -56,6 +61,22 @@ public class Post {
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
+    }
+
+    public boolean isWhatsApp() {
+        return whatsApp;
+    }
+
+    public void setWhatsApp(boolean whatsApp) {
+        this.whatsApp = whatsApp;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getTitle() {

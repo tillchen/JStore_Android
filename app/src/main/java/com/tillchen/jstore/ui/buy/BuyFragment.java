@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,6 +32,7 @@ public class BuyFragment extends Fragment {
 
     FirebaseFirestore db;
     private Toolbar mToolbar;
+    private RecyclerView mRecyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -39,8 +41,11 @@ public class BuyFragment extends Fragment {
         mToolbar = root.findViewById(R.id.buy_toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
 
+        mRecyclerView = root.findViewById(R.id.buy_recyclerView);
+
         db = FirebaseFirestore.getInstance();
 
+        /*
         db.collection(UtilityActivity.COLLECTION_POSTS)
                 .whereEqualTo("sold", false)
                 .orderBy("creationDate", Query.Direction.DESCENDING)
@@ -57,6 +62,7 @@ public class BuyFragment extends Fragment {
                 }
             }
         });
+         */
 
         /* How to update soldDate:
         Map<String, Object> updates = new HashMap<>();
