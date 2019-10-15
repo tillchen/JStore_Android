@@ -48,6 +48,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
+import static com.tillchen.jstore.UtilityActivity.AUTHORITY;
 import static com.tillchen.jstore.UtilityActivity.BANK_TRANSFER;
 import static com.tillchen.jstore.UtilityActivity.CASH;
 import static com.tillchen.jstore.UtilityActivity.COLLECTION_POSTS;
@@ -102,12 +103,10 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-        mStorage = FirebaseStorage.getInstance();
-        db = FirebaseFirestore.getInstance();
-        mStorageReference = mStorage.getReference().child(UtilityActivity.STORAGE_POSTS);
+        initFirebase();
+
         isImageUploaded = false;
+        isReadyToFinish = false;
 
         if (mUser.isAnonymous()) {
             return inflater.inflate(R.layout.fragment_anonymous_sell, container, false);
@@ -121,7 +120,17 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
         setListeners();
 
+        getUserFromDB();
+
         return root;
+    }
+
+    private void initFirebase() {
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+        mStorage = FirebaseStorage.getInstance();
+        db = FirebaseFirestore.getInstance();
+        mStorageReference = mStorage.getReference().child(UtilityActivity.STORAGE_POSTS);
     }
 
     private void findViews(View root) {
@@ -195,25 +204,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.finish_button:
 
-                mTitle = mTitleEditText.getText().toString();
-                mDescription = mDescriptionEditText.getText().toString();
-                mPrice = mPriceEditText.getText().toString();
-                mCategory = mCategorySpinner.getSelectedItem().toString();
-                mCondition = mConditionSpinner.getSelectedItem().toString();
-
-
-                if (mCashCheckBox.isChecked() && !mPaymentOptions.contains(CASH)) {
-                        mPaymentOptions.add(CASH);
-                }
-                if (mBankTransferCheckBox.isChecked() && !mPaymentOptions.contains(BANK_TRANSFER)) {
-                    mPaymentOptions.add(BANK_TRANSFER);
-                }
-                if (mPayPalCheckBox.isChecked() && !mPaymentOptions.contains(PAYPAL)) {
-                    mPaymentOptions.add(PAYPAL);
-                }
-                if (mMealPlanCheckBox.isChecked() && !mPaymentOptions.contains(MEAL_PLAN)) {
-                    mPaymentOptions.add(MEAL_PLAN);
-                }
+                getAndSetData();
 
                 if (TextUtils.isEmpty(mTitle)) {
                     mTitleEditText.setError("Title can't be empty.");
@@ -240,53 +231,60 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
 
-
-                mFileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() { // TODO: 0 Asynchronous and too slow, caused isReadyToFinish to fail
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        mDownloadUrl = uri.toString();
-                        Log.i(TAG, "getDownloadUrl succeeded: " + mDownloadUrl);
-                        isReadyToFinish = true;
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "getDownloadUrl failed: " + mFileName, e);
-                        showSnackbar("Sorry! Some error occurred. Please try again.");
-                        isReadyToFinish = false;
-                    }
-                });
-
-                db.collection(COLLECTION_USERS).document(mUser.getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                Log.i(TAG, "getting user succeeded: " + document.getData());
-                                user = document.toObject(User.class);
-                                isReadyToFinish = true;
-                            }
-                            else {
-                                Log.e(TAG, "no such document");
-                                showSnackbar("Something went wrong. You are not in our database. Please sign in again.");
-                                isReadyToFinish = false;
-                            }
-                        }
-                        else {
-                            Log.e(TAG, "getting user failed: ", task.getException());
-                        }
-                    }
-                });
-
                 if (!isReadyToFinish) {
+                    showSnackbar("Sorry some tasks are not finished. Please try again.");
                     break;
                 }
 
-                Post post = new Post(mUser.getEmail(), user.getFullName(), mTitle, mCategory, mCondition, mDescription,
-                        mDownloadUrl, mPrice, mPaymentOptions);
-                db.collection(COLLECTION_POSTS).document(mFileName).set(post)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                postItem();
+
+                break;
+
+            case R.id.take_photo_button:
+
+                takePhoto();
+
+                break;
+
+            case R.id.add_photo_button:
+
+                addPhoto();
+
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private void getAndSetData() {
+        mTitle = mTitleEditText.getText().toString();
+        mDescription = mDescriptionEditText.getText().toString();
+        mPrice = mPriceEditText.getText().toString();
+        mCategory = mCategorySpinner.getSelectedItem().toString();
+        mCondition = mConditionSpinner.getSelectedItem().toString();
+
+
+        if (mCashCheckBox.isChecked() && !mPaymentOptions.contains(CASH)) {
+            mPaymentOptions.add(CASH);
+        }
+        if (mBankTransferCheckBox.isChecked() && !mPaymentOptions.contains(BANK_TRANSFER)) {
+            mPaymentOptions.add(BANK_TRANSFER);
+        }
+        if (mPayPalCheckBox.isChecked() && !mPaymentOptions.contains(PAYPAL)) {
+            mPaymentOptions.add(PAYPAL);
+        }
+        if (mMealPlanCheckBox.isChecked() && !mPaymentOptions.contains(MEAL_PLAN)) {
+            mPaymentOptions.add(MEAL_PLAN);
+        }
+
+    }
+
+    private void postItem() {
+        Post post = new Post(mUser.getEmail(), user.getFullName(), mTitle, mCategory, mCondition, mDescription,
+                mDownloadUrl, mPrice, mPaymentOptions);
+        db.collection(COLLECTION_POSTS).document(mFileName).set(post)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.i(TAG, "post written into DB: " + mFileName);
@@ -294,58 +292,52 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                         // TODO: 0 Reset the fragment
                     }
                 }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "post writing failed: " + mFileName, e);
-                        showSnackbar("Sorry! Some error occurred. Please try again.");
-                    }
-                });
-                break;
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "post writing failed: " + mFileName, e);
+                showSnackbar("Sorry! Some error occurred. Please try again.");
+            }
+        });
+    }
 
-            case R.id.take_photo_button:
+    private void takePhoto() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                Log.i(TAG, "Error when creating the image file: ", ex);
+                showSnackbar("Error when creating the image file. Please take another photo.");
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(getActivity(),
+                        AUTHORITY,
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                // Ensure that there's a camera activity to handle the intent
-                if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    // Create the File where the photo should go
-                    File photoFile = null;
-                    try {
-                        photoFile = createImageFile();
-                    } catch (IOException ex) {
-                        // Error occurred while creating the File
-                        Log.i(TAG, "Error when creating the image file: ", ex);
-                        showSnackbar("Error when creating the image file. Please take another photo.");
-                    }
-                    // Continue only if the File was successfully created
-                    if (photoFile != null) {
-                        Uri photoURI = FileProvider.getUriForFile(getActivity(),
-                                "com.tillchen.jstore.android.fileprovider",
-                                photoFile);
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-
-                        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                        File f = new File(mCurrentPhotoPath);
-                        Uri contentUri = Uri.fromFile(f);
-                        mediaScanIntent.setData(contentUri);
-                        getActivity().sendBroadcast(mediaScanIntent);
-                    }
-                }
-                else {
-                    showSnackbar("You must have a camera app to take a photo. Try ADD PHOTO instead.");
-                }
-                break;
-
-            case R.id.add_photo_button:
-                Intent chooseImageIntent = new Intent();
-                chooseImageIntent.setType("image/*");
-                chooseImageIntent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(chooseImageIntent, "Select a Picture"), REQUEST_PICK_IMAGE);
-                break;
-
-            default:
-                break;
+                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                File f = new File(mCurrentPhotoPath);
+                Uri contentUri = Uri.fromFile(f);
+                mediaScanIntent.setData(contentUri);
+                getActivity().sendBroadcast(mediaScanIntent);
+            }
         }
+        else {
+            showSnackbar("You must have a camera app to take a photo. Try ADD PHOTO instead.");
+        }
+    }
+
+    private void addPhoto() {
+        Intent chooseImageIntent = new Intent();
+        chooseImageIntent.setType("image/*");
+        chooseImageIntent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(chooseImageIntent, "Select a Picture"), REQUEST_PICK_IMAGE);
     }
 
     @Override
@@ -377,6 +369,21 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                 Log.i(TAG, "uploadImage succeeded: " + taskSnapshot.getMetadata().getName());
                 isImageUploaded = true;
                 mPhotoUploadedTextView.setVisibility(View.VISIBLE);
+                mFileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        mDownloadUrl = uri.toString();
+                        Log.i(TAG, "getDownloadUrl succeeded: " + mDownloadUrl);
+                        isReadyToFinish = true;
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "getDownloadUrl failed: " + mFileName, e);
+                        showSnackbar("Sorry! Some error occurred. Please try again.");
+                        isReadyToFinish = false;
+                    }
+                });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -422,6 +429,30 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    private void getUserFromDB() {
+        db.collection(COLLECTION_USERS).document(mUser.getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.i(TAG, "getting user succeeded: " + document.getData());
+                        user = document.toObject(User.class);
+                        isReadyToFinish = true;
+                    }
+                    else {
+                        Log.e(TAG, "no such document");
+                        showSnackbar("Something went wrong. You are not in our database. Please sign in again.");
+                        isReadyToFinish = false;
+                    }
+                }
+                else {
+                    Log.e(TAG, "getting user failed: ", task.getException());
+                }
+            }
+        });
     }
 
     private void showSnackbar(String message) {

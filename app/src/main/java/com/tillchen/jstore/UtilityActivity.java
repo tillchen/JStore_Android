@@ -23,6 +23,7 @@ public class UtilityActivity extends AppCompatActivity {
     public static final String BANK_TRANSFER = "bank_transfer";
     public static final String PAYPAL = "paypal";
     public static final String MEAL_PLAN = "meal_plan";
+    public static final String AUTHORITY = "com.tillchen.jstore.android.fileprovider";
 
     public void hideKeyboard(View view) {
         final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
