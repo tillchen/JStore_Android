@@ -96,4 +96,13 @@
         app:layout_constraintStart_toEndOf="@+id/email_editText"
         app:layout_constraintTop_toTopOf="@+id/email_editText" />
 
+    <ProgressBar
+        android:id="@+id/login_progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/email_editText"
+        app:layout_constraintEnd_toEndOf="@+id/jacobs_email_textview"
+        app:layout_constraintStart_toStartOf="@+id/email_editText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

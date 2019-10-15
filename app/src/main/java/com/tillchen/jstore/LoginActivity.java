@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,6 +34,8 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
     private Button mSignInButton;
     private Button mAnonymousSignInButton;
     private EditText mEmailEditText;
+    private ProgressBar mLoginProgressBar;
+
     private String mUsername; // the username that the user entered
     private String mEmail; // the final email address
     private SharedPreferences mSharedPreferences; // stores the pending username
@@ -64,9 +67,11 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
         mSignInButton = findViewById(R.id.signin_button);
         mAnonymousSignInButton = findViewById(R.id.anonymous_signin_button);
         mEmailEditText = findViewById(R.id.email_editText);
+        mLoginProgressBar = findViewById(R.id.login_progressBar);
 
         mSendLinkButton.setVisibility(View.VISIBLE);
         mSignInButton.setVisibility(View.GONE);
+        mLoginProgressBar.setVisibility(View.INVISIBLE);
 
         mSendLinkButton.setOnClickListener(this);
         mSignInButton.setOnClickListener(this);
@@ -159,9 +164,14 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
 
         handlePendingUsername();
 
+        mLoginProgressBar.setVisibility(View.VISIBLE);
+
         mAuth.signInWithEmailLink(mEmail, mIntentData).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+
+                mLoginProgressBar.setVisibility(View.INVISIBLE);
+
                 if (task.isSuccessful()) {
                     Log.i(TAG, "onSignInClicked task is successful");
                     AuthResult result = task.getResult();
@@ -178,7 +188,8 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
                 else {
                     Log.w(TAG, "onSignInClicked task failed", task.getException());
                     if (task.getException() instanceof FirebaseAuthActionCodeException) {
-                        showSnackbar("Invalid or expired sign-in link.");
+                        showSnackbar("Invalid or expired sign-in link. Sending a new link.");
+                        sendEmail();
                     }
                 }
             }
@@ -187,12 +198,17 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
 
 
     private void onAnonymousSignInClicked() {
-        // TODO: 1 Add a progress bar
         Log.i(TAG, "onAnonymousSignInClicked");
+
+        mLoginProgressBar.setVisibility(View.VISIBLE);
+
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        mLoginProgressBar.setVisibility(View.INVISIBLE);
+
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInAnonymously:success");
@@ -235,13 +251,15 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
             Log.i(TAG, "handlePendingUsername: entering admin mode");
             mEmail = mPendingUsername;
         }
+        else if (TextUtils.isEmpty(mPendingUsername)){
+            handleUsername();
+        }
         else {
             mEmail = mPendingUsername + "@jacobs-university.de";
         }
     }
 
     private void sendEmail() {
-        // TODO: 1 Add ProgressBar
         ActionCodeSettings settings = ActionCodeSettings.newBuilder()
                 .setAndroidPackageName(
                         getPackageName(),
@@ -253,10 +271,14 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
 
         hideKeyboard(mEmailEditText);
 
+        mLoginProgressBar.setVisibility(View.VISIBLE);
+
         mAuth.sendSignInLinkToEmail(mEmail, settings)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+
+                        mLoginProgressBar.setVisibility(View.INVISIBLE);
 
                         if (task.isSuccessful()) {
                             Log.i(TAG, "Link sent");
