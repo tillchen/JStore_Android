@@ -24,8 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -97,8 +96,6 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     private ProgressBar mUploadProgressBar;
     private ProgressBar mFinishProgressBar;
 
-    private Button mTempButton; // To delete
-
     private String mTitle;
     private String mDescription;
     private String mPrice;
@@ -166,7 +163,6 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         mUploadProgressBar = root.findViewById(R.id.upload_progressBar);
         mFinishProgressBar = root.findViewById(R.id.sell_finish_progressBar);
 
-        mTempButton = root.findViewById(R.id.temp_button); // to delete
     }
 
     private void setVisibility() {
@@ -190,8 +186,6 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         mBankTransferCheckBox.setOnClickListener(this);
         mPayPalCheckBox.setOnClickListener(this);
         mMealPlanCheckBox.setOnClickListener(this);
-
-        mTempButton.setOnClickListener(this); // to delete
 
         mTitleEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -267,9 +261,6 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
                 addPhoto();
 
-                break;
-            case R.id.temp_button: // to delete
-                reloadFragment();
                 break;
             default:
                 break;
@@ -518,7 +509,8 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     }
 
     private void reloadFragment() {
-        getActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        navController.navigate(R.id.navigation_sell);
     }
 
     private void showSnackbar(String message) {
