@@ -270,6 +270,14 @@
             app:layout_constraintStart_toEndOf="@+id/finish_button"
             app:layout_constraintTop_toTopOf="@+id/finish_button" />
 
+        <Button
+            android:id="@+id/temp_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            app:layout_constraintStart_toEndOf="@+id/sell_finish_progressBar"
+            app:layout_constraintTop_toTopOf="@+id/finish_button" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

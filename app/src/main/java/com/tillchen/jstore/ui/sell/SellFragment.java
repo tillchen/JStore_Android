@@ -1,6 +1,7 @@
 package com.tillchen.jstore.ui.sell;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -32,7 +36,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -44,7 +47,9 @@ import com.tillchen.jstore.UtilityActivity;
 import com.tillchen.jstore.models.Post;
 import com.tillchen.jstore.models.User;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -91,6 +96,8 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     private TextView mPhotoUploadedTextView;
     private ProgressBar mUploadProgressBar;
     private ProgressBar mFinishProgressBar;
+
+    private Button mTempButton; // To delete
 
     private String mTitle;
     private String mDescription;
@@ -158,6 +165,8 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         mPaymentOptions = new ArrayList<String>();
         mUploadProgressBar = root.findViewById(R.id.upload_progressBar);
         mFinishProgressBar = root.findViewById(R.id.sell_finish_progressBar);
+
+        mTempButton = root.findViewById(R.id.temp_button); // to delete
     }
 
     private void setVisibility() {
@@ -181,6 +190,8 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         mBankTransferCheckBox.setOnClickListener(this);
         mPayPalCheckBox.setOnClickListener(this);
         mMealPlanCheckBox.setOnClickListener(this);
+
+        mTempButton.setOnClickListener(this); // to delete
 
         mTitleEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -257,7 +268,9 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                 addPhoto();
 
                 break;
-
+            case R.id.temp_button: // to delete
+                reloadFragment();
+                break;
             default:
                 break;
         }
@@ -321,7 +334,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                 photoFile = createImageFile();
             } catch (IOException ex) {
                 // Error occurred while creating the File
-                Log.i(TAG, "Error when creating the image file: ", ex);
+                Log.e(TAG, "Error when creating the image file: ", ex);
                 showSnackbar("Error when creating the image file. Please take another photo.");
             }
             // Continue only if the File was successfully created
@@ -377,9 +390,33 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     }
 
     private void uploadImage(Uri file) {
+
+        byte[] data = new byte[0];
+
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), file);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 25, out);
+            data = out.toByteArray();
+        }
+        catch (FileNotFoundException fex) {
+            Log.e(TAG, "File not found for: " + file, fex);
+            showSnackbar("Error: File not found. Please choose another photo.");
+        }
+        catch (IOException iex) {
+            Log.e(TAG, "uploadImage error occurred: ", iex);
+            showSnackbar("Error: Something went wrong. Please choose another photo.");
+        }
+
+        if (data.length == 0) {
+            Log.e(TAG, "uploadImage Error: empty data");
+            showSnackbar("Error: Empty file. Please choose another photo.");
+            return;
+        }
+
         mFileName = UUID.randomUUID().toString();
         mFileReference = mStorageReference.child(mFileName);
-        mFileReference.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        mFileReference.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Log.i(TAG, "uploadImage succeeded: " + taskSnapshot.getMetadata().getName());
@@ -481,7 +518,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     }
 
     private void reloadFragment() {
-
+        getActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
     }
 
     private void showSnackbar(String message) {
