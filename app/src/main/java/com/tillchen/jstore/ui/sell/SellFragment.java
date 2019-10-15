@@ -160,9 +160,11 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     private void setVisibility() {
         if (isImageUploaded) {
             mPhotoUploadedTextView.setVisibility(View.VISIBLE);
+            mUploadProgressBar.setVisibility(View.VISIBLE);
         }
         else {
             mPhotoUploadedTextView.setVisibility(View.INVISIBLE);
+            mUploadProgressBar.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -396,10 +398,12 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                 Log.e(TAG, "uploadImage failed: ", e);
                 isImageUploaded = false;
                 mPhotoUploadedTextView.setVisibility(View.INVISIBLE);
+                showSnackbar("Image uploading failed. Please upload again.");
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                mUploadProgressBar.setVisibility(View.VISIBLE);
                 int progress = (int) (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
                         .getTotalByteCount());
                 mUploadProgressBar.setProgress(progress);
@@ -414,14 +418,14 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                 public void onSuccess(Void aVoid) {
                     Log.i(TAG, "deleteOldImage succeeded: " + mFileName);
                     isImageUploaded = false;
-                    mPhotoUploadedTextView.setVisibility(View.INVISIBLE);
+                    setVisibility();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Log.e(TAG, "deleteOldImage failed: " + mFileName, e);
                     isImageUploaded = true;
-                    mPhotoUploadedTextView.setVisibility(View.VISIBLE);
+                    setVisibility();
                 }
             });
         }
