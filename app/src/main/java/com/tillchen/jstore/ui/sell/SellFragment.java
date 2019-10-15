@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -22,8 +23,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,6 +34,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.tillchen.jstore.MainActivity;
@@ -88,6 +88,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     private CheckBox mMealPlanCheckBox;
     private Button mFinishButton;
     private TextView mPhotoUploadedTextView;
+    private ProgressBar mUploadProgressBar;
 
     private String mTitle;
     private String mDescription;
@@ -153,6 +154,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         mFinishButton = root.findViewById(R.id.finish_button);
         mPhotoUploadedTextView = root.findViewById(R.id.photo_uploaded_textView);
         mPaymentOptions = new ArrayList<String>();
+        mUploadProgressBar = root.findViewById(R.id.upload_progressBar);
     }
 
     private void setVisibility() {
@@ -366,7 +368,6 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     private void uploadImage(Uri file) {
         mFileName = UUID.randomUUID().toString();
         mFileReference = mStorageReference.child(mFileName);
-        // TODO: 1 Add a progress bar
         mFileReference.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -395,6 +396,13 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                 Log.e(TAG, "uploadImage failed: ", e);
                 isImageUploaded = false;
                 mPhotoUploadedTextView.setVisibility(View.INVISIBLE);
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                int progress = (int) (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                        .getTotalByteCount());
+                mUploadProgressBar.setProgress(progress);
             }
         });
     }
