@@ -31,6 +31,9 @@
     <string name="title">Title:</string>
     <string name="category">Category:</string>
     <string name="condition">Condition:</string>
+    <string name="posted_at">Posted at </string>
+    <string name="by">by </string>
+    <string name="owner">Owner: </string>
     <string-array name="category_array">
         <item>Apparel, Shoes &amp; Watches</item>
         <item>Automotive, Motorcycle &amp; Industrial</item>

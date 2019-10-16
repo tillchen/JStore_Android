@@ -43,11 +43,11 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     public void bind(Post post) {
         mStorage = FirebaseStorage.getInstance();
         mItemTitleTextView.setText(post.getTitle());
-        mItemOwnerTextView.setText("by " + post.getOwnerName());
-        mItemPriceTextView.setText("€" + post.getPrice());
+        mItemOwnerTextView.setText(itemView.getContext().getResources().getString(R.string.by) + post.getOwnerName());
+        mItemPriceTextView.setText(itemView.getContext().getResources().getString(R.string.euro_sign) + post.getPrice());
         mItemCategoryTextView.setText(post.getCategory());
-        mItemPostDateTextView.setText("Posted at " + post.getCreationDate().toString()
-                .replaceAll("GMT.02:00 ", "").substring(4));
+        mItemPostDateTextView.setText(itemView.getContext().getResources().getString(R.string.posted_at)+
+                post.getCreationDate().toString().replaceAll("GMT.02:00 ", "").substring(4));
         GlideApp.with(itemView)
                 .load(mStorage.getReferenceFromUrl(post.getImageUrl()))
                 .into(mItemImageView);
