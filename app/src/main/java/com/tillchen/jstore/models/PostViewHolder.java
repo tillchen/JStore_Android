@@ -34,10 +34,11 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     public void bind(Post post) {
         mStorage = FirebaseStorage.getInstance();
         mItemTitleTextView.setText(post.getTitle());
-        mItemOwnerTextView.setText(post.getOwnerName());
-        mItemPriceTextView.setText(post.getPrice());
+        mItemOwnerTextView.setText("by " + post.getOwnerName());
+        mItemPriceTextView.setText("€" + post.getPrice());
         mItemCategoryTextView.setText(post.getCategory());
-        mItemPostDateTextView.setText(post.getCreationDate().toString().replaceAll("UTC+2", "")); // TODO: 0 Might be a different format?
+        mItemPostDateTextView.setText("Posted at " + post.getCreationDate().toString()
+                .replaceAll("GMT.02:00 ", "").substring(4));
         GlideApp.with(itemView)
                 .load(mStorage.getReferenceFromUrl(post.getImageUrl()))
                 .into(mItemImageView);
