@@ -14,10 +14,12 @@ will be developed later.
 
 ## Tech Stack
 
-* Firebase
+* Firebase (Auth, Cloud Firestore (NoSQL), Storage (Google Cloud Platform))
 * Java
 * Kotlin (In the future)
-* Android Jetpack
+* Android Jetpack (Navigation Component, androidx, etc.)
+* Glide
+* FirebaseUI
 
 ## Enabled Features
 
@@ -25,6 +27,7 @@ will be developed later.
 * Anonymous Sign-in
 * Posting items with a picture (from gallery or taking a photo inside the app),
 title, category, condition, description, price, and preferred payment options.
+* Seeing the list of items posted in the descending order of creation time.
 
 ## Miscellaneous
 

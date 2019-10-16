@@ -130,7 +130,6 @@ public class BuyFragment extends Fragment {
                         break;
 
                     case FINISHED:
-                        showSnackbar("You've reached the end.");
                         mSwipeRefreshLayout.setRefreshing(false);
                         break;
                 }
