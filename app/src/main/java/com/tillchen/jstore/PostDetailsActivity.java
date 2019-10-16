@@ -48,7 +48,7 @@ public class PostDetailsActivity extends AppCompatActivity {
     private Button mWhatsAppButton;
 
     private String mPostID;
-    private String mPaymentOptions;
+    private String mPaymentOptions = "";
 
     private Post post;
 
@@ -110,7 +110,7 @@ public class PostDetailsActivity extends AppCompatActivity {
                 .load(storage.getReferenceFromUrl(post.getImageUrl()))
                 .into(mImageView);
         mTitleTextView.setText(post.getTitle());
-        mPriceTextView.setText(post.getPrice());
+        mPriceTextView.setText(getResources().getString(R.string.euro_sign) + post.getPrice());
         mOwnerNameTextView.setText(post.getOwnerName());
         mCategoryTextView.setText(post.getCategory());
         mConditionTextView.setText(post.getCondition());

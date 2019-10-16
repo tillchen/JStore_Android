@@ -18,7 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PostDetailsActivity" />
+        <activity android:name=".PostDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PostDetailsTheme"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

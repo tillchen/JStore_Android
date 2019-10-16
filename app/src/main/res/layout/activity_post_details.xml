@@ -17,9 +17,11 @@
             android:layout_width="380dp"
             android:layout_height="285dp"
             android:contentDescription="@string/picture_of_the_item"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.029999971"
             app:srcCompat="@android:color/background_light" />
 
         <TextView
@@ -45,7 +47,7 @@
             app:layout_constraintEnd_toEndOf="@+id/post_details_title_textView"
             app:layout_constraintStart_toStartOf="@+id/post_details_title_textView"
             app:layout_constraintTop_toBottomOf="@+id/post_details_title_textView"
-            app:layout_constraintVertical_bias="0.050000012" />
+            app:layout_constraintVertical_bias="0.029999971" />
 
         <TextView
             android:id="@+id/post_details_product_details_textView"
@@ -59,7 +61,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/post_details_price_textView"
             app:layout_constraintTop_toBottomOf="@+id/post_details_price_textView"
-            app:layout_constraintVertical_bias="0.050000012" />
+            app:layout_constraintVertical_bias="0.029999971" />
 
         <TextView
             android:id="@+id/post_details_category_textView"
@@ -71,7 +73,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/post_details_product_details_textView"
             app:layout_constraintTop_toBottomOf="@+id/post_details_owner_textView"
-            app:layout_constraintVertical_bias="0.050000012" />
+            app:layout_constraintVertical_bias="0.029999971" />
 
         <TextView
             android:id="@+id/post_details_category_content_textView"
@@ -79,7 +81,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/post_details_category_textView"
             app:layout_constraintEnd_toEndOf="@+id/post_details_price_textView"
-            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintHorizontal_bias="0.01"
             app:layout_constraintStart_toEndOf="@+id/post_details_category_textView"
             app:layout_constraintTop_toTopOf="@+id/post_details_category_textView" />
 
@@ -93,7 +95,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/post_details_category_textView"
             app:layout_constraintTop_toBottomOf="@+id/post_details_category_textView"
-            app:layout_constraintVertical_bias="0.050000012" />
+            app:layout_constraintVertical_bias="0.029999971" />
 
         <TextView
             android:id="@+id/post_details_condition_content_textView"
@@ -101,7 +103,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/post_details_condition_textView"
             app:layout_constraintEnd_toEndOf="@+id/post_details_price_textView"
-            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintHorizontal_bias="0.01"
             app:layout_constraintStart_toEndOf="@+id/post_details_condition_textView"
             app:layout_constraintTop_toTopOf="@+id/post_details_condition_textView" />
 
@@ -115,7 +117,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/post_details_condition_textView"
             app:layout_constraintTop_toBottomOf="@+id/post_details_condition_textView"
-            app:layout_constraintVertical_bias="0.050000012" />
+            app:layout_constraintVertical_bias="0.029999971" />
 
         <TextView
             android:id="@+id/post_details_date_textView"
@@ -123,7 +125,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/post_details_posted_at_textView"
             app:layout_constraintEnd_toEndOf="@+id/post_details_price_textView"
-            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintHorizontal_bias="0.01"
             app:layout_constraintStart_toEndOf="@+id/post_details_posted_at_textView"
             app:layout_constraintTop_toTopOf="@+id/post_details_posted_at_textView" />
 
@@ -134,9 +136,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/post_details_price_textView"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/post_details_posted_at_textView"
-            app:layout_constraintTop_toBottomOf="@+id/post_details_posted_at_textView"
-            app:layout_constraintVertical_bias="0.050000012" />
+            app:layout_constraintStart_toStartOf="@+id/post_details_description_title_textView"
+            app:layout_constraintTop_toBottomOf="@+id/post_details_description_title_textView"
+            app:layout_constraintVertical_bias="0.029999971" />
 
         <TextView
             android:id="@+id/post_details_preferred_payment_options_textView"
@@ -148,7 +150,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/post_details_description_textView"
             app:layout_constraintTop_toBottomOf="@+id/post_details_description_textView"
-            app:layout_constraintVertical_bias="0.050000012" />
+            app:layout_constraintVertical_bias="0.029999971" />
 
         <TextView
             android:id="@+id/post_details_payment_options_content_textView"
@@ -171,7 +173,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/post_details_product_details_textView"
             app:layout_constraintTop_toBottomOf="@+id/post_details_product_details_textView"
-            app:layout_constraintVertical_bias="0.050000012" />
+            app:layout_constraintVertical_bias="0.029999971" />
 
         <TextView
             android:id="@+id/post_details_owner_name_textView"
@@ -179,7 +181,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/post_details_owner_textView"
             app:layout_constraintEnd_toEndOf="@+id/post_details_price_textView"
-            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintHorizontal_bias="0.01"
             app:layout_constraintStart_toEndOf="@+id/post_details_owner_textView"
             app:layout_constraintTop_toTopOf="@+id/post_details_owner_textView" />
 
@@ -204,6 +206,18 @@
             app:layout_constraintEnd_toEndOf="@+id/post_details_description_textView"
             app:layout_constraintStart_toEndOf="@+id/post_details_send_email_button"
             app:layout_constraintTop_toTopOf="@+id/post_details_send_email_button" />
+
+        <TextView
+            android:id="@+id/post_details_description_title_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/description"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/post_details_date_textView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/post_details_posted_at_textView"
+            app:layout_constraintTop_toBottomOf="@+id/post_details_posted_at_textView"
+            app:layout_constraintVertical_bias="0.029999971" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
