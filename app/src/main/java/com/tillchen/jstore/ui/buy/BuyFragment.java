@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -58,6 +59,10 @@ public class BuyFragment extends Fragment {
                 .orderBy("creationDate", Query.Direction.DESCENDING);
 
         setUpAdapter();
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(),
+                DividerItemDecoration.VERTICAL);
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         return root;
     }

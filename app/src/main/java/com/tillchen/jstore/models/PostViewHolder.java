@@ -18,6 +18,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     private TextView mItemTitleTextView;
     private TextView mItemOwnerTextView;
     private TextView mItemPriceTextView;
+    private TextView mItemCategoryTextView;
     private TextView mItemPostDateTextView;
 
     public PostViewHolder(@NonNull View itemView) {
@@ -26,6 +27,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         mItemTitleTextView = itemView.findViewById(R.id.item_title_textView);
         mItemOwnerTextView = itemView.findViewById(R.id.item_owner_textView);
         mItemPriceTextView = itemView.findViewById(R.id.item_price_textView);
+        mItemCategoryTextView = itemView.findViewById(R.id.item_category_textView);
         mItemPostDateTextView = itemView.findViewById(R.id.item_post_date_textView);
     }
 
@@ -34,6 +36,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         mItemTitleTextView.setText(post.getTitle());
         mItemOwnerTextView.setText(post.getOwnerName());
         mItemPriceTextView.setText(post.getPrice());
+        mItemCategoryTextView.setText(post.getCategory());
         mItemPostDateTextView.setText(post.getCreationDate().toString().replaceAll("UTC+2", "")); // TODO: 0 Might be a different format?
         GlideApp.with(itemView)
                 .load(mStorage.getReferenceFromUrl(post.getImageUrl()))
