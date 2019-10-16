@@ -46,6 +46,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-storage:6.0.2'
     implementation 'android.arch.paging:runtime:1.0.1'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.exifinterface:exifinterface:1.1.0-rc01'
 }
 
 apply plugin: 'com.google.gms.google-services'
