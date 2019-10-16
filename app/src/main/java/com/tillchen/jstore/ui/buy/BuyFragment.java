@@ -56,12 +56,22 @@ public class BuyFragment extends Fragment {
         mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
                 .whereEqualTo("sold", false)
                 .orderBy("creationDate", Query.Direction.DESCENDING);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         setUpAdapter();
 
-
         return root;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
     }
 
     private void setUpAdapter() {
@@ -110,18 +120,29 @@ public class BuyFragment extends Fragment {
                         break;
 
                     case ERROR:
-                        showSnackbar("Sorry. Something went wrong.");
-
-                        mSwipeRefreshLayout.setRefreshing(false);
+                        showSnackbar("Sorry. Something went wrong. Retrying.");
+                        retry();
                         break;
 
                     case FINISHED:
+                        showSnackbar("You've reached the end.");
                         mSwipeRefreshLayout.setRefreshing(false);
                         break;
                 }
             }
 
         };
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(mAdapter);
+
+        // Refresh Action on Swipe Refresh Layout
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mAdapter.refresh();
+            }
+        });
     }
 
     private void updateSoldDate() {
