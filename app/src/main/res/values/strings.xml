@@ -31,8 +31,8 @@
     <string name="title">Title:</string>
     <string name="category">Category:</string>
     <string name="condition">Condition:</string>
-    <string name="posted_at">Posted at </string>
-    <string name="by">by </string>
+    <string name="posted_at">Posted at&#160;</string>
+    <string name="by">by&#160;</string>
     <string name="owner">Owner: </string>
     <string-array name="category_array">
         <item>Apparel, Shoes &amp; Watches</item>
@@ -75,5 +75,7 @@
 
     <string name="details">Details</string>
     <string name="product_details">Product Details</string>
+    <string name="send_email">Send Email</string>
+    <string name="text_on_whatsapp">Text on WhatsApp</string>
 
 </resources>

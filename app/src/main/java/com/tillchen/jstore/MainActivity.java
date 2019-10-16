@@ -24,7 +24,7 @@ public class MainActivity extends UtilityActivity {
     private static final String TAG = "MainActivity";
 
     private FirebaseAuth mAuth;
-    FirebaseFirestore db;
+    private FirebaseFirestore db;
     private String mIntentData = "Default";
 
     @Override

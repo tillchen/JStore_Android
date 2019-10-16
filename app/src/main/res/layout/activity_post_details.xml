@@ -13,7 +13,7 @@
         tools:context=".PostDetailsActivity">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/post_details_imageView"
             android:layout_width="380dp"
             android:layout_height="285dp"
             android:contentDescription="@string/picture_of_the_item"
@@ -29,10 +29,10 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="@+id/post_details_imageView"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="@+id/post_details_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/post_details_imageView"
             app:layout_constraintVertical_bias="0.050000012" />
 
         <TextView
@@ -106,7 +106,7 @@
             app:layout_constraintTop_toTopOf="@+id/post_details_condition_textView" />
 
         <TextView
-            android:id="@+id/post_details_posted_attextView"
+            android:id="@+id/post_details_posted_at_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/posted_at"
@@ -121,11 +121,11 @@
             android:id="@+id/post_details_date_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/post_details_posted_attextView"
+            app:layout_constraintBottom_toBottomOf="@+id/post_details_posted_at_textView"
             app:layout_constraintEnd_toEndOf="@+id/post_details_price_textView"
             app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintStart_toEndOf="@+id/post_details_posted_attextView"
-            app:layout_constraintTop_toTopOf="@+id/post_details_posted_attextView" />
+            app:layout_constraintStart_toEndOf="@+id/post_details_posted_at_textView"
+            app:layout_constraintTop_toTopOf="@+id/post_details_posted_at_textView" />
 
         <TextView
             android:id="@+id/post_details_description_textView"
@@ -134,8 +134,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/post_details_price_textView"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/post_details_posted_attextView"
-            app:layout_constraintTop_toBottomOf="@+id/post_details_posted_attextView"
+            app:layout_constraintStart_toStartOf="@+id/post_details_posted_at_textView"
+            app:layout_constraintTop_toBottomOf="@+id/post_details_posted_at_textView"
             app:layout_constraintVertical_bias="0.050000012" />
 
         <TextView
@@ -184,16 +184,26 @@
             app:layout_constraintTop_toTopOf="@+id/post_details_owner_textView" />
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
+            android:id="@+id/post_details_send_email_button"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:text="@string/send_email"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/post_details_description_textView"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/post_details_description_textView"
             app:layout_constraintTop_toBottomOf="@+id/post_details_payment_options_content_textView"
             app:layout_constraintVertical_bias="0.100000024" />
+
+        <Button
+            android:id="@+id/post_details_whatsapp_button"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="@string/text_on_whatsapp"
+            app:layout_constraintBottom_toBottomOf="@+id/post_details_send_email_button"
+            app:layout_constraintEnd_toEndOf="@+id/post_details_description_textView"
+            app:layout_constraintStart_toEndOf="@+id/post_details_send_email_button"
+            app:layout_constraintTop_toTopOf="@+id/post_details_send_email_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

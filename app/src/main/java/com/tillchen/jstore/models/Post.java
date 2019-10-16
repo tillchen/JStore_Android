@@ -17,7 +17,7 @@ public class Post {
     private String condition;
     private String description;
     private String imageUrl;
-    private String price; // TODO: 1 Limit the digits
+    private String price;
     private ArrayList<String> paymentOptions;
     private @ServerTimestamp Date creationDate;
     private Date soldDate;
