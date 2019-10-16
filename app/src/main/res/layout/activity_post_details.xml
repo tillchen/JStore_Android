@@ -1,20 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PostDetailsActivity">
+    android:fillViewport="true">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_details"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/details"/>
+        android:layout_height="match_parent"
+        tools:context=".PostDetailsActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="400dp"
+            android:layout_height="300dp"
+            android:contentDescription="@string/picture_of_the_item"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:color/background_light" />
+
+        <TextView
+            android:id="@+id/post_details_title_textView"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintVertical_bias="0.050000012" />
+
+        <TextView
+            android:id="@+id/post_details_price_textView"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/post_details_title_textView"
+            app:layout_constraintStart_toStartOf="@+id/post_details_title_textView"
+            app:layout_constraintTop_toBottomOf="@+id/post_details_title_textView"
+            app:layout_constraintVertical_bias="0.050000012" />
+
+        <TextView
+            android:id="@+id/post_details_product_details_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/product_details"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/post_details_price_textView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/post_details_price_textView"
+            app:layout_constraintTop_toBottomOf="@+id/post_details_price_textView"
+            app:layout_constraintVertical_bias="0.050000012" />
+
+        <TextView
+            android:id="@+id/post_details_category_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/post_details_product_details_textView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/post_details_product_details_textView"
+            app:layout_constraintTop_toBottomOf="@+id/post_details_product_details_textView"
+            app:layout_constraintVertical_bias="0.050000012" />
+
+        <TextView
+            android:id="@+id/post_details_category_content_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/post_details_category_textView"
+            app:layout_constraintEnd_toEndOf="@+id/post_details_price_textView"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toEndOf="@+id/post_details_category_textView"
+            app:layout_constraintTop_toTopOf="@+id/post_details_category_textView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
+

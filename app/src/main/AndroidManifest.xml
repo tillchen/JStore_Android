@@ -18,8 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PostDetailsActivity"
-            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".PostDetailsActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

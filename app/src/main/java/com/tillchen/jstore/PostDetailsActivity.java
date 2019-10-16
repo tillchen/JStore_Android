@@ -13,10 +13,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_details);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
     }
 }

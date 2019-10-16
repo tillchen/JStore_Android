@@ -71,5 +71,6 @@
     <string name="view">View</string>
 
     <string name="details">Details</string>
+    <string name="product_details">Product Details</string>
 
 </resources>
