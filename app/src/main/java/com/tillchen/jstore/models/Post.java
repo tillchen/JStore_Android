@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Post {
+    private String postId;
     private boolean sold = false;
     private String ownerId; // Email address
     private String ownerName;
@@ -24,8 +25,10 @@ public class Post {
     public Post() {
     }
 
-    public Post(String ownerId, String ownerName, boolean whatsApp, String phoneNumber, String title, String category, String condition,
-                String description, String imageUrl, String price, ArrayList<String> paymentOptions) {
+    public Post(String postId, String ownerId, String ownerName, boolean whatsApp, String phoneNumber,
+                String title, String category, String condition, String description, String imageUrl,
+                String price, ArrayList<String> paymentOptions) {
+        this.postId = postId;
         this.ownerId = ownerId;
         this.ownerName = ownerName;
         this.whatsApp = whatsApp;
@@ -37,6 +40,14 @@ public class Post {
         this.imageUrl = imageUrl;
         this.price = price;
         this.paymentOptions = paymentOptions;
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 
     public boolean isSold() {

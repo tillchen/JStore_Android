@@ -293,7 +293,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     }
 
     private void postItem() {
-        Post post = new Post(mUser.getEmail(), user.getFullName(), user.isWhatsApp(), user.getPhoneNumber(),
+        Post post = new Post(mFileName, mUser.getEmail(), user.getFullName(), user.isWhatsApp(), user.getPhoneNumber(),
                 mTitle, mCategory, mCondition, mDescription, mDownloadUrl, mPrice, mPaymentOptions);
 
         mFinishProgressBar.setVisibility(View.VISIBLE);

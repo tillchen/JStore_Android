@@ -41,7 +41,7 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_login);
+        Toolbar toolbar = findViewById(R.id.toolbar_details);
         setSupportActionBar(toolbar);
 
         db = FirebaseFirestore.getInstance();

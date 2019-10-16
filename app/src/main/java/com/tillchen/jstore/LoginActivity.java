@@ -57,7 +57,7 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
     }
 
     private void initDataViewAndListeners () {
-        Toolbar toolbar = findViewById(R.id.toolbar_login);
+        Toolbar toolbar = findViewById(R.id.toolbar_details);
         setSupportActionBar(toolbar);
 
         mAuth = FirebaseAuth.getInstance();

@@ -68,4 +68,8 @@
 
     <string name="picture_of_the_item">Picture of the Item</string>
 
+    <string name="view">View</string>
+
+    <string name="details">Details</string>
+
 </resources>
