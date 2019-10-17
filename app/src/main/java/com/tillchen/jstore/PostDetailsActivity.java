@@ -3,6 +3,9 @@ package com.tillchen.jstore;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,8 +24,12 @@ import com.tillchen.jstore.models.GlideApp;
 import com.tillchen.jstore.models.Post;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class PostDetailsActivity extends AppCompatActivity {
+
+public class PostDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+
+    // TODO: 0 Different functions if the user is the owner
 
     private static final String TAG = "PostDetailsActivity";
 
@@ -39,6 +46,7 @@ public class PostDetailsActivity extends AppCompatActivity {
     private TextView mTitleTextView;
     private TextView mPriceTextView;
     private TextView mOwnerNameTextView;
+    private TextView mEmailTextView;
     private TextView mCategoryTextView;
     private TextView mConditionTextView;
     private TextView mDateTextView;
@@ -49,6 +57,7 @@ public class PostDetailsActivity extends AppCompatActivity {
 
     private String mPostID;
     private String mPaymentOptions = "";
+    private String mUserFullName;
 
     private Post post;
 
@@ -69,6 +78,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         mTitleTextView = findViewById(R.id.post_details_title_textView);
         mPriceTextView = findViewById(R.id.post_details_price_textView);
         mOwnerNameTextView = findViewById(R.id.post_details_owner_name_textView);
+        mEmailTextView = findViewById(R.id.post_details_email_content_textView);
         mCategoryTextView = findViewById(R.id.post_details_category_content_textView);
         mConditionTextView = findViewById(R.id.post_details_condition_content_textView);
         mDateTextView = findViewById(R.id.post_details_date_textView);
@@ -76,6 +86,9 @@ public class PostDetailsActivity extends AppCompatActivity {
         mPaymentOptionsTextView = findViewById(R.id.post_details_payment_options_content_textView);
         mEmailButton = findViewById(R.id.post_details_send_email_button);
         mWhatsAppButton = findViewById(R.id.post_details_whatsapp_button);
+
+        mEmailButton.setOnClickListener(this);
+        mWhatsAppButton.setOnClickListener(this);
     }
 
     private void getPostFromDB() {
@@ -112,6 +125,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         mTitleTextView.setText(post.getTitle());
         mPriceTextView.setText(getResources().getString(R.string.euro_sign) + post.getPrice());
         mOwnerNameTextView.setText(post.getOwnerName());
+        mEmailTextView.setText(post.getOwnerId());
         mCategoryTextView.setText(post.getCategory());
         mConditionTextView.setText(post.getCondition());
         mDateTextView.setText(post.getCreationDate().toString().replaceAll("GMT.02:00 ", "").substring(4));
@@ -140,6 +154,43 @@ public class PostDetailsActivity extends AppCompatActivity {
         if (arrayList.contains((UtilityActivity.MEAL_PLAN))) {
             mPaymentOptions += MEAL_PLAN;
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.post_details_send_email_button:
+
+                sendEmail();
+
+                break;
+
+            case R.id.post_details_whatsapp_button:
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private void sendEmail() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {post.getOwnerId()}); // recipients
+        String title = "JStore: Interested Buyer for Your '" + post.getTitle() + "'";
+        intent.putExtra(Intent.EXTRA_SUBJECT, title);
+        String text = "Dear " + post.getOwnerName() + ",\n\n Hi! I'm interested in buying your '" + post.getTitle() + "'.";
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        PackageManager packageManager = getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent,
+                PackageManager.MATCH_DEFAULT_ONLY);
+        boolean isIntentSafe = activities.size() > 0;
+        if (!isIntentSafe) {
+            showSnackbar("Sorry. You don't have an Email app.");
+            return;
+        }
+
+        startActivity(intent);
     }
 
     private void showSnackbar(String message) {

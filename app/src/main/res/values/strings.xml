@@ -77,5 +77,6 @@
     <string name="product_details">Product Details</string>
     <string name="send_email">Send Email</string>
     <string name="text_on_whatsapp">Text on WhatsApp</string>
+    <string name="owner_email">Email:</string>
 
 </resources>

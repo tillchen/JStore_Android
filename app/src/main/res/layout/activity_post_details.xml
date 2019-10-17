@@ -72,7 +72,7 @@
             app:layout_constraintEnd_toEndOf="@+id/post_details_owner_textView"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/post_details_product_details_textView"
-            app:layout_constraintTop_toBottomOf="@+id/post_details_owner_textView"
+            app:layout_constraintTop_toBottomOf="@+id/post_details_email_textView"
             app:layout_constraintVertical_bias="0.029999971" />
 
         <TextView
@@ -218,6 +218,28 @@
             app:layout_constraintStart_toStartOf="@+id/post_details_posted_at_textView"
             app:layout_constraintTop_toBottomOf="@+id/post_details_posted_at_textView"
             app:layout_constraintVertical_bias="0.029999971" />
+
+        <TextView
+            android:id="@+id/post_details_email_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/owner_email"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/post_details_owner_name_textView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/post_details_owner_textView"
+            app:layout_constraintTop_toBottomOf="@+id/post_details_owner_textView"
+            app:layout_constraintVertical_bias="0.029999971" />
+
+        <TextView
+            android:id="@+id/post_details_email_content_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/post_details_email_textView"
+            app:layout_constraintEnd_toEndOf="@+id/post_details_price_textView"
+            app:layout_constraintHorizontal_bias="0.01"
+            app:layout_constraintStart_toEndOf="@+id/post_details_email_textView"
+            app:layout_constraintTop_toTopOf="@+id/post_details_email_textView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
