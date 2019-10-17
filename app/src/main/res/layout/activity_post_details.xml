@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/post_details_imageView"
-            android:layout_width="380dp"
-            android:layout_height="285dp"
+            android:layout_width="360dp"
+            android:layout_height="270dp"
             android:contentDescription="@string/picture_of_the_item"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
 
         <TextView
             android:id="@+id/post_details_title_textView"
-            android:layout_width="380dp"
+            android:layout_width="360dp"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -39,7 +39,7 @@
 
         <TextView
             android:id="@+id/post_details_price_textView"
-            android:layout_width="380dp"
+            android:layout_width="360dp"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textStyle="bold|italic"
@@ -131,7 +131,7 @@
 
         <TextView
             android:id="@+id/post_details_description_textView"
-            android:layout_width="380dp"
+            android:layout_width="360dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/post_details_price_textView"
