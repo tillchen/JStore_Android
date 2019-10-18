@@ -11,11 +11,13 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.tillchen.jstore.LoginActivity;
 import com.tillchen.jstore.R;
 
@@ -23,37 +25,41 @@ public class MeFragment extends Fragment {
 
     private static final String TAG = "MeFragment";
 
-    private MeViewModel meViewModel;
-    private Button mSignOutButton;
+    private FirebaseUser user;
 
+    private Toolbar mAnonymousToolbar;
+    private Button mAnonymousSignOutButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        meViewModel =
-                ViewModelProviders.of(this).get(MeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_me, container, false);
-        final TextView textView = root.findViewById(R.id.text_me);
-        meViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        mSignOutButton = root.findViewById(R.id.sign_out_button);
-        mSignOutButton.setOnClickListener(new View.OnClickListener() {
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user.isAnonymous()) {
+            View root = inflater.inflate(R.layout.fragment_anonymous_me, container, false);
+            setAnonymous(root);
+            return root;
+        }
+        else {
+            View root = inflater.inflate(R.layout.fragment_me, container, false);
+            return root;
+        }
+    }
+
+    private void setAnonymous(View root) {
+        mAnonymousToolbar = root.findViewById(R.id.anonymous_me_toolbar);
+        mAnonymousSignOutButton = root.findViewById(R.id.anonymous_sign_out_button);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mAnonymousToolbar);
+        mAnonymousSignOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "SignOutButton clicked. Signing out.");
+                Log.i(TAG, "AnonymousSignOutButton clicked. Signing out.");
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 Log.i(TAG, "starting LoginActivity");
                 startActivity(intent);
-                // TODO: 1 Remove the current fragment from the back stack
             }
         });
-
-
-        return root;
     }
 }

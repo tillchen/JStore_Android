@@ -24,9 +24,10 @@
         android:text="@string/greet_anonymous_user"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_new_user"
-        app:layout_constraintVertical_bias="0.00999999" />
+        app:layout_constraintVertical_bias="0.050000012" />
 
     <Button
         android:id="@+id/start_button_2"

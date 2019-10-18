@@ -26,7 +26,7 @@
 
     <string name="greet_anonymous_user">Welcome! You\'ve signed in anonymously. You can browse through
         all the items in the Buy section. In order to use full functionalities, please sign out in the
-        Me section first. And then sign in the your Email.</string>
+        Me section first. And then sign in with your email.</string>
 
     <string name="sell_a_new_item">Sell a new item: (all fields below are required)</string>
     <string name="title">Title:</string>
@@ -68,7 +68,7 @@
 
     <string name="anonymous_sell">It looks like you are an anonymous user. In order to use this section
     and unlock more functionalities, please go to Me section and sign out. Then sign in again with your
-    Email.</string>
+    email.</string>
 
     <string name="picture_of_the_item">Picture of the Item</string>
 

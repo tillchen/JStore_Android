@@ -3,29 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="?attr/actionBarSize">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_me"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/me_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/title_me" />
+
 
     <Button
         android:id="@+id/sign_out_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sign_out"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="565dp" />
+
+    <TextView
+        android:id="@+id/me_full_name_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/full_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_me" />
+        app:layout_constraintTop_toBottomOf="@+id/buy_toolbar"
+        app:layout_constraintVertical_bias="0.050000012" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/me_full_name_textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toEndOf="@+id/me_full_name_textView"
+        app:layout_constraintTop_toTopOf="@+id/me_full_name_textView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
