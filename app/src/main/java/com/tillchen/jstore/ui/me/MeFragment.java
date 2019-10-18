@@ -3,6 +3,7 @@ package com.tillchen.jstore.ui.me;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -21,6 +23,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +33,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.tillchen.jstore.LoginActivity;
 import com.tillchen.jstore.MainActivity;
+import com.tillchen.jstore.NewUserActivity;
 import com.tillchen.jstore.R;
 import com.tillchen.jstore.models.MeItem;
 import com.tillchen.jstore.models.MeItemAdapter;
@@ -55,13 +60,15 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private EditText mEditTextFullName;
     private Button mSaveButton;
     private Button mSignOutButton;
+    private ProgressBar mProgressBar;
 
     private ListView mListView;
 
     private MeItemAdapter mMeItemAdapter;
 
     boolean isWhatsApp = false; // whether the user selected WhatsApp
-    boolean isEmail = false; // whether the user selected Email
+    String mFullName; // the full name that the user entered
+    String mPhone; // the phone number that the user entered
 
     private User mUser;
 
@@ -88,6 +95,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
     private void findViews(@NonNull View root) {
         mListView = root.findViewById(R.id.me_listView);
+        mDateTextView = root.findViewById(R.id.me_date_textView);
         mPlusSign = root.findViewById(R.id.me_plus_sign_textView);
         mEditTextPhone = root.findViewById(R.id.me_phone_editText);
         mEditTextFullName = root.findViewById(R.id.me_full_name_editText);
@@ -95,6 +103,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mRadioButton2 = root.findViewById(R.id.me_email_radioButton);
         mSaveButton = root.findViewById(R.id.me_save_button);
         mSignOutButton = root.findViewById(R.id.me_sign_out_button);
+        mProgressBar = root.findViewById(R.id.me_progressBar);
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
     private void getUserFromDB() {
@@ -172,6 +182,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
     private void setData() {
         mEditTextFullName.setText(mUser.getFullName());
+        mDateTextView.setText(mUser.getCreationDate().toString().replaceAll("GMT.02:00 ", "")
+                .substring(4).replaceAll("..:..:.. ", ""));
         if (mUser.isWhatsApp()) {
             setVisible();
             mRadioButton1.setChecked(true);
@@ -192,7 +204,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 if (((RadioButton) v).isChecked()) {
                     setVisible();
                     isWhatsApp = true;
-                    isEmail = false;
                 }
                 break;
 
@@ -200,9 +211,53 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 if (((RadioButton) v).isChecked()) {
                     setInvisible();
                     isWhatsApp = false;
-                    isEmail = true;
                 }
                 break;
+            case R.id.me_save_button:
+                mFullName = mEditTextFullName.getText().toString();
+                mPhone = mEditTextPhone.getText().toString();
+
+                ((MainActivity)getActivity()).hideKeyboard(mEditTextFullName);
+                ((MainActivity)getActivity()).hideKeyboard(mEditTextPhone);
+
+                if (TextUtils.isEmpty(mFullName)) {
+                    mEditTextFullName.setError("Full Name can't be empty.");
+                    return;
+                }
+
+                if (isWhatsApp && TextUtils.isEmpty(mPhone)) {
+                    mEditTextPhone.setError("Phone number can't be empty.");
+                    return;
+                }
+
+                if (!mRadioButton1.isChecked() && !mRadioButton2.isChecked()) {
+                    showSnackbar("Please select your preferred way of contact.");
+                    return;
+                }
+
+                if (!isWhatsApp) {
+                    mPhone = "";
+                }
+
+                User nUser = new User(mFullName, isWhatsApp, mPhone, mUser.getEmail());
+                mProgressBar.setVisibility(View.VISIBLE);
+                db.collection(COLLECTION_USERS).document(mUser.getEmail()).set(nUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, mUser.getEmail() + "is updated!");
+                        mProgressBar.setVisibility(View.INVISIBLE);
+                        showSnackbar("Saved!");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, mUser.getEmail() + "is NOT updated!");
+                                showSnackbar("Error when writing your data! Please try again.");
+                                mProgressBar.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                break;
+
             default:
                 break;
         }
