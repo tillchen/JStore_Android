@@ -19,12 +19,15 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.tillchen.jstore.models.GlideApp;
 import com.tillchen.jstore.models.Post;
+import com.tillchen.jstore.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +36,6 @@ import java.util.List;
 public class PostDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     // TODO: 0 Different functions if the user is the owner
-    // TODO: 0 Add a floating back button
 
     private static final String TAG = "PostDetailsActivity";
 
@@ -45,6 +47,8 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
     FirebaseFirestore db;
     DocumentReference ref;
     FirebaseStorage storage;
+    FirebaseAuth auth;
+    FirebaseUser user;
 
     private ImageView mImageView;
     private TextView mTitleTextView;
@@ -61,9 +65,10 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
 
     private String mPostID;
     private String mPaymentOptions = "";
-    private String mUserFullName;
 
     private Post post;
+    private User mUser;
+    private boolean gotUser = false;
 
 
     @Override
@@ -71,9 +76,18 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
 
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+
+        db = FirebaseFirestore.getInstance();
+
         findViews();
 
         getPostFromDB();
+
+        if (!user.isAnonymous()) {
+            getUserFromDB();
+        }
 
     }
 
@@ -112,7 +126,7 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void getPostFromDB() {
-        db = FirebaseFirestore.getInstance();
+
         String result = checkIntent();
         if (TextUtils.isEmpty(result)) {
             mPostID = getIntent().getStringExtra(UtilityActivity.POST_ID);
@@ -141,6 +155,30 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
                 }
             }
         });
+    }
+
+    private  void getUserFromDB() {
+        db.collection(UtilityActivity.COLLECTION_USERS).document(user.getEmail()).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.i(TAG, "getting user succeeded: " + document.getData());
+                        mUser = document.toObject(User.class);
+                        gotUser = true;
+                    }
+                    else {
+                        Log.e(TAG, "no such document");
+                        showSnackbar("Something went wrong. You are not in our database.");
+                    }
+                }
+                else {
+                    Log.e(TAG, "getting post failed: ", task.getException());
+                }
+            }
+            });
     }
 
     private void setData() {
@@ -187,11 +225,21 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()) {
             case R.id.post_details_send_email_button:
 
+                if(!user.isAnonymous() && !gotUser) {
+                    showSnackbar("Something went wrong. Please try again.");
+                    break;
+                }
+
                 sendEmail();
 
                 break;
 
             case R.id.post_details_whatsapp_button:
+
+                if(!user.isAnonymous() && !gotUser) {
+                    showSnackbar("Something went wrong. Please try again.");
+                    break;
+                }
 
                 textOnWhatsApp();
 
@@ -224,7 +272,9 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void textOnWhatsApp() {
-        String text = "Hi! I'm interested in buying your '" + post.getTitle() + "' from JStore.";
+        String text = "[JStore] " + post.getTitle() + "\n\nHi! I'm contacting you by clicking on the " +
+                "WhatsApp button of JStore. My name is " + (user.isAnonymous() ? "" : mUser.getFullName() +
+                ". And I'm interested in the following item:\nhttps://jstore.xyz/posts/"+post.getPostId()) ;
         String encodedText = Uri.encode(text);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/" + post.getPhoneNumber()
                 + "?text=" + encodedText));
