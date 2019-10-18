@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.tillchen.jstore.models.GlideApp;
 import com.tillchen.jstore.models.Post;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,6 +168,9 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.post_details_whatsapp_button:
+
+                textOnWhatsApp();
+
                 break;
 
             default:
@@ -179,7 +184,8 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
         intent.putExtra(Intent.EXTRA_EMAIL, new String[] {post.getOwnerId()}); // recipients
         String title = "JStore: Interested Buyer for Your '" + post.getTitle() + "'";
         intent.putExtra(Intent.EXTRA_SUBJECT, title);
-        String text = "Dear " + post.getOwnerName() + ",\n\n Hi! I'm interested in buying your '" + post.getTitle() + "'.";
+        String text = "Dear " + post.getOwnerName() + ",\n\n Hi! I'm interested in buying your '" +
+                post.getTitle() + "' from JStore.";
         intent.putExtra(Intent.EXTRA_TEXT, text);
         PackageManager packageManager = getPackageManager();
         List<ResolveInfo> activities = packageManager.queryIntentActivities(intent,
@@ -192,6 +198,12 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
 
         startActivity(intent);
     }
+
+    private void textOnWhatsApp() {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/" + post.getPhoneNumber()));
+        startActivity(intent);
+    }
+
 
     private void showSnackbar(String message) {
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();

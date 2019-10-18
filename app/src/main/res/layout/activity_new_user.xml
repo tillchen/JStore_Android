@@ -88,9 +88,10 @@
         android:id="@+id/phone_editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:digits="0123456789"
         android:ems="10"
         android:hint="@string/phone_hint"
-        android:inputType="phone"
+        android:inputType="number"
         android:maxLength="20"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/radioGroup"
@@ -110,6 +111,17 @@
         app:layout_constraintStart_toStartOf="@+id/phone_editText"
         app:layout_constraintTop_toBottomOf="@+id/phone_editText"
         app:layout_constraintVertical_bias="0.050000012" />
+
+    <TextView
+        android:id="@+id/plus_sign_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/plus_sign"
+        app:layout_constraintBottom_toBottomOf="@+id/phone_editText"
+        app:layout_constraintEnd_toStartOf="@+id/phone_editText"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/phone_editText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

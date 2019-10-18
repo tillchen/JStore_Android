@@ -21,6 +21,7 @@
     <string name="WhatsApp">WhatsApp</string>
     <string name="email">Email</string>
     <string name="phone_hint">Phone:</string>
+    <string name="plus_sign">+</string>
     <string name="start_using">Start Using!</string>
 
     <string name="greet_anonymous_user">Welcome! You\'ve signed in anonymously. You can browse through
