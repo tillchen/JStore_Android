@@ -18,7 +18,7 @@
 
 
     <Button
-        android:id="@+id/sign_out_button"
+        android:id="@+id/me_sign_out_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sign_out"
@@ -79,48 +79,32 @@
             android:text="@string/email" />
     </RadioGroup>
 
+    <TextView
+        android:id="@+id/me_plus_sign_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/plus_sign"
+        app:layout_constraintBottom_toBottomOf="@+id/me_phone_editText"
+        app:layout_constraintEnd_toStartOf="@+id/me_phone_editText"
+        app:layout_constraintHorizontal_bias="0.83"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/me_phone_editText" />
+
     <EditText
-        android:id="@+id/me_country_code_editText"
+        android:id="@+id/me_phone_editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:digits="0123456789"
-        android:ems="3"
-        android:hint="49"
+        android:ems="12"
+        android:hint="@string/phone_hint"
         android:inputType="number"
+        android:maxLength="20"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/me_contact_textView"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/me_contact_textView"
         app:layout_constraintTop_toBottomOf="@+id/me_contact_textView"
         app:layout_constraintVertical_bias="0.029999971" />
-
-    <TextView
-        android:id="@+id/me_plus_sign_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/plus_sign"
-        app:layout_constraintBottom_toBottomOf="@+id/me_country_code_editText"
-        app:layout_constraintEnd_toStartOf="@+id/me_country_code_editText"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/me_country_code_editText" />
-
-    <EditText
-        android:id="@+id/me_phone_editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:digits="0123456789"
-        android:ems="10"
-        android:hint="@string/phone_hint"
-        android:inputType="number"
-        android:maxLength="20"
-        app:layout_constraintBottom_toBottomOf="@+id/me_country_code_editText"
-        app:layout_constraintEnd_toEndOf="@+id/me_contact_textView"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toEndOf="@+id/me_country_code_editText"
-        app:layout_constraintTop_toTopOf="@+id/me_country_code_editText"
-        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/me_member_since_textView"
@@ -152,8 +136,8 @@
         app:layout_constraintBottom_toTopOf="@+id/me_separator"
         app:layout_constraintEnd_toEndOf="@+id/me_phone_editText"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/me_country_code_editText"
-        app:layout_constraintTop_toBottomOf="@+id/me_country_code_editText" />
+        app:layout_constraintStart_toStartOf="@+id/me_phone_editText"
+        app:layout_constraintTop_toBottomOf="@+id/me_phone_editText" />
 
     <View
         android:id="@+id/me_separator"
@@ -183,9 +167,10 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
-        app:layout_constraintBottom_toTopOf="@+id/sign_out_button"
+        app:layout_constraintBottom_toTopOf="@+id/me_sign_out_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/me_listView" />
+        app:layout_constraintTop_toBottomOf="@+id/me_listView"
+        app:layout_constraintVertical_bias="0.19999999" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

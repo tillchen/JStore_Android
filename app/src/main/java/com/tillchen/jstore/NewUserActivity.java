@@ -94,6 +94,16 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
                 }
             }
         });
+
+        mEditTextCountryCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
         mEditTextPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
