@@ -46,6 +46,7 @@ public class MainActivity extends UtilityActivity {
 
 
     private boolean intentHasEmailLink(@Nullable Intent intent) {
+        Log.i(TAG, "intentHasEmailLink");
         if (intent != null && intent.getData() != null) {
             mIntentData = intent.getData().toString();
             if (mAuth.isSignInWithEmailLink(mIntentData)) {

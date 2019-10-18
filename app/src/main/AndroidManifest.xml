@@ -20,7 +20,16 @@
         android:theme="@style/AppTheme">
         <activity android:name=".PostDetailsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/PostDetailsTheme"/>
+            android:theme="@style/PostDetailsTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="https"
+                    android:host="jstore.xyz"
+                    android:pathPrefix="/posts"/>
+            </intent-filter>
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -50,7 +59,7 @@
                     android:scheme="https" />
 
                 <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
+
             </intent-filter>
         </activity>
         <activity

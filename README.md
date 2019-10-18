@@ -29,6 +29,7 @@ will be developed later.
 title, category, condition, description, price, and preferred payment options.
 * Seeing the list of items posted in the descending order of creation time.
 * Seeing the item's details, which also include two buttons (Email & WhatsApp) to contact the owner.
+* Opening the detail page of an item directly from a link.
 
 ## Miscellaneous
 

@@ -9,6 +9,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -94,9 +95,31 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
         mWhatsAppButton.setOnClickListener(this);
     }
 
+    private String checkIntent() {
+        Intent intent = getIntent();
+        Uri uri = intent.getData();
+        if (uri != null) {
+            if (uri.toString().contains("posts")) {
+                return uri.getLastPathSegment();
+            }
+            else {
+                return null;
+            }
+        }
+        else {
+            return null;
+        }
+    }
+
     private void getPostFromDB() {
         db = FirebaseFirestore.getInstance();
-        mPostID = getIntent().getStringExtra(UtilityActivity.POST_ID);
+        String result = checkIntent();
+        if (TextUtils.isEmpty(result)) {
+            mPostID = getIntent().getStringExtra(UtilityActivity.POST_ID);
+        }
+        else {
+            mPostID = result;
+        }
         ref = db.collection(UtilityActivity.COLLECTION_POSTS).document(mPostID);
         ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
