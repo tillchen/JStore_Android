@@ -254,10 +254,11 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[] {post.getOwnerId()}); // recipients
-        String title = "JStore: Interested Buyer for Your '" + post.getTitle() + "'";
+        String title = "[JStore] " + post.getTitle();
         intent.putExtra(Intent.EXTRA_SUBJECT, title);
-        String text = "Dear " + post.getOwnerName() + ",\n\n Hi! I'm interested in buying your '" +
-                post.getTitle() + "' from JStore.";
+        String text = "Dear " + post.getOwnerName() + ",\n\n Hi! I'm contacting you by clicking on the" +
+                " Email button of JStore. I'm interested in the following item:\nhttps://jstore.xyz/posts/"
+                + post.getPostId() + "\n\nSincerely,\n\n" + (user.isAnonymous() ? "" : mUser.getFullName());
         intent.putExtra(Intent.EXTRA_TEXT, text);
         PackageManager packageManager = getPackageManager();
         List<ResolveInfo> activities = packageManager.queryIntentActivities(intent,
@@ -273,8 +274,8 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
 
     private void textOnWhatsApp() {
         String text = "[JStore] " + post.getTitle() + "\n\nHi! I'm contacting you by clicking on the " +
-                "WhatsApp button of JStore. My name is " + (user.isAnonymous() ? "" : mUser.getFullName() +
-                ". And I'm interested in the following item:\nhttps://jstore.xyz/posts/"+post.getPostId()) ;
+                "WhatsApp button of JStore. My name is " + (user.isAnonymous() ? "" : mUser.getFullName()) +
+                " and I'm interested in the following item:\nhttps://jstore.xyz/posts/" + post.getPostId();
         String encodedText = Uri.encode(text);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/" + post.getPhoneNumber()
                 + "?text=" + encodedText));
