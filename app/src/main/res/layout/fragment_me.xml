@@ -22,31 +22,156 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sign_out"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="565dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/me_country_code_editText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/me_plus_sign_textView"
+        app:layout_constraintTop_toBottomOf="@+id/me_separator"
+        app:layout_constraintVertical_bias="0.8" />
 
-    <TextView
-        android:id="@+id/me_full_name_textView"
+    <EditText
+        android:id="@+id/me_full_name_editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/full_name"
+        android:ems="10"
+        android:hint="@string/full_name"
+        android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buy_toolbar"
-        app:layout_constraintVertical_bias="0.050000012" />
+        app:layout_constraintTop_toBottomOf="@+id/me_toolbar"
+        app:layout_constraintVertical_bias="0.029999971" />
 
-    <EditText
-        android:id="@+id/editText"
+    <TextView
+        android:id="@+id/me_contact_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="@+id/me_full_name_textView"
+        android:text="@string/preferred_way_of_contact"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/me_full_name_editText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/me_full_name_editText"
+        app:layout_constraintTop_toBottomOf="@+id/me_full_name_editText"
+        app:layout_constraintVertical_bias="0.029999971" />
+
+    <RadioGroup
+        android:id="@+id/me_radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/me_contact_textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toEndOf="@+id/me_full_name_textView"
-        app:layout_constraintTop_toTopOf="@+id/me_full_name_textView" />
+        app:layout_constraintStart_toEndOf="@+id/me_contact_textView"
+        app:layout_constraintTop_toTopOf="@+id/me_contact_textView">
+
+        <RadioButton
+            android:id="@+id/me_WhatsApp_radioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/WhatsApp" />
+
+        <RadioButton
+            android:id="@+id/me_email_radioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/email" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/me_country_code_editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:digits="0123456789"
+        android:ems="3"
+        android:hint="49"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/me_contact_textView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/me_contact_textView"
+        app:layout_constraintTop_toBottomOf="@+id/me_contact_textView"
+        app:layout_constraintVertical_bias="0.029999971" />
+
+    <TextView
+        android:id="@+id/me_plus_sign_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/plus_sign"
+        app:layout_constraintBottom_toBottomOf="@+id/me_country_code_editText"
+        app:layout_constraintEnd_toStartOf="@+id/me_country_code_editText"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/me_country_code_editText" />
+
+    <EditText
+        android:id="@+id/me_phone_editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:digits="0123456789"
+        android:ems="10"
+        android:hint="@string/phone_hint"
+        android:inputType="number"
+        android:maxLength="20"
+        app:layout_constraintBottom_toBottomOf="@+id/me_country_code_editText"
+        app:layout_constraintEnd_toEndOf="@+id/me_contact_textView"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toEndOf="@+id/me_country_code_editText"
+        app:layout_constraintTop_toTopOf="@+id/me_country_code_editText"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/me_member_since_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/member_since"
+        app:layout_constraintBottom_toBottomOf="@+id/me_full_name_editText"
+        app:layout_constraintEnd_toEndOf="@+id/me_radioGroup"
+        app:layout_constraintStart_toEndOf="@+id/me_full_name_editText"
+        app:layout_constraintTop_toTopOf="@+id/me_full_name_editText"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/me_date_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        app:layout_constraintBottom_toBottomOf="@+id/me_full_name_editText"
+        app:layout_constraintEnd_toEndOf="@+id/me_member_since_textView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/me_member_since_textView"
+        app:layout_constraintTop_toBottomOf="@+id/me_member_since_textView" />
+
+    <Button
+        android:id="@+id/me_save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="@+id/me_phone_editText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/me_phone_editText"
+        app:layout_constraintTop_toTopOf="@+id/me_phone_editText" />
+
+    <View
+        android:id="@+id/me_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/me_phone_editText"
+        app:layout_constraintVertical_bias="0.029999971" />
+
+    <ListView
+        android:layout_width="380dp"
+        android:layout_height="340dp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/sign_out_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/me_separator" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

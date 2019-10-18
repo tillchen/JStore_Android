@@ -80,4 +80,8 @@
     <string name="text_on_whatsapp">Text on WhatsApp</string>
     <string name="owner_email">Email:</string>
 
+    <string name="member_since">Member since: </string>
+    <string name="save">Save</string>
+    <string name="picture_of_me_item">Picture of Me Item</string>
+
 </resources>

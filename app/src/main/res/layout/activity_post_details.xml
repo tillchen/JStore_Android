@@ -13,7 +13,7 @@
         tools:context=".PostDetailsActivity">
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/post_details_separator"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"
@@ -262,7 +262,7 @@
             app:layout_constraintTop_toTopOf="@+id/post_details_email_textView" />
 
         <View
-            android:id="@+id/view2"
+            android:id="@+id/post_details_separator2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"
@@ -271,7 +271,7 @@
             tools:layout_editor_absoluteX="0dp" />
 
         <View
-            android:id="@+id/view3"
+            android:id="@+id/post_details_separator3"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="3dp"
@@ -281,7 +281,7 @@
             tools:layout_editor_absoluteX="-31dp" />
 
         <View
-            android:id="@+id/view4"
+            android:id="@+id/post_details_separator4"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"
