@@ -1,8 +1,10 @@
 package com.tillchen.jstore;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -34,7 +36,11 @@ public class UtilityActivity extends AppCompatActivity {
     }
 
     public void showSnackbar(String message) {
-        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+        View view = snackbar.getView();
+        TextView textView = view.findViewById(com.google.android.material.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+        snackbar.show();
     }
 
 }
