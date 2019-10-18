@@ -83,5 +83,8 @@
     <string name="member_since">Member since: </string>
     <string name="save">Save</string>
     <string name="picture_of_me_item">Picture of Me Item</string>
+    <string name="active_posts">Active Posts</string>
+    <string name="sold_items">Sold Items</string>
+    <string name="notification_settings">Notification Settings</string>
 
 </resources>

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -20,6 +21,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.tillchen.jstore.LoginActivity;
 import com.tillchen.jstore.R;
+import com.tillchen.jstore.models.MeItem;
+import com.tillchen.jstore.models.MeItemAdapter;
+
+import java.util.ArrayList;
 
 public class MeFragment extends Fragment {
 
@@ -29,6 +34,9 @@ public class MeFragment extends Fragment {
 
     private Toolbar mAnonymousToolbar;
     private Button mAnonymousSignOutButton;
+    private ListView mListView;
+
+    private MeItemAdapter mMeItemAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -42,11 +50,29 @@ public class MeFragment extends Fragment {
         }
         else {
             View root = inflater.inflate(R.layout.fragment_me, container, false);
+            findViews(root);
+            setData(root);
             return root;
         }
     }
 
-    private void setAnonymous(View root) {
+    private void findViews(@NonNull View root) {
+        mListView = root.findViewById(R.id.me_listView);
+    }
+
+    private void setData(View root) {
+        ArrayList<MeItem> arrayList = new ArrayList<MeItem>();
+        mMeItemAdapter = new MeItemAdapter(getActivity(), arrayList);
+        mListView.setAdapter(mMeItemAdapter);
+        MeItem meItem1 = new MeItem(getResources().getString(R.string.active_posts), R.drawable.posts);
+        MeItem meItem2 = new MeItem(getResources().getString(R.string.sold_items), R.drawable.euro);
+        MeItem meItem3 = new MeItem(getResources().getString(R.string.notification_settings), R.drawable.notifications);
+        mMeItemAdapter.add(meItem1);
+        mMeItemAdapter.add(meItem2);
+        mMeItemAdapter.add(meItem3);
+    }
+
+    private void setAnonymous(@NonNull View root) {
         mAnonymousToolbar = root.findViewById(R.id.anonymous_me_toolbar);
         mAnonymousSignOutButton = root.findViewById(R.id.anonymous_sign_out_button);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mAnonymousToolbar);
