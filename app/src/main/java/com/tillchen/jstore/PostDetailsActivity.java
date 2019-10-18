@@ -24,7 +24,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.tillchen.jstore.models.GlideApp;
 import com.tillchen.jstore.models.Post;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -200,7 +199,10 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void textOnWhatsApp() {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/" + post.getPhoneNumber()));
+        String text = "Hi! I'm interested in buying your '" + post.getTitle() + "' from JStore.";
+        String encodedText = Uri.encode(text);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/" + post.getPhoneNumber()
+                + "?text=" + encodedText));
         startActivity(intent);
     }
 
