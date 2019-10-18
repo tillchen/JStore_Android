@@ -12,6 +12,16 @@
         android:layout_height="match_parent"
         tools:context=".PostDetailsActivity">
 
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toTopOf="@+id/post_details_product_details_textView"
+            app:layout_constraintTop_toBottomOf="@+id/post_details_price_textView"
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_editor_absoluteX="0dp" />
+
         <ImageView
             android:id="@+id/post_details_imageView"
             android:layout_width="360dp"
@@ -28,6 +38,7 @@
             android:id="@+id/post_details_title_textView"
             android:layout_width="360dp"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -41,6 +52,7 @@
             android:id="@+id/post_details_price_textView"
             android:layout_width="360dp"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
             android:textSize="18sp"
             android:textStyle="bold|italic"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -54,6 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/product_details"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -68,6 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/category"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/post_details_owner_textView"
             app:layout_constraintHorizontal_bias="0.0"
@@ -90,6 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/condition"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/post_details_category_textView"
             app:layout_constraintHorizontal_bias="0.0"
@@ -112,6 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/posted_at"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/post_details_condition_textView"
             app:layout_constraintHorizontal_bias="0.0"
@@ -145,6 +161,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/preferred_payment_options"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/post_details_description_textView"
             app:layout_constraintHorizontal_bias="0.0"
@@ -168,6 +185,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/owner"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/post_details_product_details_textView"
             app:layout_constraintHorizontal_bias="0.0"
@@ -212,6 +230,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/description"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/post_details_date_textView"
             app:layout_constraintHorizontal_bias="0.0"
@@ -224,6 +243,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/owner_email"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/post_details_owner_name_textView"
             app:layout_constraintHorizontal_bias="0.0"
@@ -240,6 +260,34 @@
             app:layout_constraintHorizontal_bias="0.01"
             app:layout_constraintStart_toEndOf="@+id/post_details_email_textView"
             app:layout_constraintTop_toTopOf="@+id/post_details_email_textView" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/post_details_posted_at_textView"
+            app:layout_constraintTop_toTopOf="@+id/post_details_description_title_textView"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="3dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toTopOf="@+id/post_details_preferred_payment_options_textView"
+            app:layout_constraintTop_toBottomOf="@+id/post_details_description_textView"
+            tools:layout_editor_absoluteX="-31dp" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toTopOf="@+id/post_details_send_email_button"
+            app:layout_constraintTop_toBottomOf="@+id/post_details_payment_options_content_textView"
+            tools:layout_editor_absoluteX="-47dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

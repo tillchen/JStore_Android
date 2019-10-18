@@ -6,7 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="buttonStyle">@style/AppTheme.Button</item>
+        <item name="buttonStyle">@style/MyButton</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <style name="PostDetailsTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -14,12 +15,13 @@
         <item name="colorPrimaryDark">@android:color/white</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="buttonStyle">@style/AppTheme.Button</item>
+        <item name="buttonStyle">@style/MyButton</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
-    <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
-        <item name="colorButtonNormal">@color/colorAccent</item>
+    <style name="MyButton" parent="Widget.AppCompat.Button.Colored">
         <item name="android:textColor">@android:color/white</item>
+        <item name="colorButtonNormal">@color/colorPrimary</item>
     </style>
 
 </resources>
