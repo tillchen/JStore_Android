@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,9 +29,12 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
     RadioButton mRadioButton1; // WhatsApp
     RadioButton mRadioButton2; // Email
     Button mButton; // Start Using Button
-    EditText mEditTextPhone; // TODO: 3 Add prefix (+49) spinner
+    TextView mPlusSign;
+    EditText mEditTextCountryCode;
+    EditText mEditTextPhone;
     EditText mEditTextFullName;
     String mFullName; // the full name that the user entered
+    String mCountryCode;
     String mPhone; // the phone number that the user entered
     boolean isWhatsApp = false; // whether the user selected WhatsApp
     boolean isEmail = false; // whether the user selected Email
@@ -41,23 +45,46 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_details);
-        setSupportActionBar(toolbar);
-
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
+        findViews();
+
+        setVisible();
+
+        setListeners();
+
+        mEmail = mAuth.getCurrentUser().getEmail();
+    }
+
+    private void findViews() {
+        Toolbar toolbar = findViewById(R.id.toolbar_details);
+        setSupportActionBar(toolbar);
         mRadioButton1 = findViewById(R.id.WhatsApp_radioButton);
         mRadioButton2 = findViewById(R.id.email_radioButton);
         mButton = findViewById(R.id.start_button_1);
+        mPlusSign = findViewById(R.id.plus_sign_textView);
+        mEditTextCountryCode = findViewById(R.id.country_code_editText);
         mEditTextPhone = findViewById(R.id.phone_editText);
         mEditTextFullName = findViewById(R.id.full_name_editText);
+    }
 
+    private void setVisible() {
+        mPlusSign.setVisibility(View.VISIBLE);
+        mEditTextPhone.setVisibility(View.VISIBLE);
+        mEditTextCountryCode.setVisibility(View.VISIBLE);
+    }
+
+    private void setInvisible() {
+        mPlusSign.setVisibility(View.INVISIBLE);
+        mEditTextPhone.setVisibility(View.INVISIBLE);
+        mEditTextCountryCode.setVisibility(View.INVISIBLE);
+    }
+
+    private void setListeners() {
         mRadioButton1.setOnClickListener(this);
         mRadioButton2.setOnClickListener(this);
         mButton.setOnClickListener(this);
-
-        mEditTextPhone.setVisibility(View.VISIBLE);
 
         mEditTextFullName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -75,8 +102,6 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
                 }
             }
         });
-
-        mEmail = mAuth.getCurrentUser().getEmail();
     }
 
     @Override
@@ -84,20 +109,23 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.WhatsApp_radioButton:
                 if (((RadioButton) v).isChecked()) {
-                    mEditTextPhone.setVisibility(View.VISIBLE);
+                    setVisible();
                     isWhatsApp = true;
                     isEmail = false;
                 }
                 break;
+
             case R.id.email_radioButton:
                 if (((RadioButton) v).isChecked()) {
-                    mEditTextPhone.setVisibility(View.INVISIBLE);
+                    setInvisible();
                     isWhatsApp = false;
                     isEmail = true;
                 }
                 break;
+
             case R.id.start_button_1:
                 mFullName = mEditTextFullName.getText().toString();
+                mCountryCode = mEditTextCountryCode.getText().toString();
                 mPhone = mEditTextPhone.getText().toString();
 
                 hideKeyboard(mEditTextFullName);
@@ -105,6 +133,11 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
 
                 if (TextUtils.isEmpty(mFullName)) {
                     mEditTextFullName.setError("Full Name can't be empty.");
+                    return;
+                }
+
+                if (isWhatsApp && TextUtils.isEmpty(mCountryCode)) {
+                    mEditTextCountryCode.setError("Country code can't be empty.");
                     return;
                 }
 
@@ -118,7 +151,7 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
                     return;
                 }
 
-                User user = new User(mFullName, isWhatsApp, mPhone, mEmail);
+                User user = new User(mFullName, isWhatsApp, mCountryCode + mPhone, mEmail);
                 db.collection(COLLECTION_USERS).document(mEmail).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

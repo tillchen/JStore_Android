@@ -93,12 +93,11 @@
         android:hint="@string/phone_hint"
         android:inputType="number"
         android:maxLength="20"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/radioGroup"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/radioGroup"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
-        app:layout_constraintVertical_bias="0.050000012" />
+        app:layout_constraintBottom_toBottomOf="@+id/country_code_editText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toEndOf="@+id/country_code_editText"
+        app:layout_constraintTop_toTopOf="@+id/country_code_editText" />
 
     <Button
         android:id="@+id/start_button_1"
@@ -108,7 +107,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/phone_editText"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/phone_editText"
+        app:layout_constraintStart_toEndOf="@+id/plus_sign_textView"
         app:layout_constraintTop_toBottomOf="@+id/phone_editText"
         app:layout_constraintVertical_bias="0.050000012" />
 
@@ -117,11 +116,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/plus_sign"
-        app:layout_constraintBottom_toBottomOf="@+id/phone_editText"
-        app:layout_constraintEnd_toStartOf="@+id/phone_editText"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintBottom_toBottomOf="@+id/country_code_editText"
+        app:layout_constraintEnd_toStartOf="@+id/country_code_editText"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/phone_editText" />
+        app:layout_constraintTop_toTopOf="@+id/country_code_editText" />
+
+    <EditText
+        android:id="@+id/country_code_editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:digits="0123456789"
+        android:ems="3"
+        android:hint="49"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/radioGroup"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintVertical_bias="0.050000012" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
