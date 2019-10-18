@@ -28,6 +28,7 @@ will be developed later.
 * Posting items with a picture (from gallery or taking a photo inside the app),
 title, category, condition, description, price, and preferred payment options.
 * Seeing the list of items posted in the descending order of creation time.
+* Seeing the item's details, which also include two buttons (Email & WhatsApp) to contact the owner.
 
 ## Miscellaneous
 
