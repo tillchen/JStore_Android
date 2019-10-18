@@ -144,16 +144,16 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
     private void handlePaymentOptions() {
         ArrayList<String> arrayList = post.getPaymentOptions();
         if (arrayList.contains(UtilityActivity.CASH)) {
-            mPaymentOptions += CASH;
+            mPaymentOptions += CASH + "    ";
         }
         if (arrayList.contains((UtilityActivity.BANK_TRANSFER))) {
-            mPaymentOptions += BANK_TRANSFER;
+            mPaymentOptions += BANK_TRANSFER + "    ";
         }
         if (arrayList.contains(UtilityActivity.PAYPAL)) {
-            mPaymentOptions += PAYPAL;
+            mPaymentOptions += PAYPAL + "    ";
         }
         if (arrayList.contains((UtilityActivity.MEAL_PLAN))) {
-            mPaymentOptions += MEAL_PLAN;
+            mPaymentOptions += MEAL_PLAN + "    ";
         }
     }
 
