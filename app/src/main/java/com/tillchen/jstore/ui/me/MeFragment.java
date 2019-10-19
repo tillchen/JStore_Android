@@ -1,5 +1,6 @@
 package com.tillchen.jstore.ui.me;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -261,16 +263,41 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                         });
                 break;
             case R.id.me_sign_out_button:
-                Log.i(TAG, "SignOutButton clicked. Signing out.");
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                Log.i(TAG, "starting LoginActivity");
-                startActivity(intent);
-                getActivity().finish();
+                Log.i(TAG, "SignOutButton clicked.");
+                showConfirmationDialog();
             default:
                 break;
         }
+    }
+
+    private void showConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.are_you_sure_sign_out);
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                signOut();
+            }
+        }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // nothing
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+    }
+
+    private void signOut() {
+        Log.i(TAG, "signOut");
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        Log.i(TAG, "starting LoginActivity");
+        startActivity(intent);
+        getActivity().finish();
     }
 
     private void setAnonymous(@NonNull View root) {
@@ -280,15 +307,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mAnonymousSignOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "AnonymousSignOutButton clicked. Signing out.");
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                Log.i(TAG, "starting LoginActivity");
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });
+                Log.i(TAG, "AnonymousSignOutButton clicked.");
+            showConfirmationDialog();
+        }});
     }
 
     private void showSnackbar(String message) {
