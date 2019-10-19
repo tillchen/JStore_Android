@@ -8,7 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +37,7 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
     private Button mAnonymousSignInButton;
     private EditText mEmailEditText;
     private ProgressBar mLoginProgressBar;
+    private TextView mFooter;
 
     private String mUsername; // the username that the user entered
     private String mEmail; // the final email address
@@ -85,6 +88,8 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
                 }
             }
         });
+        mFooter = findViewById(R.id.footer_textView);
+        mFooter.setMovementMethod(LinkMovementMethod.getInstance());
         // TODO: 2 Disable anonymous button when text is entered (onTextChanged)
 
     }

@@ -55,6 +55,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.FileSystemException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -408,6 +409,9 @@ public class SellFragment extends Fragment implements View.OnClickListener {
             }
 
             ByteArrayOutputStream out = new ByteArrayOutputStream();
+            if (out.size() > 10000000) {
+                throw new Exception("File too large!");
+            }
             bitmap.compress(Bitmap.CompressFormat.JPEG, 25, out);
             data = out.toByteArray();
         }
@@ -418,6 +422,10 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         catch (IOException iex) {
             Log.e(TAG, "uploadImage error occurred: ", iex);
             showSnackbar("Error: Something went wrong. Please choose another photo.");
+        }
+        catch (Exception ex) {
+            Log.e(TAG, "File too large for uploading");
+            showSnackbar("Sorry. Your file is too large to upload.");
         }
 
         if (data.length == 0) {

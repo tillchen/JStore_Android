@@ -101,5 +101,8 @@
 
     <string name="jstore_title">JStore: A Marketplace for Jacobs University Bremen</string>
 
+    <string name="footer">Made with &#10084; by <a href="mailto:tillchen417@gmail.com">Tianyao Chen</a>
+        and <a href="mailto:taiyrbegeyev@gmail.com">Taiyr Begeyev</a> </string>
+
 
 </resources>

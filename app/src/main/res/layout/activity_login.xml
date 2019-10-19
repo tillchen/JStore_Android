@@ -116,4 +116,14 @@
         app:layout_constraintTop_toTopOf="@+id/toolbar_details"
         app:srcCompat="@drawable/jstore_icon" />
 
+    <TextView
+        android:id="@+id/footer_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/footer"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintBottom_toBottomOf="@+id/login_progressBar"
+        app:layout_constraintEnd_toEndOf="@+id/jacobs_email_textview"
+        app:layout_constraintStart_toStartOf="@+id/email_editText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
