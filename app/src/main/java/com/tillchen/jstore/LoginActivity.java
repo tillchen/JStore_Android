@@ -42,6 +42,7 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
     private SharedPreferences.Editor mEditor;
     private String mPendingUsername; // the pending username that's refilled in EditText
     private String mIntentData; // contains the sign-in link
+    private boolean validUserName = false;
 
 
     @Override
@@ -164,6 +165,10 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
 
         handlePendingUsername();
 
+        if (!validUserName) {
+            return;
+        }
+
         mLoginProgressBar.setVisibility(View.VISIBLE);
 
         mAuth.signInWithEmailLink(mEmail, mIntentData).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -225,24 +230,29 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
     }
 
     private void handleUsername() {
-        // TODO: 3 Add a button to Snackbar that opens OutLook
         mUsername = mEmailEditText.getText().toString();
         if (TextUtils.isEmpty(mUsername)) {
             Log.i(TAG, "handleUsername: empty input");
             mEmailEditText.setError("Please enter your Jacobs username, (e.g. ti.chen).");
+            showSnackbar("Please enter your Jacobs username, (e.g. ti.chen).");
+            validUserName = false;
             return;
         }
         if (!validateUsername(mUsername)) {
             Log.i(TAG, "handleUsername: illegal input");
             mEmailEditText.setError("Your Jacobs username must contain a dot and no space, (e.g. ti.chen).");
+            showSnackbar("Your Jacobs username must contain a dot and no space, (e.g. ti.chen).");
+            validUserName = false;
             return;
         }
         if (ADMIN.equals(mUsername)) { // admin
             Log.i(TAG, "handleUsername: entering admin mode");
             mEmail = mUsername;
+            validUserName = true;
         }
         else {
             mEmail = mUsername + "@jacobs-university.de";
+            validUserName = true;
         }
     }
 
@@ -250,12 +260,14 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
         if (ADMIN.equals(mPendingUsername)) { // admin
             Log.i(TAG, "handlePendingUsername: entering admin mode");
             mEmail = mPendingUsername;
+            validUserName = true;
         }
         else if (TextUtils.isEmpty(mPendingUsername)){
             handleUsername();
         }
         else {
             mEmail = mPendingUsername + "@jacobs-university.de";
+            validUserName = true;
         }
     }
 

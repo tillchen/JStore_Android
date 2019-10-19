@@ -20,7 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,7 +32,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.tillchen.jstore.LoginActivity;
 import com.tillchen.jstore.MainActivity;
-import com.tillchen.jstore.NewUserActivity;
 import com.tillchen.jstore.R;
 import com.tillchen.jstore.models.MeItem;
 import com.tillchen.jstore.models.MeItemAdapter;
@@ -264,6 +262,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 Log.i(TAG, "starting LoginActivity");
                 startActivity(intent);
+                getActivity().finish();
             default:
                 break;
         }
@@ -282,6 +281,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 Log.i(TAG, "starting LoginActivity");
                 startActivity(intent);
+                getActivity().finish();
             }
         });
     }
