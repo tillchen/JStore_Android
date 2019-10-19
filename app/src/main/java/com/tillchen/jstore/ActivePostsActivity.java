@@ -142,19 +142,4 @@ public class ActivePostsActivity extends UtilityActivity {
         });
     }
 
-    private void updateSoldDate() {
-        /*
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("soldDate", FieldValue.serverTimestamp());
-
-        db.collection(UtilityActivity.COLLECTION_POSTS).document("3cc42094-3728-4250-aafa-340b007dec4f")
-                .update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-
-            }
-        });
-        */
-    }
-
 }

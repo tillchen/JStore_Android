@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.tillchen.jstore.models.GlideApp;
@@ -31,12 +32,12 @@ import com.tillchen.jstore.models.Post;
 import com.tillchen.jstore.models.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
-public class PostDetailsActivity extends AppCompatActivity implements View.OnClickListener {
-
-    // TODO: 0 Different functions if the user is the owner
+public class PostDetailsActivity extends UtilityActivity implements View.OnClickListener {
 
     private static final String TAG = "PostDetailsActivity";
 
@@ -64,6 +65,8 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
     private Button mEmailButton;
     private Button mWhatsAppButton;
     private ProgressBar mProgressBar;
+    private Button mMarkAsSoldButton;
+    private Button mDeletePostButton;
 
     private String mPostID;
     private String mPaymentOptions = "";
@@ -108,9 +111,27 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
         mWhatsAppButton = findViewById(R.id.post_details_whatsapp_button);
         mProgressBar = findViewById(R.id.post_details_progressBar);
         mProgressBar.setVisibility(View.GONE);
+        mMarkAsSoldButton = findViewById(R.id.post_details_mark_as_sold_button);
+        mDeletePostButton = findViewById(R.id.post_details_delete_post_button);
 
         mEmailButton.setOnClickListener(this);
         mWhatsAppButton.setOnClickListener(this);
+        mMarkAsSoldButton.setOnClickListener(this);
+        mDeletePostButton.setOnClickListener(this);
+    }
+
+    private void setOwnerVisibility() {
+        mMarkAsSoldButton.setVisibility(View.VISIBLE);
+        mDeletePostButton.setVisibility(View.VISIBLE);
+        mEmailButton.setVisibility(View.GONE);
+        mWhatsAppButton.setVisibility(View.GONE);
+    }
+
+    private void setNonOwnerVisibility() {
+        mMarkAsSoldButton.setVisibility(View.GONE);
+        mDeletePostButton.setVisibility(View.GONE);
+        mEmailButton.setVisibility(View.VISIBLE);
+        mWhatsAppButton.setVisibility(View.VISIBLE);
     }
 
     private String checkIntent() {
@@ -210,6 +231,17 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
         else {
             mWhatsAppButton.setVisibility(View.INVISIBLE);
         }
+        if (user.isAnonymous()) {
+            setNonOwnerVisibility();
+        }
+        else {
+            if (post.getOwnerId().equals(user.getEmail())) {
+                setOwnerVisibility();
+            }
+            else {
+                setNonOwnerVisibility();
+            }
+        }
     }
 
     private void handlePaymentOptions() {
@@ -253,6 +285,10 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
 
                 break;
 
+            case R.id.post_details_mark_as_sold_button:
+
+                updateSold();
+
             default:
                 break;
         }
@@ -290,12 +326,27 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
         startActivity(intent);
     }
 
+    private void updateSold() {
+        Map<String, Object> updates = new HashMap<>();
+        updates.put(SOLD, true);
+        updates.put(SOLD_DATE, FieldValue.serverTimestamp());
 
-    public void showSnackbar(String message) {
-        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
-        View view = snackbar.getView();
-        TextView textView = view.findViewById(com.google.android.material.R.id.snackbar_text);
-        textView.setTextColor(Color.WHITE);
-        snackbar.show();
+        mProgressBar.setVisibility(View.VISIBLE);
+        db.collection(UtilityActivity.COLLECTION_POSTS).document(post.getPostId())
+                .update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                mProgressBar.setVisibility(View.GONE);
+                if (task.isSuccessful()) {
+                    Log.i(TAG, "updateSold succeeded: " + post.getPostId());
+                    showSnackbar("Marked as Sold!");
+                }
+                else {
+                    Log.e(TAG, "updateSold failed: ", task.getException());
+                    showSnackbar("Something went wrong. Please try again.");
+                }
+            }
+        });
     }
+
 }

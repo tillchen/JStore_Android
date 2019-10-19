@@ -51,7 +51,7 @@ public class SoldItemsActivity extends UtilityActivity {
         mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
                 .whereEqualTo(SOLD, true)
                 .whereEqualTo(OWNER_ID, user.getEmail())
-                .orderBy(CREATION_DATE, Query.Direction.DESCENDING);
+                .orderBy(SOLD_DATE, Query.Direction.DESCENDING);
 
         setUpAdapter();
 

@@ -87,4 +87,8 @@
     <string name="sold_items">Sold Items</string>
     <string name="notification_settings">Notification Settings</string>
 
+
+    <string name="mark_as_sold">Mark As Sold</string>
+    <string name="delete_post">Delete Post</string>
+
 </resources>
