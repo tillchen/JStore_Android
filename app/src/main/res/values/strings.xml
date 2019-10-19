@@ -90,5 +90,9 @@
 
     <string name="mark_as_sold">Mark As Sold</string>
     <string name="delete_post">Delete Post</string>
-
+    <string name="are_you_sure_mark_as_sold">Are you sure you want to mark this item as sold?</string>
+    <string name="irreversible">This action is irreversible.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="are_you_sure_delete">Are you sure you want to delete this post?</string>
 </resources>

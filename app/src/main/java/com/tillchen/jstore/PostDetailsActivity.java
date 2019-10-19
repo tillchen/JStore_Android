@@ -1,11 +1,13 @@
 package com.tillchen.jstore;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -289,11 +291,15 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
 
             case R.id.post_details_mark_as_sold_button:
 
-                updateSold();
+                onSoldClicked();
 
-            case  R.id.post_details_delete_post_button:
+                break;
 
-                deletePost();
+            case R.id.post_details_delete_post_button:
+
+                onDeleteClicked();
+
+                break;
 
             default:
                 break;
@@ -332,8 +338,28 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
         startActivity(intent);
     }
 
+    private void onSoldClicked() {
+        Log.i(TAG, "onSoldClicked");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.are_you_sure_mark_as_sold);
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                updateSold();
+            }
+        }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // nothing
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+    }
+
     private void updateSold() { // TODO: 0 Change buttons and add sold date to details and list
-        // TODO: 0 Add Confirmation
         Map<String, Object> updates = new HashMap<>();
         updates.put(SOLD, true);
         updates.put(SOLD_DATE, FieldValue.serverTimestamp());
@@ -347,6 +373,7 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
                 if (task.isSuccessful()) {
                     Log.i(TAG, "updateSold succeeded: " + post.getPostId());
                     showSnackbar("Marked as Sold!");
+                    finish();
                 }
                 else {
                     Log.e(TAG, "updateSold failed: ", task.getException());
@@ -356,15 +383,35 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
         });
     }
 
+    private void onDeleteClicked() {
+        Log.i(TAG, "onDeleteClicked");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.are_you_sure_delete).setMessage(R.string.irreversible);
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                deletePost();
+            }
+        }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // nothing
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+    }
 
     private void deletePost() {
-        // TODO: 0 Add Confirmation
         mProgressBar.setVisibility(View.VISIBLE);
         db.collection(COLLECTION_POSTS).document(post.getPostId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 mProgressBar.setVisibility(View.GONE);
                 Log.i(TAG, "deletePost succeeded: " + post.getPostId());
+                showSnackbar("Deleted!");
                 finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
