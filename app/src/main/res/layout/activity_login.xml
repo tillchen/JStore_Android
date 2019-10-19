@@ -7,7 +7,8 @@
     tools:context=".LoginActivity"
     android:clickable="true"
     android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:background="@android:color/white">
 
     <Button
         android:id="@+id/signin_button"
@@ -34,9 +35,9 @@
 
     <TextView
         android:id="@+id/JStore_textView"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
+        android:text="@string/jstore_title"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -104,5 +105,15 @@
         app:layout_constraintBottom_toTopOf="@+id/email_editText"
         app:layout_constraintEnd_toEndOf="@+id/jacobs_email_textview"
         app:layout_constraintStart_toStartOf="@+id/email_editText" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_details"
+        app:srcCompat="@drawable/jstore_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
