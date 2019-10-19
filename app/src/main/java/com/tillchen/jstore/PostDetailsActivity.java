@@ -18,6 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -289,6 +291,10 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
 
                 updateSold();
 
+            case  R.id.post_details_delete_post_button:
+
+                deletePost();
+
             default:
                 break;
         }
@@ -326,13 +332,14 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
         startActivity(intent);
     }
 
-    private void updateSold() {
+    private void updateSold() { // TODO: 0 Change buttons and add sold date to details and list
+        // TODO: 0 Add Confirmation
         Map<String, Object> updates = new HashMap<>();
         updates.put(SOLD, true);
         updates.put(SOLD_DATE, FieldValue.serverTimestamp());
 
         mProgressBar.setVisibility(View.VISIBLE);
-        db.collection(UtilityActivity.COLLECTION_POSTS).document(post.getPostId())
+        db.collection(COLLECTION_POSTS).document(post.getPostId())
                 .update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -349,4 +356,23 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
         });
     }
 
+
+    private void deletePost() {
+        // TODO: 0 Add Confirmation
+        mProgressBar.setVisibility(View.VISIBLE);
+        db.collection(COLLECTION_POSTS).document(post.getPostId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                mProgressBar.setVisibility(View.GONE);
+                Log.i(TAG, "deletePost succeeded: " + post.getPostId());
+                finish();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "deletePost failed: " + post.getPostId(), e);
+                showSnackbar("Something went wrong. Please try again.");
+            }
+        });
+    }
 }
