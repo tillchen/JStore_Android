@@ -427,13 +427,31 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
             public void onSuccess(Void aVoid) {
                 mProgressBar.setVisibility(View.GONE);
                 Log.i(TAG, "deletePost succeeded: " + post.getPostId());
+                deletePicture();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "deletePost failed: " + post.getPostId(), e);
+                showSnackbar("Something went wrong. Please try again.");
+            }
+        });
+    }
+
+    private void deletePicture() {
+        storage.getReference().child("posts").child(post.getPostId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.i(TAG, "deletePicture succeeded: " + post.getPostId());
+                mProgressBar.setVisibility(View.GONE);
                 showSnackbar("Deleted!");
                 finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.e(TAG, "deletePost failed: " + post.getPostId(), e);
+                Log.e(TAG, "deletePicture failed: " + post.getPostId());
+                mProgressBar.setVisibility(View.GONE);
                 showSnackbar("Something went wrong. Please try again.");
             }
         });
