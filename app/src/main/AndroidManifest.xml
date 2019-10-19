@@ -18,16 +18,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PostDetailsActivity"
+        <activity android:name=".ActivePostsActivity"></activity>
+        <activity
+            android:name=".PostDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/PostDetailsTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="https"
+
+                <data
                     android:host="jstore.xyz"
-                    android:pathPrefix="/posts"/>
+                    android:pathPrefix="/posts"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
 
@@ -59,7 +64,6 @@
                     android:scheme="https" />
 
                 <category android:name="android.intent.category.BROWSABLE" />
-
             </intent-filter>
         </activity>
         <activity

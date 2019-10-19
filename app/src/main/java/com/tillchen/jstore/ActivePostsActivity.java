@@ -1,44 +1,35 @@
-package com.tillchen.jstore.ui.buy;
-
-import android.graphics.Color;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+package com.tillchen.jstore;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.firebase.ui.firestore.paging.FirestorePagingOptions;
-import com.firebase.ui.firestore.paging.LoadingState;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
-
-import com.tillchen.jstore.R;
-import com.tillchen.jstore.UtilityActivity;
+import com.firebase.ui.firestore.paging.FirestorePagingOptions;
+import com.firebase.ui.firestore.paging.LoadingState;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.tillchen.jstore.models.Post;
 import com.tillchen.jstore.models.PostViewHolder;
 
-import java.util.HashMap;
-import java.util.Map;
+public class ActivePostsActivity extends UtilityActivity {
 
-public class BuyFragment extends Fragment {
+    private static final String TAG = "ActivePostsActivity";
 
-    private static final String TAG = "BuyFragment";
-
+    private FirebaseUser user;
     private FirebaseFirestore db;
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
@@ -46,27 +37,27 @@ public class BuyFragment extends Fragment {
     private Query mQuery;
     private FirestorePagingAdapter mAdapter;
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_active_posts);
+        mToolbar = findViewById(R.id.active_posts_toolbar);
+        setSupportActionBar(mToolbar);
+        mRecyclerView = findViewById(R.id.active_posts_recyclerView);
+        mSwipeRefreshLayout = findViewById(R.id.active_posts_SwipteRefreshLayout);
 
-        View root = inflater.inflate(R.layout.fragment_buy, container, false);
-
-        mToolbar = root.findViewById(R.id.buy_toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-        mRecyclerView = root.findViewById(R.id.buy_recyclerView);
-        mSwipeRefreshLayout = root.findViewById(R.id.buy_SwipteRefreshLayout);
-
+        user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
         mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
-                .whereEqualTo(UtilityActivity.SOLD, false)
-                .orderBy(UtilityActivity.CREATION_DATE, Query.Direction.DESCENDING);
+                .whereEqualTo(SOLD, false)
+                .whereEqualTo(OWNER_ID, user.getEmail())
+                .orderBy(CREATION_DATE, Query.Direction.DESCENDING);
 
         setUpAdapter();
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(),
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL);
         mRecyclerView.addItemDecoration(dividerItemDecoration);
-
-        return root;
     }
 
     @Override
@@ -139,7 +130,7 @@ public class BuyFragment extends Fragment {
 
         };
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
 
         // Refresh Action on Swipe Refresh Layout
@@ -151,12 +142,19 @@ public class BuyFragment extends Fragment {
         });
     }
 
+    private void updateSoldDate() {
+        /*
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("soldDate", FieldValue.serverTimestamp());
 
-    private void showSnackbar(String message) {
-        Snackbar snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
-        View view = snackbar.getView();
-        TextView textView = view.findViewById(com.google.android.material.R.id.snackbar_text);
-        textView.setTextColor(Color.WHITE);
-        snackbar.show();
+        db.collection(UtilityActivity.COLLECTION_POSTS).document("3cc42094-3728-4250-aafa-340b007dec4f")
+                .update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        });
+        */
     }
+
 }
