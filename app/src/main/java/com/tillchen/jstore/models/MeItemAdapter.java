@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 
 import com.tillchen.jstore.ActivePostsActivity;
 import com.tillchen.jstore.R;
+import com.tillchen.jstore.SoldItemsActivity;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,8 @@ public class MeItemAdapter extends ArrayAdapter<MeItem> {
                         getContext().startActivity(intent);
                         break;
                     case SOLD_ITEMS:
+                        Intent intent1 = new Intent(getContext(), SoldItemsActivity.class);
+                        getContext().startActivity(intent1);
                         break;
                     case NOTIFICATION_SETTINGS:
                         break;
