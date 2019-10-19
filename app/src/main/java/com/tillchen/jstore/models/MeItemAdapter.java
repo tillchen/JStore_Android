@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -50,7 +51,8 @@ public class MeItemAdapter extends ArrayAdapter<MeItem> {
                         Intent intent1 = new Intent(getContext(), SoldItemsActivity.class);
                         getContext().startActivity(intent1);
                         break;
-                    case NOTIFICATION_SETTINGS:
+                    case NOTIFICATION_SETTINGS: // TODO: 0
+                        Toast.makeText(getContext(), "Feature Coming Soon", Toast.LENGTH_LONG).show();
                         break;
                     default:
                         break;
