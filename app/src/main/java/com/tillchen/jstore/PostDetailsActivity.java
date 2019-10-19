@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,6 +63,7 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
     private TextView mPaymentOptionsTextView;
     private Button mEmailButton;
     private Button mWhatsAppButton;
+    private ProgressBar mProgressBar;
 
     private String mPostID;
     private String mPaymentOptions = "";
@@ -104,6 +106,8 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
         mPaymentOptionsTextView = findViewById(R.id.post_details_payment_options_content_textView);
         mEmailButton = findViewById(R.id.post_details_send_email_button);
         mWhatsAppButton = findViewById(R.id.post_details_whatsapp_button);
+        mProgressBar = findViewById(R.id.post_details_progressBar);
+        mProgressBar.setVisibility(View.GONE);
 
         mEmailButton.setOnClickListener(this);
         mWhatsAppButton.setOnClickListener(this);
@@ -135,9 +139,11 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
             mPostID = result;
         }
         ref = db.collection(UtilityActivity.COLLECTION_POSTS).document(mPostID);
+        mProgressBar.setVisibility(View.VISIBLE);
         ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                mProgressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
@@ -158,10 +164,12 @@ public class PostDetailsActivity extends AppCompatActivity implements View.OnCli
     }
 
     private  void getUserFromDB() {
+        mProgressBar.setVisibility(View.VISIBLE);
         db.collection(UtilityActivity.COLLECTION_USERS).document(user.getEmail()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                mProgressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {

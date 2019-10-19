@@ -59,6 +59,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private Button mSaveButton;
     private Button mSignOutButton;
     private ProgressBar mProgressBar;
+    private ProgressBar mProgressBar2;
 
     private ListView mListView;
 
@@ -103,12 +104,16 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mSignOutButton = root.findViewById(R.id.me_sign_out_button);
         mProgressBar = root.findViewById(R.id.me_progressBar);
         mProgressBar.setVisibility(View.INVISIBLE);
+        mProgressBar2 = root.findViewById(R.id.me_progressBar2);
+        mProgressBar2.setVisibility(View.GONE);
     }
 
     private void getUserFromDB() {
+        mProgressBar2.setVisibility(View.VISIBLE);
         db.collection(COLLECTION_USERS).document(user.getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                mProgressBar2.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
