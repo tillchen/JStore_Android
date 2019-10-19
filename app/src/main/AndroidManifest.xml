@@ -18,8 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SoldItemsActivity" />
-        <activity android:name=".ActivePostsActivity" />
+        <activity android:name=".SoldItemsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ActivePostsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".PostDetailsActivity"
             android:screenOrientation="portrait"

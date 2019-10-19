@@ -18,9 +18,10 @@
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"
             app:layout_constraintBottom_toTopOf="@+id/post_details_product_details_textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/post_details_price_textView"
-            app:layout_constraintVertical_bias="1.0"
-            tools:layout_editor_absoluteX="0dp" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageView
             android:id="@+id/post_details_imageView"
@@ -167,7 +168,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/post_details_description_textView"
             app:layout_constraintTop_toBottomOf="@+id/post_details_description_textView"
-            app:layout_constraintVertical_bias="0.029999971" />
+            app:layout_constraintVertical_bias="0.06999999" />
 
         <TextView
             android:id="@+id/post_details_payment_options_content_textView"
@@ -254,11 +255,11 @@
             android:text="@string/description"
             android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/post_details_date_textView"
+            app:layout_constraintEnd_toEndOf="@+id/post_details_sold_at_textView"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/post_details_posted_at_textView"
-            app:layout_constraintTop_toBottomOf="@+id/post_details_posted_at_textView"
-            app:layout_constraintVertical_bias="0.029999971" />
+            app:layout_constraintStart_toStartOf="@+id/post_details_sold_at_textView"
+            app:layout_constraintTop_toBottomOf="@+id/post_details_sold_at_textView"
+            app:layout_constraintVertical_bias="0.06999999" />
 
         <TextView
             android:id="@+id/post_details_email_textView"
@@ -288,9 +289,10 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"
-            app:layout_constraintBottom_toBottomOf="@+id/post_details_posted_at_textView"
-            app:layout_constraintTop_toTopOf="@+id/post_details_description_title_textView"
-            tools:layout_editor_absoluteX="0dp" />
+            app:layout_constraintBottom_toTopOf="@+id/post_details_description_title_textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/post_details_sold_at_textView" />
 
         <View
             android:id="@+id/post_details_separator3"
@@ -321,6 +323,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.050000012" />
+
+        <TextView
+            android:id="@+id/post_details_sold_at_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/sold_at"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/post_details_date_textView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/post_details_posted_at_textView"
+            app:layout_constraintTop_toBottomOf="@+id/post_details_posted_at_textView"
+            app:layout_constraintVertical_bias="0.01" />
+
+        <TextView
+            android:id="@+id/post_details_sold_at_content_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/post_details_sold_at_textView"
+            app:layout_constraintEnd_toEndOf="@+id/post_details_price_textView"
+            app:layout_constraintHorizontal_bias="0.01"
+            app:layout_constraintStart_toEndOf="@+id/post_details_sold_at_textView"
+            app:layout_constraintTop_toTopOf="@+id/post_details_sold_at_textView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

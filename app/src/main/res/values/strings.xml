@@ -34,6 +34,7 @@
     <string name="condition">Condition:</string>
     <string name="posted_at">Posted at&#160;</string>
     <string name="by">by&#160;</string>
+    <string name="sold_at">Sold at&#160;</string>
     <string name="owner">Owner: </string>
     <string-array name="category_array">
         <item>Apparel, Shoes &amp; Watches</item>

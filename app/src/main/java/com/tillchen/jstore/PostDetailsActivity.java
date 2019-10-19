@@ -66,6 +66,8 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
     private TextView mDateTextView;
     private TextView mDescriptionTextView;
     private TextView mPaymentOptionsTextView;
+    private TextView mSoldAtTextView;
+    private TextView mSoldAtContentTextView;
     private Button mEmailButton;
     private Button mWhatsAppButton;
     private ProgressBar mProgressBar;
@@ -117,6 +119,8 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
         mProgressBar.setVisibility(View.GONE);
         mMarkAsSoldButton = findViewById(R.id.post_details_mark_as_sold_button);
         mDeletePostButton = findViewById(R.id.post_details_delete_post_button);
+        mSoldAtTextView = findViewById(R.id.post_details_sold_at_textView);
+        mSoldAtContentTextView = findViewById(R.id.post_details_sold_at_content_textView);
 
         mEmailButton.setOnClickListener(this);
         mWhatsAppButton.setOnClickListener(this);
@@ -125,6 +129,9 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
     }
 
     private void setOwnerVisibility() {
+        if (post.isSold()) {
+            mMarkAsSoldButton.setEnabled(false);
+        }
         mMarkAsSoldButton.setVisibility(View.VISIBLE);
         mDeletePostButton.setVisibility(View.VISIBLE);
         mEmailButton.setVisibility(View.GONE);
@@ -229,6 +236,15 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
         mDescriptionTextView.setText(post.getDescription());
         handlePaymentOptions();
         mPaymentOptionsTextView.setText(mPaymentOptions);
+        if (post.isSold()) {
+            mSoldAtTextView.setVisibility(View.VISIBLE);
+            mSoldAtContentTextView.setVisibility(View.VISIBLE);
+            mSoldAtContentTextView.setText(post.getSoldDate().toString().replaceAll("GMT.02:00 ", "").substring(4));
+        }
+        else {
+            mSoldAtTextView.setVisibility(View.INVISIBLE);
+            mSoldAtContentTextView.setVisibility(View.INVISIBLE);
+        }
         if (post.isWhatsApp()) {
             mWhatsAppButton.setVisibility(View.VISIBLE);
         }

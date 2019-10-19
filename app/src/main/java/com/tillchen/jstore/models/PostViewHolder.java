@@ -29,6 +29,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     private TextView mItemPriceTextView;
     private TextView mItemCategoryTextView;
     private TextView mItemPostDateTextView;
+    private TextView mItemSoldDateTextView;
 
     public PostViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -38,6 +39,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         mItemPriceTextView = itemView.findViewById(R.id.item_price_textView);
         mItemCategoryTextView = itemView.findViewById(R.id.item_category_textView);
         mItemPostDateTextView = itemView.findViewById(R.id.item_post_date_textView);
+        mItemSoldDateTextView = itemView.findViewById(R.id.item_sold_at_textView);
     }
 
     public void bind(Post post) {
@@ -48,6 +50,14 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         mItemCategoryTextView.setText(post.getCategory());
         mItemPostDateTextView.setText(itemView.getContext().getResources().getString(R.string.posted_at)+
                 post.getCreationDate().toString().replaceAll("GMT.02:00 ", "").substring(4));
+        if (post.isSold()) {
+            mItemSoldDateTextView.setVisibility(View.VISIBLE);
+            mItemSoldDateTextView.setText(itemView.getResources().getString(R.string.sold_at) +
+                    post.getSoldDate().toString().replaceAll("GMT.02:00 ", "").substring(4));
+        }
+        else {
+            mItemSoldDateTextView.setVisibility(View.INVISIBLE);
+        }
         GlideApp.with(itemView)
                 .load(mStorage.getReferenceFromUrl(post.getImageUrl()))
                 .into(mItemImageView);
