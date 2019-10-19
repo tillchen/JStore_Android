@@ -257,7 +257,13 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                             }
                         });
                 break;
-
+            case R.id.me_sign_out_button:
+                Log.i(TAG, "SignOutButton clicked. Signing out.");
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                Log.i(TAG, "starting LoginActivity");
+                startActivity(intent);
             default:
                 break;
         }

@@ -2,8 +2,6 @@ package com.tillchen.jstore.models;
 
 import androidx.annotation.Nullable;
 
-import com.google.firebase.firestore.ServerTimestamp;
-
 import java.util.Date;
 
 
@@ -12,7 +10,9 @@ public class User {
     private boolean whatsApp;
     private String phoneNumber; // null when whatsApp is false
     private String email;
-    private @ServerTimestamp Date creationDate;
+    private Date creationDate;
+
+    public static final String CREATIONDATE = "creationDate";
 
     public User() {
     }

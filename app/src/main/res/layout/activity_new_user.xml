@@ -137,5 +137,16 @@
         app:layout_constraintTop_toBottomOf="@+id/radioGroup"
         app:layout_constraintVertical_bias="0.050000012" />
 
+    <ProgressBar
+        android:id="@+id/new_user_progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/start_button_1"
+        app:layout_constraintEnd_toEndOf="@+id/phone_editText"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toEndOf="@+id/start_button_1"
+        app:layout_constraintTop_toTopOf="@+id/start_button_1" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

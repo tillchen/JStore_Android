@@ -10,14 +10,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.tillchen.jstore.models.User;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class NewUserActivity extends UtilityActivity implements View.OnClickListener {
 
@@ -33,6 +40,8 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
     EditText mEditTextCountryCode;
     EditText mEditTextPhone;
     EditText mEditTextFullName;
+    ProgressBar mProgressBar;
+
     String mFullName; // the full name that the user entered
     String mCountryCode;
     String mPhone; // the phone number that the user entered
@@ -67,6 +76,8 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
         mEditTextCountryCode = findViewById(R.id.country_code_editText);
         mEditTextPhone = findViewById(R.id.phone_editText);
         mEditTextFullName = findViewById(R.id.full_name_editText);
+        mProgressBar = findViewById(R.id.new_user_progressBar);
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
     private void setVisible() {
@@ -134,54 +145,91 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
                 break;
 
             case R.id.start_button_1:
-                mFullName = mEditTextFullName.getText().toString();
-                mCountryCode = mEditTextCountryCode.getText().toString();
-                mPhone = mEditTextPhone.getText().toString();
 
-                hideKeyboard(mEditTextFullName);
-                hideKeyboard(mEditTextPhone);
-
-                if (TextUtils.isEmpty(mFullName)) {
-                    mEditTextFullName.setError("Full Name can't be empty.");
-                    return;
+                if (!checkFields()) {
+                    break;
                 }
 
-                if (isWhatsApp && TextUtils.isEmpty(mCountryCode)) {
-                    mEditTextCountryCode.setError("Country code can't be empty.");
-                    return;
-                }
+                addUserToDB();
 
-                if (isWhatsApp && TextUtils.isEmpty(mPhone)) {
-                    mEditTextPhone.setError("Phone number can't be empty.");
-                    return;
-                }
+                break;
+            default:
+                break;
+        }
+    }
 
-                if (!isEmail && !isWhatsApp) {
-                    showSnackbar("Please select your preferred way of contact.");
-                    return;
-                }
 
-                User user = new User(mFullName, isWhatsApp, mCountryCode + mPhone, mEmail);
-                db.collection(COLLECTION_USERS).document(mEmail).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.i(TAG, mEmail + "is written!");
-                        Intent intent = new Intent(NewUserActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
+    private boolean checkFields() {
+        mFullName = mEditTextFullName.getText().toString();
+        mCountryCode = mEditTextCountryCode.getText().toString();
+        mPhone = mEditTextPhone.getText().toString();
+
+        hideKeyboard(mEditTextFullName);
+        hideKeyboard(mEditTextPhone);
+
+        if (TextUtils.isEmpty(mFullName)) {
+            mEditTextFullName.setError("Full Name can't be empty.");
+            return false;
+        }
+
+        if (isWhatsApp && TextUtils.isEmpty(mCountryCode)) {
+            mEditTextCountryCode.setError("Country code can't be empty.");
+            return false;
+        }
+
+        if (isWhatsApp && TextUtils.isEmpty(mPhone)) {
+            mEditTextPhone.setError("Phone number can't be empty.");
+            return false;
+        }
+
+        if (!isEmail && !isWhatsApp) {
+            showSnackbar("Please select your preferred way of contact.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void addUserToDB() {
+        User user = new User(mFullName, isWhatsApp, mCountryCode + mPhone, mEmail);
+
+        mProgressBar.setVisibility(View.VISIBLE);
+        db.collection(COLLECTION_USERS).document(mEmail).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.i(TAG, mEmail + "is written!");
+                addCreationDate();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, mEmail + "is NOT written!");
                         showSnackbar("Error when writing your data! Please try again.");
                     }
-                });
-                break;
-            default:
-                break;
-        }
+        });
+    }
+
+    private void addCreationDate() {
+        Map<String, Object> updates = new HashMap<>();
+        updates.put(User.CREATIONDATE, FieldValue.serverTimestamp());
+
+        db.collection(UtilityActivity.COLLECTION_USERS).document(mEmail)
+                .update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                mProgressBar.setVisibility(View.INVISIBLE);
+                if (task.isSuccessful()) {
+                    Log.i(TAG, "creationDate updated: " + mEmail);
+                    Intent intent = new Intent(NewUserActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+                    Log.e(TAG, "creationDate failed ", task.getException());
+                    showSnackbar("Error when writing your data! Please try again!");
+                }
+            }
+        });
     }
 
 }
