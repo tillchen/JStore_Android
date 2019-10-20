@@ -16,7 +16,7 @@ will be developed later.
 
 ## Current Status
 
-I'm almost finishing the app. Now I'm working searching, filtering, and notifications. You can already use the first release from the release section:D The first version is under review in Google Play Store.
+I'm almost finishing the app. Now I'm working on searching, filtering, and notifications. You can already use the first release from the release section:D The first version is under review in Google Play Store.
 
 ## Tech Stack
 
@@ -29,10 +29,7 @@ I'm almost finishing the app. Now I'm working searching, filtering, and notifica
 
 ## Screenshots
 
-<img src="images/login.jpg" alt="login" width="200"/>
-<img src="images/buy.jpg" alt="buy" width="200"/>
-<img src="images/sell.jpg" alt="sell" width="200"/>
-<img src="images/me.jpg" alt="me" width="200"/>
+<img src="images/login.jpg" alt="login" width="200"/><img src="images/buy.jpg" alt="buy" width="200"/><img src="images/sell.jpg" alt="sell" width="200"/><img src="images/me.jpg" alt="me" width="200"/>
 
 ## Enabled Features
 
