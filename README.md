@@ -1,16 +1,22 @@
 # JStore_Android
 
+* [JStore_Android](#jstoreandroid)
+  * [About](#about)
+  * [Current Status](#current-status)
+  * [Tech Stack](#tech-stack)
+  * [Screenshots](#screenshots)
+  * [Enabled Features](#enabled-features)
+  * [Miscellaneous](#miscellaneous)
+
 ## About
 
-The Android app for JStore, a platform for buying and selling stuff on campus
-of Jacobs University Bremen. The [Web version](jstore.xyz) is also under development by
-my friend [Taiyr Begeyev](https://github.com/taiyrbegeyev). The iOS app 
+JStore: A Marketplace for Jacobs University Bremen. This is the Android app. The [Web version](jstore.xyz) is also under development by
+my friend [Taiyr Begeyev](https://github.com/taiyrbegeyev). The iOS app
 will be developed later.
 
-## Design
+## Current Status
 
-* The mockup of the Android app can be found on [Figma](https://www.figma.com/file/u1rvftO0KvVqqFpn2mYC1P/Android?node-id=0%3A1).
-* The Cloud Firestore database [schema](DB_SCHEMA.md).
+I'm almost finishing the app. Now I'm working searching, filtering, and notifications. You can already use the first release from the release section:D The first version is under review in Google Play Store.
 
 ## Tech Stack
 
@@ -20,7 +26,13 @@ will be developed later.
 * Android Jetpack (Navigation Component, androidx, etc.)
 * Glide
 * FirebaseUI
-* Material-Dialogs
+
+## Screenshots
+
+<img src="images/login.jpg" alt="login" width="200"/>
+<img src="images/buy.jpg" alt="buy" width="200"/>
+<img src="images/sell.jpg" alt="sell" width="200"/>
+<img src="images/me.jpg" alt="me" width="200"/>
 
 ## Enabled Features
 
