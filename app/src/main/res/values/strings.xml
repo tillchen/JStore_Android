@@ -103,6 +103,7 @@
 
     <string name="footer">Made with &#10084; by <a href="mailto:tillchen417@gmail.com">Tianyao Chen</a>
         and <a href="mailto:taiyrbegeyev@gmail.com">Taiyr Begeyev</a> </string>
+    <string name="prefix">Prefix:</string>
 
 
 </resources>

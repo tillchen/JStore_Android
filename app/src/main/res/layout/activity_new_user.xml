@@ -128,7 +128,7 @@
         android:layout_height="wrap_content"
         android:digits="0123456789"
         android:ems="3"
-        android:hint="49"
+        android:hint="@string/prefix"
         android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/radioGroup"
