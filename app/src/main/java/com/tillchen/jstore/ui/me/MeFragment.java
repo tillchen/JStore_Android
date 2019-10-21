@@ -31,6 +31,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.tillchen.jstore.LoginActivity;
 import com.tillchen.jstore.MainActivity;
@@ -40,6 +41,8 @@ import com.tillchen.jstore.models.MeItemAdapter;
 import com.tillchen.jstore.models.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.tillchen.jstore.UtilityActivity.COLLECTION_USERS;
 
@@ -221,6 +224,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             case R.id.me_save_button:
                 mFullName = mEditTextFullName.getText().toString();
                 mPhone = mEditTextPhone.getText().toString();
+                isWhatsApp = mRadioButton1.isChecked();
 
                 ((MainActivity)getActivity()).hideKeyboard(mEditTextFullName);
                 ((MainActivity)getActivity()).hideKeyboard(mEditTextPhone);
@@ -244,9 +248,12 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                     mPhone = "";
                 }
 
-                User nUser = new User(mFullName, isWhatsApp, mPhone, mUser.getEmail());
+                Map<String, Object> updates = new HashMap<>();
+                updates.put(User.FULL_NAME, mFullName);
+                updates.put(User.PHONE_NUMBER, mPhone);
+                updates.put(User.WHATSAPP, isWhatsApp);
                 mProgressBar.setVisibility(View.VISIBLE);
-                db.collection(COLLECTION_USERS).document(mUser.getEmail()).set(nUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+                db.collection(COLLECTION_USERS).document(mUser.getEmail()).update(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.i(TAG, mUser.getEmail() + "is updated!");
