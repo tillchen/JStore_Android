@@ -3,6 +3,7 @@ package com.tillchen.jstore.ui.me;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -63,6 +64,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private EditText mEditTextFullName;
     private Button mSaveButton;
     private Button mSignOutButton;
+    private Button mFeedbackButton;
     private ProgressBar mProgressBar;
     private ProgressBar mProgressBar2;
 
@@ -107,6 +109,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mRadioButton2 = root.findViewById(R.id.me_email_radioButton);
         mSaveButton = root.findViewById(R.id.me_save_button);
         mSignOutButton = root.findViewById(R.id.me_sign_out_button);
+        mFeedbackButton = root.findViewById(R.id.feedback_button);
         mProgressBar = root.findViewById(R.id.me_progressBar);
         mProgressBar.setVisibility(View.INVISIBLE);
         mProgressBar2 = root.findViewById(R.id.me_progressBar2);
@@ -154,6 +157,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mRadioButton2.setOnClickListener(this);
         mSaveButton.setOnClickListener(this);
         mSignOutButton.setOnClickListener(this);
+        mFeedbackButton.setOnClickListener(this);
 
         mEditTextFullName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -272,6 +276,11 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             case R.id.me_sign_out_button:
                 Log.i(TAG, "SignOutButton clicked.");
                 showConfirmationDialog();
+                break;
+            case R.id.feedback_button:
+                Log.i(TAG, "Feedback button clicked.");
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://forms.gle/TVrutCNmcTa3iLk66"));
+                startActivity(intent);
             default:
                 break;
         }
