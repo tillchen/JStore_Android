@@ -48,6 +48,9 @@ dependencies {
     implementation 'android.arch.paging:runtime:1.0.1'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.exifinterface:exifinterface:1.1.0-rc01'
+    implementation 'com.google.firebase:firebase-perf:19.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.firebase-perf'
