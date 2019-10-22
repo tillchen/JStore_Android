@@ -47,3 +47,11 @@ title, category, condition, description, price, and preferred payment options.
 ## Miscellaneous
 
 1. The `app/google-services.json` file is removed from the repository since it contains sensitive information. You'll need to provide your own `app/google-services.json` file to build the app.
+
+## Credits
+
+Special thanks to:
+
+* Taiyr Begeyev for collaborating on the database and storage design.
+* Zeyar Oo for tweaking the icon.
+* Hamza Hayak for finding critical bugs. 

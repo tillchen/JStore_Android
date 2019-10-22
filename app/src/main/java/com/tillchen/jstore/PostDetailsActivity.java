@@ -34,6 +34,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.tillchen.jstore.models.GlideApp;
 import com.tillchen.jstore.models.Post;
 import com.tillchen.jstore.models.User;
+import com.tillchen.jstore.ui.buy.BuyFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -185,7 +186,11 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
                     }
                     else {
                         Log.e(TAG, "no such document");
-                        showSnackbar("Something went wrong. The post is not in our database.");
+                        showSnackbar("Something went wrong. This post is not in our database. Please go back and refresh.");
+                        mEmailButton.setEnabled(false);
+                        mDeletePostButton.setEnabled(false);
+                        mMarkAsSoldButton.setEnabled(false);
+                        mWhatsAppButton.setEnabled(false);
                     }
                 }
                 else {
@@ -375,7 +380,7 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
     }
 
-    private void updateSold() { // TODO: 0 Change buttons and add sold date to details and list
+    private void updateSold() {
         Map<String, Object> updates = new HashMap<>();
         updates.put(SOLD, true);
         updates.put(SOLD_DATE, FieldValue.serverTimestamp());
