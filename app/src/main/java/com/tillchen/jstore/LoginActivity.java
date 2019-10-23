@@ -38,6 +38,7 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
     private EditText mEmailEditText;
     private ProgressBar mLoginProgressBar;
     private TextView mFooter;
+    private TextView mBySigningIn;
 
     private String mUsername; // the username that the user entered
     private String mEmail; // the final email address
@@ -90,8 +91,8 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
         });
         mFooter = findViewById(R.id.footer_textView);
         mFooter.setMovementMethod(LinkMovementMethod.getInstance());
-        // TODO: 2 Disable anonymous button when text is entered (onTextChanged)
-
+        mBySigningIn = findViewById(R.id.by_signing_in_textView);
+        mBySigningIn.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override

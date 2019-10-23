@@ -126,4 +126,18 @@
         app:layout_constraintEnd_toEndOf="@+id/jacobs_email_textview"
         app:layout_constraintStart_toStartOf="@+id/email_editText" />
 
+    <TextView
+        android:id="@+id/by_signing_in_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/by_signing_in"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/anonymous_signin_button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/signin_button"
+        app:layout_constraintTop_toBottomOf="@+id/anonymous_signin_button"
+        app:layout_constraintVertical_bias="0.100000024" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

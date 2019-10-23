@@ -7,10 +7,11 @@
   * [Screenshots](#screenshots)
   * [Enabled Features](#enabled-features)
   * [Miscellaneous](#miscellaneous)
+  * [Credits](#credits)
 
 ## About
 
-JStore: A Marketplace for Jacobs University Bremen. This is the Android app. The [Web version](jstore.xyz) is also under development by
+JStore: A Marketplace for Jacobs University Bremen. This is the Android app. The [Web version](jstore.xyz) is also developed by
 my friend [Taiyr Begeyev](https://github.com/taiyrbegeyev). The iOS app
 will be developed later.
 
@@ -52,6 +53,6 @@ title, category, condition, description, price, and preferred payment options.
 
 Special thanks to:
 
-* Taiyr Begeyev for collaborating on the database and storage design.
+* Taiyr Begeyev for collaborating on the database and storage design, terms and conditions, privacy policy, etc..
 * Zeyar Oo for designing the icon.
 * Hamza Hayak for finding critical bugs. 
