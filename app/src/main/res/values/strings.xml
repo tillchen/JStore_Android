@@ -108,4 +108,23 @@
     <string name="by_signing_in">By signing in, you agree to our <a href="https://jstore.xyz/terms_and_conditions">
         Terms and Conditions</a> and <a href="https://jstore.xyz/privacy_policy">Privacy Policy</a>.</string>
 
+    <string name="search_here">Search Here</string>
+    <string name="price_up">Price&#8593;</string>
+    <string name="price_down">Price&#8595;</string>
+    <string name="date_up">Date&#8593;</string>
+
+    <string-array name="buy_category_array">
+        <item>All Categories</item>
+        <item>Apparel, Shoes &amp; Watches</item>
+        <item>Automotive, Motorcycle &amp; Industrial</item>
+        <item>Beauty &amp; Health</item>
+        <item>Books &amp; Audible</item>
+        <item>Electronics &amp; Computers</item>
+        <item>Grocery/Food</item>
+        <item>Home, Garden, Pets &amp; DIY</item>
+        <item>Automotive, Motorcycle &amp; Industrial</item>
+        <item>Sports &amp; Outdoors</item>
+        <item>Other</item>
+    </string-array>
+
 </resources>

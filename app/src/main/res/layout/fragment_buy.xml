@@ -26,16 +26,77 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buy_toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/buy_filter_chipGroup">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/buy_recyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clipToPadding="false"
-            tools:listitem="@layout/item_post"/>
+            tools:listitem="@layout/item_post" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <SearchView
+        android:id="@+id/buy_searchView"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:iconifiedByDefault="false"
+        android:paddingStart="0dp"
+        android:paddingEnd="10dp"
+        android:queryHint="@string/search_here"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buy_toolbar"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/buy_filter_chipGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buy_searchView"
+        app:layout_constraintVertical_bias="0.00999999"
+        app:singleLine="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/price_up_chip"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/price_up" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/price_down_chip"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/price_down" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/date_up_chip"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date_up" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <Spinner
+        android:id="@+id/buy_category_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/buy_category_array"
+        app:layout_constraintBottom_toBottomOf="@+id/buy_filter_chipGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buy_filter_chipGroup"
+        app:layout_constraintTop_toTopOf="@+id/buy_filter_chipGroup" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
