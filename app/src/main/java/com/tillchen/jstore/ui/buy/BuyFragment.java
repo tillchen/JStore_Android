@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,7 +23,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -31,9 +32,6 @@ import com.tillchen.jstore.R;
 import com.tillchen.jstore.UtilityActivity;
 import com.tillchen.jstore.models.Post;
 import com.tillchen.jstore.models.PostViewHolder;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class BuyFragment extends Fragment {
 
@@ -45,28 +43,62 @@ public class BuyFragment extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Query mQuery;
     private FirestorePagingAdapter mAdapter;
+    private Spinner mCategorySpinner;
+    private String mCategory;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_buy, container, false);
 
+        db = FirebaseFirestore.getInstance();
+
+        setUpQuery();
+
+        findViews(root);
+
+        setUpAdapter();
+
+        return root;
+    }
+
+    private void findViews(View root) {
         mToolbar = root.findViewById(R.id.buy_toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         mRecyclerView = root.findViewById(R.id.buy_recyclerView);
         mSwipeRefreshLayout = root.findViewById(R.id.buy_SwipteRefreshLayout);
-
-        db = FirebaseFirestore.getInstance();
-        mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
-                .whereEqualTo(UtilityActivity.SOLD, false)
-                .orderBy(UtilityActivity.CREATION_DATE, Query.Direction.DESCENDING);
-
-        setUpAdapter();
-
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(),
                 DividerItemDecoration.VERTICAL);
         mRecyclerView.addItemDecoration(dividerItemDecoration);
+        mCategorySpinner = root.findViewById(R.id.buy_category_spinner);
+        mCategorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0) { // all categories
+                    setUpQuery();
+                    setUpAdapter();
+                }
+                else {
+                    mCategory = mCategorySpinner.getSelectedItem().toString();
+                    mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
+                            .whereEqualTo(UtilityActivity.SOLD, false)
+                            .whereEqualTo(UtilityActivity.CATEGORY, mCategory)
+                            .orderBy(UtilityActivity.CREATION_DATE, Query.Direction.DESCENDING);
+                    setUpAdapter();
+                }
+            }
 
-        return root;
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // nothing
+            }
+        });
+    }
+
+    private void setUpQuery() {
+
+        mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
+                .whereEqualTo(UtilityActivity.SOLD, false)
+                .orderBy(UtilityActivity.CREATION_DATE, Query.Direction.DESCENDING);
     }
 
     @Override

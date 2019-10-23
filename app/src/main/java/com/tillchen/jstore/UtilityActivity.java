@@ -31,6 +31,7 @@ public class UtilityActivity extends AppCompatActivity {
     public static final String CREATION_DATE = "creationDate";
     public static final String OWNER_ID = "ownerId";
     public static final String SOLD_DATE = "soldDate";
+    public static final String CATEGORY = "category";
 
     public void hideKeyboard(View view) {
         final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
