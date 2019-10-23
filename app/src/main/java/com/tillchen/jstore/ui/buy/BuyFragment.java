@@ -22,6 +22,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,9 +48,9 @@ public class BuyFragment extends Fragment {
     private Spinner mCategorySpinner;
     private String mCategory;
     private ChipGroup mChipGroup;
-    private boolean priceUp = false;
-    private boolean priceDown = false;
-    private boolean dateUp = false;
+    private Chip mPriceUpChip;
+    private Chip mPriceDownChip;
+    private Chip mDateUpChip;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -57,7 +58,7 @@ public class BuyFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
-        setUpQuery();
+        setUpDefaultQuery();
 
         findViews(root);
 
@@ -68,7 +69,7 @@ public class BuyFragment extends Fragment {
         return root;
     }
 
-    private void setUpQuery() {
+    private void setUpDefaultQuery() {
         mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
                 .whereEqualTo(UtilityActivity.SOLD, false)
                 .orderBy(UtilityActivity.CREATION_DATE, Query.Direction.DESCENDING);
@@ -84,6 +85,9 @@ public class BuyFragment extends Fragment {
         mRecyclerView.addItemDecoration(dividerItemDecoration);
         mCategorySpinner = root.findViewById(R.id.buy_category_spinner);
         mChipGroup = root.findViewById(R.id.buy_filter_chipGroup);
+        mPriceUpChip = root.findViewById(R.id.price_up_chip);
+        mPriceDownChip = root.findViewById(R.id.price_down_chip);
+        mDateUpChip = root.findViewById(R.id.date_up_chip);
     }
 
     private void setUpListeners() {
@@ -91,14 +95,33 @@ public class BuyFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == 0) { // all categories
-                    setUpQuery();
+                    if (mPriceUpChip.isChecked()) {
+                        priceUpDefaultQuery();
+                    }
+                    else if (mPriceDownChip.isChecked()) {
+                        priceDownDefaultQuery();
+                    }
+                    else if (mDateUpChip.isChecked()) {
+                        dateUpDefaultQuery();
+                    }
+                    else {
+                        setUpDefaultQuery();
+                    }
                     setUpAdapter();
                 } else {
                     mCategory = mCategorySpinner.getSelectedItem().toString();
-                    mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
-                            .whereEqualTo(UtilityActivity.SOLD, false)
-                            .whereEqualTo(UtilityActivity.CATEGORY, mCategory)
-                            .orderBy(UtilityActivity.CREATION_DATE, Query.Direction.DESCENDING);
+                    if (mPriceUpChip.isChecked()) {
+                        priceUpWithCategoryQuery();
+                    }
+                    else if (mPriceDownChip.isChecked()) {
+                        priceDownWithCategoryQuery();
+                    }
+                    else if (mDateUpChip.isChecked()) {
+                        dateUpWithCategoryQuery();
+                    }
+                    else {
+                        categoryDefaultQuery();
+                    }
                     setUpAdapter();
                 }
             }
@@ -115,55 +138,37 @@ public class BuyFragment extends Fragment {
                 switch (i) {
                     case R.id.price_up_chip:
                         if (mCategory.equals(UtilityActivity.ALL_CATEGORIES)) {
-                            mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
-                                    .whereEqualTo(UtilityActivity.SOLD, false)
-                                    .orderBy(UtilityActivity.PRICE, Query.Direction.ASCENDING);
+                            priceUpDefaultQuery();
                         }
                         else {
-                            mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
-                                    .whereEqualTo(UtilityActivity.SOLD, false)
-                                    .whereEqualTo(UtilityActivity.CATEGORY, mCategory)
-                                    .orderBy(UtilityActivity.PRICE, Query.Direction.ASCENDING);
+                            priceUpWithCategoryQuery();
                         }
                         setUpAdapter();
                         break;
                     case R.id.price_down_chip:
                         if (mCategory.equals(UtilityActivity.ALL_CATEGORIES)) {
-                            mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
-                                    .whereEqualTo(UtilityActivity.SOLD, false)
-                                    .orderBy(UtilityActivity.PRICE, Query.Direction.DESCENDING);
+                            priceDownDefaultQuery();
                         }
                         else {
-                            mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
-                                    .whereEqualTo(UtilityActivity.SOLD, false)
-                                    .whereEqualTo(UtilityActivity.CATEGORY, mCategory)
-                                    .orderBy(UtilityActivity.PRICE, Query.Direction.DESCENDING);
+                            priceDownWithCategoryQuery();
                         }
                         setUpAdapter();
                         break;
                     case R.id.date_up_chip:
                         if (mCategory.equals(UtilityActivity.ALL_CATEGORIES)) {
-                            mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
-                                    .whereEqualTo(UtilityActivity.SOLD, false)
-                                    .orderBy(UtilityActivity.CREATION_DATE, Query.Direction.ASCENDING);
+                            dateUpDefaultQuery();
                         }
                         else {
-                            mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
-                                    .whereEqualTo(UtilityActivity.SOLD, false)
-                                    .whereEqualTo(UtilityActivity.CATEGORY, mCategory)
-                                    .orderBy(UtilityActivity.CREATION_DATE, Query.Direction.ASCENDING);
+                            dateUpWithCategoryQuery();
                         }
                         setUpAdapter();
                         break;
                     case -1: // unchecked
                         if (mCategory.equals(UtilityActivity.ALL_CATEGORIES)) {
-                            setUpQuery();
+                            setUpDefaultQuery();
                         }
                         else {
-                            mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
-                                    .whereEqualTo(UtilityActivity.SOLD, false)
-                                    .whereEqualTo(UtilityActivity.CATEGORY, mCategory)
-                                    .orderBy(UtilityActivity.CREATION_DATE, Query.Direction.DESCENDING);
+                            categoryDefaultQuery();
                         }
                         setUpAdapter();
                         break;
@@ -172,6 +177,52 @@ public class BuyFragment extends Fragment {
                 }
             }
         });
+    }
+    
+    private void priceUpDefaultQuery() {
+        mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
+                .whereEqualTo(UtilityActivity.SOLD, false)
+                .orderBy(UtilityActivity.PRICE, Query.Direction.ASCENDING);
+    }
+    
+    private void priceDownDefaultQuery() {
+        mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
+                .whereEqualTo(UtilityActivity.SOLD, false)
+                .orderBy(UtilityActivity.PRICE, Query.Direction.DESCENDING);
+    }
+    
+    private void dateUpDefaultQuery() {
+        mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
+                .whereEqualTo(UtilityActivity.SOLD, false)
+                .orderBy(UtilityActivity.CREATION_DATE, Query.Direction.ASCENDING);
+    }
+
+    private void categoryDefaultQuery() {
+        mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
+                .whereEqualTo(UtilityActivity.SOLD, false)
+                .whereEqualTo(UtilityActivity.CATEGORY, mCategory)
+                .orderBy(UtilityActivity.CREATION_DATE, Query.Direction.DESCENDING);
+    }
+
+    private void priceUpWithCategoryQuery() {
+        mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
+                .whereEqualTo(UtilityActivity.SOLD, false)
+                .whereEqualTo(UtilityActivity.CATEGORY, mCategory)
+                .orderBy(UtilityActivity.PRICE, Query.Direction.ASCENDING);
+    }
+
+    private void priceDownWithCategoryQuery() {
+        mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
+                .whereEqualTo(UtilityActivity.SOLD, false)
+                .whereEqualTo(UtilityActivity.CATEGORY, mCategory)
+                .orderBy(UtilityActivity.PRICE, Query.Direction.DESCENDING);
+    }
+
+    private void dateUpWithCategoryQuery() {
+        mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
+                .whereEqualTo(UtilityActivity.SOLD, false)
+                .whereEqualTo(UtilityActivity.CATEGORY, mCategory)
+                .orderBy(UtilityActivity.CREATION_DATE, Query.Direction.ASCENDING);
     }
 
     @Override
