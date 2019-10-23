@@ -34,6 +34,7 @@ public class UtilityActivity extends AppCompatActivity {
     public static final String CATEGORY = "category";
     public static final String PRICE = "price";
     public static final String ALL_CATEGORIES = "All Categories";
+    public static final String TITLE = "title";
 
     public void hideKeyboard(View view) {
         final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

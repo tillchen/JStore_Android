@@ -44,6 +44,7 @@ title, category, condition, description, price, and preferred payment options.
 * Changing user info in the Me Section.
 * Checking out your active posts and sold items in the Me Section.
 * Marking your posts as sold or deleting them directly.
+* Filter by price (up or down), date (up or down), and categories.
 
 ## Miscellaneous
 

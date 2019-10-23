@@ -319,7 +319,6 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
     
 
     private boolean validateUsername(String username) { // the username must contain a dot and not space
-        // TODO: 1 Refine the validation.
         return (username.indexOf('.') != -1) && (username.indexOf(' ') == -1);
     }
 

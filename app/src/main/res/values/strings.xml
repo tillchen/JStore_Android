@@ -108,7 +108,7 @@
     <string name="by_signing_in">By signing in, you agree to our <a href="https://jstore.xyz/terms_and_conditions">
         Terms and Conditions</a> and <a href="https://jstore.xyz/privacy_policy">Privacy Policy</a>.</string>
 
-    <string name="search_here">Search Here</string>
+    <string name="search_here">Search. Search \"all\" For All Items.</string>
     <string name="price_up">Price&#8593;</string>
     <string name="price_down">Price&#8595;</string>
     <string name="date_up">Date&#8593;</string>

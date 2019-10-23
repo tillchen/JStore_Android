@@ -37,14 +37,14 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <SearchView
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/buy_searchView"
         android:layout_width="0dp"
         android:layout_height="30dp"
-        android:iconifiedByDefault="false"
+        app:iconifiedByDefault="false"
         android:paddingStart="0dp"
         android:paddingEnd="10dp"
-        android:queryHint="@string/search_here"
+        app:queryHint="@string/search_here"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

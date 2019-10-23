@@ -2,6 +2,7 @@ package com.tillchen.jstore.ui.buy;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
@@ -30,6 +32,7 @@ import com.google.firebase.firestore.Query;
 
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 
+import com.tillchen.jstore.MainActivity;
 import com.tillchen.jstore.R;
 import com.tillchen.jstore.UtilityActivity;
 import com.tillchen.jstore.models.Post;
@@ -51,6 +54,7 @@ public class BuyFragment extends Fragment {
     private Chip mPriceUpChip;
     private Chip mPriceDownChip;
     private Chip mDateUpChip;
+    private SearchView mSearchView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -88,6 +92,9 @@ public class BuyFragment extends Fragment {
         mPriceUpChip = root.findViewById(R.id.price_up_chip);
         mPriceDownChip = root.findViewById(R.id.price_down_chip);
         mDateUpChip = root.findViewById(R.id.date_up_chip);
+        mSearchView = root.findViewById(R.id.buy_searchView);
+        mChipGroup.setVisibility(View.VISIBLE);
+        mCategorySpinner.setVisibility(View.VISIBLE);
     }
 
     private void setUpListeners() {
@@ -97,14 +104,11 @@ public class BuyFragment extends Fragment {
                 if (i == 0) { // all categories
                     if (mPriceUpChip.isChecked()) {
                         priceUpDefaultQuery();
-                    }
-                    else if (mPriceDownChip.isChecked()) {
+                    } else if (mPriceDownChip.isChecked()) {
                         priceDownDefaultQuery();
-                    }
-                    else if (mDateUpChip.isChecked()) {
+                    } else if (mDateUpChip.isChecked()) {
                         dateUpDefaultQuery();
-                    }
-                    else {
+                    } else {
                         setUpDefaultQuery();
                     }
                     setUpAdapter();
@@ -112,14 +116,11 @@ public class BuyFragment extends Fragment {
                     mCategory = mCategorySpinner.getSelectedItem().toString();
                     if (mPriceUpChip.isChecked()) {
                         priceUpWithCategoryQuery();
-                    }
-                    else if (mPriceDownChip.isChecked()) {
+                    } else if (mPriceDownChip.isChecked()) {
                         priceDownWithCategoryQuery();
-                    }
-                    else if (mDateUpChip.isChecked()) {
+                    } else if (mDateUpChip.isChecked()) {
                         dateUpWithCategoryQuery();
-                    }
-                    else {
+                    } else {
                         categoryDefaultQuery();
                     }
                     setUpAdapter();
@@ -139,8 +140,7 @@ public class BuyFragment extends Fragment {
                     case R.id.price_up_chip:
                         if (mCategory.equals(UtilityActivity.ALL_CATEGORIES)) {
                             priceUpDefaultQuery();
-                        }
-                        else {
+                        } else {
                             priceUpWithCategoryQuery();
                         }
                         setUpAdapter();
@@ -148,8 +148,7 @@ public class BuyFragment extends Fragment {
                     case R.id.price_down_chip:
                         if (mCategory.equals(UtilityActivity.ALL_CATEGORIES)) {
                             priceDownDefaultQuery();
-                        }
-                        else {
+                        } else {
                             priceDownWithCategoryQuery();
                         }
                         setUpAdapter();
@@ -157,8 +156,7 @@ public class BuyFragment extends Fragment {
                     case R.id.date_up_chip:
                         if (mCategory.equals(UtilityActivity.ALL_CATEGORIES)) {
                             dateUpDefaultQuery();
-                        }
-                        else {
+                        } else {
                             dateUpWithCategoryQuery();
                         }
                         setUpAdapter();
@@ -166,8 +164,7 @@ public class BuyFragment extends Fragment {
                     case -1: // unchecked
                         if (mCategory.equals(UtilityActivity.ALL_CATEGORIES)) {
                             setUpDefaultQuery();
-                        }
-                        else {
+                        } else {
                             categoryDefaultQuery();
                         }
                         setUpAdapter();
@@ -175,6 +172,35 @@ public class BuyFragment extends Fragment {
                     default:
                         break;
                 }
+            }
+        });
+
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query.equals("all")) {
+                    setUpDefaultQuery();
+                    mChipGroup.setVisibility(View.VISIBLE);
+                    mCategorySpinner.setVisibility(View.VISIBLE);
+                }
+                else {
+                    mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
+                            .whereEqualTo(UtilityActivity.SOLD, false)
+                            .whereGreaterThanOrEqualTo(UtilityActivity.TITLE, query)
+                            .whereLessThanOrEqualTo(UtilityActivity.TITLE, query + "\uf8ff")
+                            .orderBy(UtilityActivity.TITLE)
+                            .orderBy(UtilityActivity.CREATION_DATE, Query.Direction.DESCENDING);
+                    mChipGroup.setVisibility(View.INVISIBLE);
+                    mCategorySpinner.setVisibility(View.INVISIBLE);
+                }
+                setUpAdapter();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // nothing
+                return false;
             }
         });
     }

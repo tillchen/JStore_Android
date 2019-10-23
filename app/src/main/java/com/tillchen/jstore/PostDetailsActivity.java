@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -23,7 +21,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -34,7 +31,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.tillchen.jstore.models.GlideApp;
 import com.tillchen.jstore.models.Post;
 import com.tillchen.jstore.models.User;
-import com.tillchen.jstore.ui.buy.BuyFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +39,7 @@ import java.util.Map;
 
 
 public class PostDetailsActivity extends UtilityActivity implements View.OnClickListener {
+    // TODO: 0 Enable editing
 
     private static final String TAG = "PostDetailsActivity";
 
