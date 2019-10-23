@@ -11,13 +11,17 @@
 
 ## About
 
-JStore: A Marketplace for Jacobs University Bremen. This is the Android app. The [Web version](jstore.xyz) is also developed by
+The Android app for JStore: A Marketplace for Jacobs University Bremen. The [Web version](jstore.xyz) is also developed by
 my friend [Taiyr Begeyev](https://github.com/taiyrbegeyev). The iOS app
-will be developed later.
+will be developed soon.
 
 ## Current Status
 
-You can get it already on [Google Play](https://play.google.com/store/apps/details?id=com.tillchen.jstore) :tada:! I'm almost finishing the app. Now I'm working on searching, filtering, and notifications.
+You can get it on Google Play!
+
+[<img src="images/google-play-badge.png" alt="google play icon" width="200">](https://play.google.com/store/apps/details?id=com.tillchen.jstore)
+
+I'm almost finishing the app. Now I'm working on notifications.
 
 ## Tech Stack
 
@@ -44,7 +48,8 @@ title, category, condition, description, price, and preferred payment options.
 * Changing user info in the Me Section.
 * Checking out your active posts and sold items in the Me Section.
 * Marking your posts as sold or deleting them directly.
-* Filter by price (up or down), date (up or down), and categories.
+* Filtering by price (up or down), date (up or down), and categories.
+* Simple searching for titles.
 
 ## Miscellaneous
 
@@ -56,4 +61,4 @@ Special thanks to:
 
 * Taiyr Begeyev for collaborating on the database and storage design, terms and conditions, privacy policy, etc..
 * Zeyar Oo for designing the icon.
-* Hamza Hayak for finding critical bugs. 
+* Hamza Hayak for finding critical bugs.
