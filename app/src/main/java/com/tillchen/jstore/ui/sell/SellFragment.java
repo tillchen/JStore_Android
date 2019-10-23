@@ -102,7 +102,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
     private String mTitle;
     private String mDescription;
-    private String mPrice;
+    private Double mPrice;
     private String mCategory;
     private String mCondition;
     private ArrayList<String> mPaymentOptions;
@@ -234,8 +234,8 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                     mDescriptionEditText.setError("Description can't be empty");
                     break;
                 }
-                if (TextUtils.isEmpty(mPrice)) {
-                    mPriceEditText.setError("Price can't be empty");
+                if (mPrice == 0) {
+                    mPriceEditText.setError("Price can't be 0");
                     break;
                 }
                 if (mPaymentOptions.size() == 0) {
@@ -274,7 +274,8 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     private void getAndSetData() {
         mTitle = mTitleEditText.getText().toString();
         mDescription = mDescriptionEditText.getText().toString();
-        mPrice = mPriceEditText.getText().toString();
+        mPrice = Double.parseDouble(mPriceEditText.getText().toString());
+        mPrice = Math.round(mPrice * 100.0) / 100.0;
         mCategory = mCategorySpinner.getSelectedItem().toString();
         mCondition = mConditionSpinner.getSelectedItem().toString();
 

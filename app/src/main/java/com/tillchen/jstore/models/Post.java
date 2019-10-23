@@ -17,7 +17,7 @@ public class Post {
     private String condition;
     private String description;
     private String imageUrl;
-    private String price;
+    private Double price;
     private ArrayList<String> paymentOptions;
     private @ServerTimestamp Date creationDate;
     private Date soldDate;
@@ -27,7 +27,7 @@ public class Post {
 
     public Post(String postId, String ownerId, String ownerName, boolean whatsApp, String phoneNumber,
                 String title, String category, String condition, String description, String imageUrl,
-                String price, ArrayList<String> paymentOptions) {
+                Double price, ArrayList<String> paymentOptions) {
         this.postId = postId;
         this.ownerId = ownerId;
         this.ownerName = ownerName;
@@ -130,11 +130,11 @@ public class Post {
         this.imageUrl = imageUrl;
     }
 
-    public String getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

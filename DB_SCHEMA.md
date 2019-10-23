@@ -30,7 +30,7 @@ posts: {
     condition: '',
     description: '',
     imageUrl: '',
-    price: 0.0,
+    price: 0.00,
     paymentOptions: [],
     creationDate: '',
     soldDate: '', // empty is sold is false

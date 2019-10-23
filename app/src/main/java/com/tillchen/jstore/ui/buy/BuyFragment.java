@@ -22,6 +22,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -45,6 +46,7 @@ public class BuyFragment extends Fragment {
     private FirestorePagingAdapter mAdapter;
     private Spinner mCategorySpinner;
     private String mCategory;
+    private ChipGroup mChipGroup;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -56,28 +58,39 @@ public class BuyFragment extends Fragment {
 
         findViews(root);
 
+        setUpListeners();
+
         setUpAdapter();
 
         return root;
     }
 
+    private void setUpQuery() {
+        mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
+                .whereEqualTo(UtilityActivity.SOLD, false)
+                .orderBy(UtilityActivity.CREATION_DATE, Query.Direction.DESCENDING);
+    }
+
     private void findViews(View root) {
         mToolbar = root.findViewById(R.id.buy_toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         mRecyclerView = root.findViewById(R.id.buy_recyclerView);
         mSwipeRefreshLayout = root.findViewById(R.id.buy_SwipteRefreshLayout);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(),
                 DividerItemDecoration.VERTICAL);
         mRecyclerView.addItemDecoration(dividerItemDecoration);
         mCategorySpinner = root.findViewById(R.id.buy_category_spinner);
+        mChipGroup = root.findViewById(R.id.buy_filter_chipGroup);
+    }
+
+    private void setUpListeners() {
         mCategorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == 0) { // all categories
                     setUpQuery();
                     setUpAdapter();
-                }
-                else {
+                } else {
                     mCategory = mCategorySpinner.getSelectedItem().toString();
                     mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
                             .whereEqualTo(UtilityActivity.SOLD, false)
@@ -92,13 +105,37 @@ public class BuyFragment extends Fragment {
                 // nothing
             }
         });
-    }
-
-    private void setUpQuery() {
-
-        mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
-                .whereEqualTo(UtilityActivity.SOLD, false)
-                .orderBy(UtilityActivity.CREATION_DATE, Query.Direction.DESCENDING);
+        mChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(ChipGroup chipGroup, int i) {
+                switch (i) {
+                    case R.id.price_up_chip:
+                        mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
+                                .whereEqualTo(UtilityActivity.SOLD, false)
+                                .orderBy(UtilityActivity.PRICE, Query.Direction.ASCENDING);
+                        setUpAdapter();
+                        break;
+                    case R.id.price_down_chip:
+                        mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
+                                .whereEqualTo(UtilityActivity.SOLD, false)
+                                .orderBy(UtilityActivity.PRICE, Query.Direction.DESCENDING);
+                        setUpAdapter();
+                        break;
+                    case R.id.date_up_chip:
+                        mQuery = db.collection(UtilityActivity.COLLECTION_POSTS)
+                                .whereEqualTo(UtilityActivity.SOLD, false)
+                                .orderBy(UtilityActivity.CREATION_DATE, Query.Direction.ASCENDING);
+                        setUpAdapter();
+                        break;
+                    case -1: // unchecked
+                        setUpQuery();
+                        setUpAdapter();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     @Override
