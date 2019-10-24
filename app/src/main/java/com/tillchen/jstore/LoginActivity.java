@@ -162,7 +162,9 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
 
         handleUsername();
 
-        sendEmail();
+        if (validUserName) {
+            sendEmail();
+        }
 
     }
 
@@ -199,8 +201,7 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
                 else {
                     Log.w(TAG, "onSignInClicked task failed", task.getException());
                     if (task.getException() instanceof FirebaseAuthActionCodeException) {
-                        showSnackbar("Invalid or expired sign-in link. Sending a new link.");
-                        sendEmail();
+                        showSnackbar("Invalid or expired sign-in link. Please quit the app and send a new link.");
                     }
                 }
             }
@@ -244,10 +245,9 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
             validUserName = false;
             return;
         }
-        if (!validateUsername(mUsername)) {
+        if (!validateUsername()) {
             Log.i(TAG, "handleUsername: illegal input");
-            mEmailEditText.setError("Your Jacobs username must contain a dot and no space, (e.g. ti.chen).");
-            showSnackbar("Your Jacobs username must contain a dot and no space, (e.g. ti.chen).");
+            mEmailEditText.setError("Your Jacobs username must contain a dot, no space and no @, (e.g. ti.chen).");
             validUserName = false;
             return;
         }
@@ -318,8 +318,8 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
     }
     
 
-    private boolean validateUsername(String username) { // the username must contain a dot and not space
-        return (username.indexOf('.') != -1) && (username.indexOf(' ') == -1);
+    private boolean validateUsername() { // the username must contain a dot and no space no @
+        return (mUsername.indexOf('.') != -1) && (mUsername.indexOf(' ') == -1) && (mUsername.indexOf('@') == -1);
     }
 
 

@@ -28,6 +28,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
@@ -194,6 +195,7 @@ public class BuyFragment extends Fragment {
                     mCategorySpinner.setVisibility(View.INVISIBLE);
                 }
                 setUpAdapter();
+                mSearchView.clearFocus();
                 return true;
             }
 
@@ -201,6 +203,13 @@ public class BuyFragment extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 // nothing
                 return false;
+            }
+        });
+
+        mToolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSearchView.clearFocus();
             }
         });
     }
