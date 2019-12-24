@@ -245,16 +245,16 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
             validUserName = false;
             return;
         }
-        if (!validateUsername()) {
-            Log.i(TAG, "handleUsername: illegal input");
-            mEmailEditText.setError("Your Jacobs username must contain a dot, no space and no @, (e.g. ti.chen).");
-            validUserName = false;
-            return;
-        }
         if (ADMIN.equals(mUsername)) { // admin
             Log.i(TAG, "handleUsername: entering admin mode");
             mEmail = mUsername;
             validUserName = true;
+            return;
+        }
+        if (!validateUsername()) {
+            Log.i(TAG, "handleUsername: illegal input");
+            mEmailEditText.setError("Your Jacobs username must contain a dot, no space, and no @, (e.g. ti.chen).");
+            validUserName = false;
         }
         else {
             mEmail = mUsername + "@jacobs-university.de";
@@ -318,8 +318,8 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
     }
     
 
-    private boolean validateUsername() { // the username must contain a dot and no space no @
-        return (mUsername.indexOf('.') != -1) && (mUsername.indexOf(' ') == -1) && (mUsername.indexOf('@') == -1);
+    private boolean validateUsername() { // the username must contain a dot no space and no @
+        return (mUsername.indexOf('.') != -1 && mUsername.indexOf(' ') == -1) && (mUsername.indexOf('@') == -1);
     }
 
 
