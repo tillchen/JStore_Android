@@ -285,7 +285,7 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
                         null)
                 .setHandleCodeInApp(true)
                 .setUrl("https://jstore.xyz")
-                .setIOSBundleId("com.tillchen.JStore")
+                .setIOSBundleId("com.tillchen.jstore.ios")
                 .build();
 
         hideKeyboard(mEmailEditText);
