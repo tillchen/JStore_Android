@@ -204,6 +204,7 @@ public class NewUserActivity extends UtilityActivity implements View.OnClickList
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, mEmail + "is NOT written!");
+                        mProgressBar.setVisibility(View.INVISIBLE);
                         showSnackbar("Error when writing your data! Please try again.");
                     }
         });
