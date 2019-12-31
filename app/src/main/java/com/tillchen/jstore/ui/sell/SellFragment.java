@@ -224,6 +224,10 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.finish_button:
 
+                if (TextUtils.isEmpty(mPriceEditText.getText().toString())) {
+                    mPriceEditText.setError("Price can't be empty.");
+                    break;
+                }
                 getAndSetData();
 
                 if (TextUtils.isEmpty(mTitle)) {
@@ -231,11 +235,11 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
                 if (TextUtils.isEmpty(mDescription)) {
-                    mDescriptionEditText.setError("Description can't be empty");
+                    mDescriptionEditText.setError("Description can't be empty.");
                     break;
                 }
                 if (mPrice == 0) {
-                    mPriceEditText.setError("Price can't be 0");
+                    mPriceEditText.setError("Price can't be 0.");
                     break;
                 }
                 if (mPaymentOptions.size() == 0) {
