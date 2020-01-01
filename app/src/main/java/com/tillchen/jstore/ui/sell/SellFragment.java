@@ -251,7 +251,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
                 if (!isReadyToFinish) {
-                    showSnackbar("Sorry some tasks are not finished. Please try again.");
+                    showSnackbar("Sorry. Some tasks are not finished. Please try again.");
                     break;
                 }
 
