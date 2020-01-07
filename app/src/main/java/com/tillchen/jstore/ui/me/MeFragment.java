@@ -194,7 +194,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
     private void setData() {
         mEditTextFullName.setText(mUser.getFullName());
-        mDateTextView.setText(mUser.getCreationDate().toString().replaceAll("GMT.02:00 ", "")
+        mDateTextView.setText(mUser.getCreationDate().toString().replaceAll("GMT.0.:00 ", "")
                 .substring(4).replaceAll("..:..:.. ", ""));
         if (mUser.isWhatsApp()) {
             setVisible();

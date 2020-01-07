@@ -49,11 +49,11 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         mItemPriceTextView.setText(itemView.getContext().getResources().getString(R.string.euro_sign) + post.getPrice());
         mItemCategoryTextView.setText(post.getCategory());
         mItemPostDateTextView.setText(itemView.getContext().getResources().getString(R.string.posted_at)+
-                post.getCreationDate().toString().replaceAll("GMT.02:00 ", "").substring(4));
+                post.getCreationDate().toString().replaceAll("GMT.0.:00 ", "").substring(4));
         if (post.isSold()) {
             mItemSoldDateTextView.setVisibility(View.VISIBLE);
             mItemSoldDateTextView.setText(itemView.getResources().getString(R.string.sold_at) +
-                    post.getSoldDate().toString().replaceAll("GMT.02:00 ", "").substring(4));
+                    post.getSoldDate().toString().replaceAll("GMT.0.:00 ", "").substring(4));
         }
         else {
             mItemSoldDateTextView.setVisibility(View.INVISIBLE);

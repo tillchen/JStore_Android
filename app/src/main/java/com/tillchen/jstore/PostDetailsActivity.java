@@ -234,14 +234,14 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
         mEmailTextView.setText(post.getOwnerId());
         mCategoryTextView.setText(post.getCategory());
         mConditionTextView.setText(post.getCondition());
-        mDateTextView.setText(post.getCreationDate().toString().replaceAll("GMT.02:00 ", "").substring(4));
+        mDateTextView.setText(post.getCreationDate().toString().replaceAll("GMT.0.:00 ", "").substring(4));
         mDescriptionTextView.setText(post.getDescription());
         handlePaymentOptions();
         mPaymentOptionsTextView.setText(mPaymentOptions);
         if (post.isSold()) {
             mSoldAtTextView.setVisibility(View.VISIBLE);
             mSoldAtContentTextView.setVisibility(View.VISIBLE);
-            mSoldAtContentTextView.setText(post.getSoldDate().toString().replaceAll("GMT.02:00 ", "").substring(4));
+            mSoldAtContentTextView.setText(post.getSoldDate().toString().replaceAll("GMT.0.:00 ", "").substring(4));
         }
         else {
             mSoldAtTextView.setVisibility(View.INVISIBLE);
