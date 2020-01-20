@@ -278,7 +278,7 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
             mPaymentOptions += PAYPAL + "    ";
         }
         if (arrayList.contains((UtilityActivity.MEAL_PLAN))) {
-            mPaymentOptions += MEAL_PLAN + "    ";
+            mPaymentOptions += MEAL_PLAN;
         }
     }
 
