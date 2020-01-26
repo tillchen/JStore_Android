@@ -7,8 +7,8 @@ android {
         applicationId "com.tillchen.jstore"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 6
-        versionName "1.6"
+        versionCode 7
+        versionName "1.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -35,10 +35,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'com.google.firebase:firebase-analytics:17.2.0'
-    implementation 'com.google.firebase:firebase-auth:19.1.0'
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.google.firebase:firebase-dynamic-links:19.0.0'
-    implementation 'com.google.firebase:firebase-firestore:21.2.0'
+    implementation 'com.google.firebase:firebase-firestore:21.3.1'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.google.firebase:firebase-storage:19.1.0'
     implementation 'com.github.bumptech.glide:glide:4.10.0'
@@ -46,9 +46,10 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-firestore:6.0.2'
     implementation 'com.firebaseui:firebase-ui-storage:6.0.2'
     implementation 'android.arch.paging:runtime:1.0.1'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'androidx.exifinterface:exifinterface:1.1.0-rc01'
-    implementation 'com.google.firebase:firebase-perf:19.0.1'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.exifinterface:exifinterface:1.2.0-beta01'
+    implementation 'com.google.firebase:firebase-perf:19.0.5'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
