@@ -20,8 +20,6 @@ You can get it on Google Play!
 
 [<img src="images/google-play-badge.png" alt="google play icon" width="200">](https://play.google.com/store/apps/details?id=com.tillchen.jstore)
 
-I'm almost finishing the app. Now I'm working on notifications.
-
 ## Tech Stack
 
 * Firebase (Auth, Cloud Firestore (NoSQL), Storage (Google Cloud Platform))
