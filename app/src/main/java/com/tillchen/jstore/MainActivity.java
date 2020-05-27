@@ -39,7 +39,7 @@ public class MainActivity extends UtilityActivity {
         db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(false)
-                .build(); // online online
+                .build();
         db.setFirestoreSettings(settings);
 
         findViewById(R.id.nav_view).bringToFront();

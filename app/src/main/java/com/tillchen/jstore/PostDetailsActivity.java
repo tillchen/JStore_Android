@@ -225,9 +225,11 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
 
     private void setData() {
         storage = FirebaseStorage.getInstance();
-        GlideApp.with(this)
-                .load(storage.getReferenceFromUrl(post.getImageUrl()))
-                .into(mImageView);
+        if (!TextUtils.isEmpty(post.getImageUrl())) {
+            GlideApp.with(this)
+                    .load(storage.getReferenceFromUrl(post.getImageUrl()))
+                    .into(mImageView);
+        }
         mTitleTextView.setText(post.getTitle());
         mPriceTextView.setText(getResources().getString(R.string.euro_sign) + post.getPrice());
         mOwnerNameTextView.setText(post.getOwnerName());

@@ -1,6 +1,7 @@
 package com.tillchen.jstore.models;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -58,9 +59,11 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         else {
             mItemSoldDateTextView.setVisibility(View.INVISIBLE);
         }
-        GlideApp.with(itemView)
-                .load(mStorage.getReferenceFromUrl(post.getImageUrl()))
-                .into(mItemImageView);
+        if (!TextUtils.isEmpty(post.getImageUrl())) {
+            GlideApp.with(itemView)
+                    .load(mStorage.getReferenceFromUrl(post.getImageUrl()))
+                    .into(mItemImageView);
+        }
         postId = post.getPostId();
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
