@@ -14,7 +14,6 @@
         <item name="colorPrimary">@android:color/white</item>
         <item name="colorPrimaryDark">@android:color/white</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowLightStatusBar">true</item>
         <item name="buttonStyle">@style/MyButton</item>
         <item name="android:textColor">@android:color/black</item>
     </style>

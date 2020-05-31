@@ -1,6 +1,6 @@
 # JStore_Android
 
-* [JStore_Android](#jstoreandroid)
+* [JStore_Android](#jstore_android)
   * [About](#about)
   * [Current Status](#current-status)
   * [Tech Stack](#tech-stack)
@@ -47,6 +47,7 @@ title, category, condition, description, price, and preferred payment options.
 * Marking your posts as sold or deleting them directly.
 * Filtering by price (up or down), date (up or down), and categories.
 * Simple searching for titles.
+* Dark theme.
 
 ## Miscellaneous
 
