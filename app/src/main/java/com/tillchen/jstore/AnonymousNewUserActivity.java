@@ -13,6 +13,7 @@ public class AnonymousNewUserActivity extends AppCompatActivity implements View.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anonymous_new_user);
 

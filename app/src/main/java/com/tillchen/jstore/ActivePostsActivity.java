@@ -39,6 +39,7 @@ public class ActivePostsActivity extends UtilityActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_active_posts);
         mToolbar = findViewById(R.id.active_posts_toolbar);

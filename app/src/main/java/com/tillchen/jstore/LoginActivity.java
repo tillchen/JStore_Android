@@ -52,7 +52,7 @@ public class LoginActivity extends UtilityActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
-
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 

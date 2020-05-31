@@ -82,6 +82,7 @@ public class PostDetailsActivity extends UtilityActivity implements View.OnClick
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
 

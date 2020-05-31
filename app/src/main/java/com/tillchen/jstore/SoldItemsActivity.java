@@ -39,6 +39,7 @@ public class SoldItemsActivity extends UtilityActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sold_items);
         mToolbar = findViewById(R.id.sold_items_toolbar);
